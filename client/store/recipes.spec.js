@@ -43,22 +43,19 @@ describe('thunk creators', () => {
     ]
 
     it('setRecipes action creator', () => {
-      const fakeUser = {email: 'Cody'}
-      mockAxios.onGet('/auth/me').replyOnce(200, fakeUser)
-      await store.dispatch(me())
-      const actions = store.getActions()
-      expect(actions[0].type).to.be.equal('GET_USER')
-      expect(actions[0].user).to.be.deep.equal(fakeUser)
+      expect(setRecipes(recipes)).to.be.deep.equal({
+        type: 'GET_ALL_RECIPES',
+        recipes
+      })
     })
-  })
 
-  describe('logout', () => {
-    it('logout: eventually dispatches the REMOVE_USER action', async () => {
-      mockAxios.onPost('/auth/logout').replyOnce(204)
-      await store.dispatch(logout())
+    it('getAllRecipes: eventually dispatches the GET_ALL_RECIPES action', async () => {
+      mockAxios.onGet('/api/recipes').replyOnce(200, recipes)
+      await store.dispatch(getAllRecipes())
       const actions = store.getActions()
-      expect(actions[0].type).to.be.equal('REMOVE_USER')
-      expect(history.location.pathname).to.be.equal('/login')
+      expect(actions[0].type).to.be.equal('GET_ALL_RECIPES')
+      console.log('actions', actions)
+      expect(actions[0].recipes).to.deep.equal(recipes)
     })
   })
 })
