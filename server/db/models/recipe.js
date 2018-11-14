@@ -20,14 +20,12 @@ const Recipe = db.define('recipe', {
     defaultValue: 'default-recipe.jpg'
   },
   directions: {
-    type: Sequelize.TEXT,
+    type: Sequelize.ARRAY(Sequelize.TEXT),
     validate: {
       notEmpty: true
     },
     allowNull: false
   }
 })
-
-
 
 module.exports = Recipe
