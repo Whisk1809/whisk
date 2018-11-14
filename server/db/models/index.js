@@ -29,5 +29,6 @@ module.exports = {
   Recipe,
   Ingredient,
   Equipment,
-  Tag
+  Tag,
+  Preference
 }
