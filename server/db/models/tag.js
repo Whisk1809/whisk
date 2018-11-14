@@ -6,7 +6,7 @@ const Tag = db.define('tag', {
     type: Sequelize.STRING,
     validate: {notEmpty: true},
     allowNull: false
-  },
+  }
 })
 
 //
