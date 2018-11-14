@@ -4,6 +4,7 @@ const Ingredient = require('./ingredient')
 const Equipment = require('./equipment')
 const Tag = require('./tag')
 const Preference = require('./preference')
+const Requirement = require('./requirement')
 
 //Preference relationships
 User.hasMany(Preference)
@@ -11,6 +12,13 @@ Preference.belongsTo(User, {foreignKey: {allowNull: false}})
 Preference.belongsTo(Recipe)
 Preference.belongsTo(Tag)
 Preference.belongsTo(Ingredient)
+
+//Requirement relationships
+User.hasMany(Requirement)
+Requirement.belongsTo(User, {foreignKey: {allowNull: false}})
+Requirement.belongsTo(Recipe)
+Requirement.belongsTo(Tag)
+Requirement.belongsTo(Ingredient)
 
 //Tag to Recipe relationship
 Recipe.belongsToMany(Tag, {through: 'RecipeTags'})
@@ -30,5 +38,6 @@ module.exports = {
   Ingredient,
   Equipment,
   Tag,
-  Preference
+  Preference,
+  Requirement
 }
