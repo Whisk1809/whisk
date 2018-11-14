@@ -1,5 +1,5 @@
 const User = require('./user')
-const Recipe = require('./recipe')
+const Recipe = require('./recipes')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
