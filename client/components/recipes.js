@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import React, { Component } from 'react';
-import {getAllRecipes} from "../store/recipes"
+import {getAllRecipes} from "../store"
 import { List } from 'semantic-ui-react'
 
 class Recipes extends Component {

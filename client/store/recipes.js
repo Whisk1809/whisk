@@ -7,14 +7,15 @@ const GET_ALL_RECIPES = "GET_ALL_RECIPES"
 
 export const setRecipes = (recipes) => {
 return {
-  type: GET_ALL_RECIPES
+  type: GET_ALL_RECIPES,
+  recipes
 }
 }
 
 
 export const getAllRecipes = () => async dispatch => {
   try{
-    const {data} = await axios.get("api/recipes")
+    const {data} = await axios.get("/api/recipes")
     dispatch(setRecipes(data))
 
    } catch (err) {
