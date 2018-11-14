@@ -8,6 +8,9 @@ describe('User model', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
+  afterEach(() => {
+    return db.sync({force: true})
+  })
 
   describe('instanceMethods', () => {
     describe('correctPassword', () => {
