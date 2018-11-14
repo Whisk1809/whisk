@@ -11,17 +11,23 @@ const Recipe = db.define('recipe', {
     type: Sequelize.STRING,
     allowNull: true
   },
+  prepTime: {
+    type: Sequelize.STRING
+  },
+
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue: 'default-recipe.jpg'
   },
   directions: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-    validate: {},
+    type: Sequelize.TEXT,
+    validate: {
+      notEmpty: true
+    },
     allowNull: false
   }
 })
 
-//
+
 
 module.exports = Recipe
