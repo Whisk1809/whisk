@@ -14,7 +14,7 @@ class Recipes extends Component {
         <List>
           {this.props.recipes.map(recipe => {
             return (
-
+              <List.Item>{recipe.title}</List.Item>
             )
           })}
           </List>
