@@ -3,6 +3,14 @@ const Recipe = require('./recipe')
 const Ingredient = require('./ingredient')
 const Equipment = require('./equipment')
 const Tag = require('./tag')
+const Preference = require('./preference')
+
+//Preference relationships
+User.hasMany(Preference)
+Preference.belongsTo(User, {foreignKey: {allowNull: false}})
+Preference.belongsTo(Recipe)
+Preference.belongsTo(Tag)
+Preference.belongsTo(Ingredient)
 
 //Tag to Recipe relationship
 Recipe.belongsToMany(Tag, {through: 'RecipeTags'})
