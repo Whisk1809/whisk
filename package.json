@@ -1,7 +1,7 @@
 {
-  "name": "boilermaker",
+  "name": "whisk",
   "version": "1.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "A recipe recommendation web application",
   "engines": {
     "node": ">= 7.0.0"
   },
