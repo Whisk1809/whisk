@@ -13,7 +13,7 @@ export const setRecipes = recipes => {
 
 export const getAllRecipes = () => async dispatch => {
   try {
-    const {data} = await axios.get('/api/recipes')
+    const {data} = await axios.get('http://localhost:3000/recipes')
     dispatch(setRecipes(data))
   } catch (err) {
     console.error(err)
