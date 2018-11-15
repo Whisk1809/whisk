@@ -1,20 +1,43 @@
 const User = require('./user')
 const Recipe = require('./recipe')
+const Ingredient = require('./ingredient')
+const Equipment = require('./equipment')
+const Tag = require('./tag')
+const Preference = require('./preference')
+const Requirement = require('./requirement')
 
-/**
- * If we had any associations to make, this would be a great place to put them!
- * ex. if we had another model called BlogPost, we might say:
- *
- *    BlogPost.belongsTo(User)
- */
+//Preference relationships
+User.hasMany(Preference)
+Preference.belongsTo(User, {foreignKey: {allowNull: false}})
+Preference.belongsTo(Recipe)
+Preference.belongsTo(Tag)
+Preference.belongsTo(Ingredient)
 
-/**
- * We'll export all of our models here, so that any time a module needs a model,
- * we can just require it from 'db/models'
- * for example, we can say: const {User} = require('../db/models')
- * instead of: const User = require('../db/models/user')
- */
+//Requirement relationships
+User.hasMany(Requirement)
+Requirement.belongsTo(User, {foreignKey: {allowNull: false}})
+Requirement.belongsTo(Recipe)
+Requirement.belongsTo(Tag)
+Requirement.belongsTo(Ingredient)
+
+//Tag to Recipe relationship
+Recipe.belongsToMany(Tag, {through: 'RecipeTags'})
+Tag.belongsToMany(Recipe, {through: 'RecipeTags'})
+
+//Ingredient to Recipe relationship
+Recipe.belongsToMany(Ingredient, {through: 'RecipeIngredients'})
+Ingredient.belongsToMany(Recipe, {through: 'RecipeIngredients'})
+
+//Equipment to Recipe relationship
+Equipment.belongsToMany(Recipe, {through: 'RecipeEquipment'})
+Recipe.belongsToMany(Equipment, {through: 'RecipeEquipment'})
+
 module.exports = {
   User,
-  Recipe
+  Recipe,
+  Ingredient,
+  Equipment,
+  Tag,
+  Preference,
+  Requirement
 }

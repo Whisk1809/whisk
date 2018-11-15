@@ -1,12 +1,11 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Preference = db.define('preference', {
-  prefers:{
+const Requirement = db.define('requirement', {
+  prefers: {
     type: Sequelize.BOOLEAN,
     allowNull: false
-  },
-
+  }
 })
 
-module.exports = Preference
+module.exports = Requirement
