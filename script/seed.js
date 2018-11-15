@@ -14,6 +14,7 @@ async function seed() {
   ])
   await Promise.all(recipes.map(recipe => Recipe.create(recipe)))
 
+
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${recipes.length} recipes`)
   console.log(`seeded successfully`)

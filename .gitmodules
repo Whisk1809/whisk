@@ -1,0 +1,3 @@
+[submodule "yummly-api"]
+	path = yummly-api
+	url = https://github.com/Whisk1809/whisk.git
