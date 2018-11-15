@@ -2,7 +2,8 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import React, {Component} from 'react'
 import {getAllRecipes} from '../store/recipes'
-import {List} from 'semantic-ui-react'
+import {Card, List} from 'semantic-ui-react'
+import RecipeSlider from './recipeSlider'
 
 class Recipes extends Component {
   componentDidMount() {
@@ -12,11 +13,7 @@ class Recipes extends Component {
   render() {
     return (
       <div>
-        <List>
-          {this.props.recipes.map(recipe => {
-            return <List.Item>{recipe.title}</List.Item>
-          })}
-        </List>
+        <RecipeSlider recipes={this.props.recipes} />
       </div>
     )
   }
