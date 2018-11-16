@@ -13,6 +13,20 @@ class RecipeSlider extends Component {
     }
     return (
       <div>
+        <div>
+          <h3>Recipes for you</h3>
+          <Slider {...settings}>
+            {this.props.recipes.map(recipe => {
+              return (
+                <div>
+                  <RecipeCard recipe={recipe} />
+                </div>
+              )
+            })}
+          </Slider>
+        </div>
+        <div>
+        <h3>Trending</h3>
         <Slider {...settings}>
           {this.props.recipes.map(recipe => {
             return (
@@ -23,6 +37,31 @@ class RecipeSlider extends Component {
           })}
         </Slider>
       </div>
+      <div>
+        <h3>Popular</h3>
+        <Slider {...settings}>
+          {this.props.recipes.map(recipe => {
+            return (
+              <div>
+                <RecipeCard recipe={recipe} />
+              </div>
+            )
+          })}
+        </Slider>
+      </div>
+      <div>
+        <h3>Try something new</h3>
+        <Slider {...settings}>
+          {this.props.recipes.map(recipe => {
+            return (
+              <div>
+                <RecipeCard recipe={recipe} />
+              </div>
+            )
+          })}
+        </Slider>
+      </div>
+     </div>
     )
   }
 }
