@@ -32,9 +32,9 @@ const createConstraints = async () => {
 const likeRecipe = async (userId, recipeId) => {
   await runQuery(
     // `MERGE (u:User { pk: {userPk}})-[:likes]->(r:Recipe {pk: {recipePk}})`,
-    `merge (u:User {pk:{userPk} })
-    merge (r:Recipe {pk:{recipePk} })
-    merge (u)-[l:likes]->(r)`,
+    `MERGE (u:User {pk:{userPk} })
+     MERGE (r:Recipe {pk:{recipePk} })
+     MERGE (u)-[l:likes]->(r)`,
     {
       userPk: userId.toString(),
       recipePk: recipeId.toString()
@@ -43,40 +43,62 @@ const likeRecipe = async (userId, recipeId) => {
 }
 const dislikeRecipe = async (userId, recipeId) => {
   await runQuery(
-    ` merge (u:User { pk: {userPk}})-[:dislikes]->(r:Recipe {pk: {recipePk}})`,
+    `MERGE (u:User {pk:{userPk} })
+     MERGE (r:Recipe {pk:{recipePk} })
+     MERGE (u)-[l:dislikes]->(r)`,
     {userPk: userId.toString(), recipePk: recipeId.toString()}
   )
 }
 const likeCategory = async (userId, categoryId) => {
   await runQuery(
-    ` merge (u:User { pk: {userPk}})-[:likes]->(r:Category {pk: {categoryPk}})`,
+    `MERGE (u:User {pk:{userPk} })
+     MERGE (c:Category {pk:{categoryPk} })
+     MERGE (u)-[l:likes]->(c)`,
     {userPk: userId.toString(), categoryPk: categoryId.toString()}
   )
 }
+
 const dislikeCategory = async (userId, categoryId) => {
   await runQuery(
-    ` merge (u:User { pk: {userPk}})-[:dislikes]->(r:Category {pk: {categoryPk}})`,
+    `MERGE (u:User {pk:{userPk} })
+     MERGE (c:Category {pk:{categoryPk} })
+     MERGE (u)-[l:dislikes]->(c)`,
     {userPk: userId.toString(), categoryPk: categoryId.toString()}
+  )
+}
+const likeIngredient = async (userId, ingredientId) => {
+  await runQuery(
+    `MERGE (u:User {pk:{userPk} })
+     MERGE (i:Ingredient {pk:{ingredientPk} })
+     MERGE (u)-[l:likes]->(i)`,
+    {userPk: userId.toString(), ingredientPk: ingredientId.toString()}
+  )
+}
+
+const dislikeIngredient = async (userId, ingredientId) => {
+  await runQuery(
+    `MERGE (u:User {pk:{userPk} })
+     MERGE (i:Ingredient {pk:{ingredientPk} })
+     MERGE (u)-[l:dislikes]->(i)`,
+    {userPk: userId.toString(), ingredientPk: ingredientId.toString()}
   )
 }
 ;(async () => {
   await deleteGraph()
   await createConstraints()
-  await likeRecipe(1, 1)
-  await likeRecipe(1, 2)
-  await likeRecipe(1, 3)
-  await likeRecipe(2, 1)
-  await likeRecipe(2, 3)
-  await likeRecipe(3, 1)
-  await likeRecipe(3, 3)
 })()
 
 // const recommend = userId => {
 //   //return an array of recommended recipes
 // }
 
-// module.exports = {
-//   like,
-//   dislike,
-//   recommend
-// }
+module.exports = {
+  likeCategory,
+  likeIngredient,
+  likeRecipe,
+  dislikeCategory,
+  dislikeIngredient,
+  dislikeRecipe,
+  deleteGraph,
+  createConstraints
+}
