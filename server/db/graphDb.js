@@ -164,7 +164,7 @@ const computeMismatchIntersection = async (uId1, uId2) => {
   return intersect1.records.length + intersect2.records.length
 }
 
-//given two user IDs, computes the modified Jaccard Index (a similarity index between -1 and 1)
+//given two user IDs, computes and returns the modified Jaccard Index (a similarity index between -1 and 1)
 
 const computeJaccard = async (uId1, uId2) => {
   const [sameLikes, sameDislikes, mismatches, union] = await Promise.all([
@@ -176,10 +176,64 @@ const computeJaccard = async (uId1, uId2) => {
   const jaccard = (sameLikes + sameDislikes - mismatches) / union
   return jaccard
 }
+
+// given a userId and a recipeId, computes and returns a recommendation index between -1 and 1
+// P(U,R) = (ZL - ZD) / (sum of all users who interacted with R)
+
+const computeRecommendationIndex = async (uId, rId) => {
+  const [usersWhoLikeRecipe, usersWhoDislikeRecipe] = await Promise.all([
+    runQuery(
+      `MATCH (u:User)-[:likes]->(r:Recipe {pk:{rId}})
+    WHERE u.pk <> {uId}
+    RETURN u`,
+      {uId: uId.toString(), rId: rId.toString()}
+    ),
+    runQuery(
+      `MATCH (u:User)-[:dislikes]->(r:Recipe {pk:{rId}})
+    WHERE u.pk <> {uId}
+    RETURN u`,
+      {uId: uId.toString(), rId: rId.toString()}
+    )
+  ])
+  // const [Z1, Z2] = await Promise.all([
+  //   usersWhoLikeRecipe.records.reduce(async (sum, record) => {
+  //     const sim = await computeJaccard(uId, pk(record))
+  //     sum += sim
+  //     return sum
+  //   }, 0),
+  //   usersWhoDislikeRecipe.records.reduce(async (sum, record) => {
+  //     const sim = await computeJaccard(uId, pk(record))
+  //     sum += sim
+  //     return sum
+  //   }, 0)
+  // ])
+  const Z1 = await Promise.all(
+    usersWhoLikeRecipe.records.map(record => computeJaccard(uId, pk(record)))
+  ).then(arr =>
+    arr.reduce((sum, val) => {
+      sum += val
+      return sum
+    }, 0)
+  )
+  const Z2 = await Promise.all(
+    usersWhoDislikeRecipe.records.map(record => computeJaccard(uId, pk(record)))
+  ).then(arr =>
+    arr.reduce((sum, val) => {
+      sum += val
+      return sum
+    }, 0)
+  )
+  const recommendationIndex =
+    (Z1 + Z2) /
+    (usersWhoLikeRecipe.records.length + usersWhoDislikeRecipe.records.length)
+
+  console.log('recommendationIndex:', recommendationIndex)
+  return recommendationIndex
+}
 ;(async () => {
   // await deleteGraph()
   // await createConstraints()
-  await computeJaccard(1, 2)
+  await computeRecommendationIndex(1, 1)
 })()
 
 // const recommend = userId => {
