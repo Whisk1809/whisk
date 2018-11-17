@@ -85,6 +85,11 @@ const dislikeIngredient = async (userId, ingredientId) => {
   )
 }
 
+//given a node, returns the pk (as a string)
+const pk = node => {
+  return node._fields[0].properties.pk
+}
+
 // computeLikeIntersection (L1 intersect L2)
 
 const computeLikeIntersection = async (uId1, uId2) => {
@@ -95,10 +100,6 @@ const computeLikeIntersection = async (uId1, uId2) => {
     {uId1: uId1.toString(), uId2: uId2.toString()}
   )
   return intersect.records.length
-}
-//given a node, returns the pk (as a string)
-const pk = node => {
-  return node._fields[0].properties.pk
 }
 
 // computeInteractionUnion (L1 union L2 union D1 union D2)
@@ -195,18 +196,7 @@ const computeRecommendationIndex = async (uId, rId) => {
       {uId: uId.toString(), rId: rId.toString()}
     )
   ])
-  // const [Z1, Z2] = await Promise.all([
-  //   usersWhoLikeRecipe.records.reduce(async (sum, record) => {
-  //     const sim = await computeJaccard(uId, pk(record))
-  //     sum += sim
-  //     return sum
-  //   }, 0),
-  //   usersWhoDislikeRecipe.records.reduce(async (sum, record) => {
-  //     const sim = await computeJaccard(uId, pk(record))
-  //     sum += sim
-  //     return sum
-  //   }, 0)
-  // ])
+
   const Z1 = await Promise.all(
     usersWhoLikeRecipe.records.map(record => computeJaccard(uId, pk(record)))
   ).then(arr =>
@@ -227,18 +217,48 @@ const computeRecommendationIndex = async (uId, rId) => {
     (Z1 + Z2) /
     (usersWhoLikeRecipe.records.length + usersWhoDislikeRecipe.records.length)
 
-  console.log('recommendationIndex:', recommendationIndex)
   return recommendationIndex
+}
+
+//return an array of recommended recipeIds (as nums NOT strings)
+const recommend = async uId => {
+  const [recipesNotYetLiked, recipesNotYetDisliked] = await Promise.all([
+    runQuery(
+      `MATCH (u:User)-[:likes]->(r:Recipe)
+      WHERE u.pk <> {uId}
+      RETURN r`,
+      {uId: uId.toString()}
+    ),
+    runQuery(
+      `MATCH (u:User)-[:dislikes]->(r:Recipe)
+      WHERE u.pk <> {uId}
+      RETURN r`,
+      {uId: uId.toString()}
+    )
+  ])
+  const intersection = _.intersection(
+    recipesNotYetLiked.records.map(record => pk(record)),
+    recipesNotYetDisliked.records.map(record => pk(record))
+  )
+
+  const recArr = await Promise.all(
+    intersection.map(rId => {
+      const index = computeRecommendationIndex(uId, rId)
+      return index
+    })
+  ).then(res =>
+    res
+      .map((recIndex, i) => ({rId: intersection[i], recIndex}))
+      .sort((a, b) => b.recIndex - a.recIndex)
+  )
+
+  return recArr
 }
 ;(async () => {
   // await deleteGraph()
   // await createConstraints()
-  await computeRecommendationIndex(1, 1)
+  await recommend(1)
 })()
-
-// const recommend = userId => {
-//   //return an array of recommended recipes
-// }
 
 module.exports = {
   likeCategory,
@@ -248,5 +268,7 @@ module.exports = {
   dislikeIngredient,
   dislikeRecipe,
   deleteGraph,
-  createConstraints
+  createConstraints,
+  computeRecommendationIndex,
+  recommend
 }
