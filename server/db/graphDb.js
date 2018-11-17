@@ -224,14 +224,12 @@ const computeRecommendationIndex = async (uId, rId) => {
 const recommend = async uId => {
   const [recipesNotYetLiked, recipesNotYetDisliked] = await Promise.all([
     runQuery(
-      `MATCH (u:User)-[:likes]->(r:Recipe)
-      WHERE u.pk <> {uId}
+      `MATCH (r:Recipe),(u:User {pk:{uId}}) WHERE NOT (r)<-[:likes]-(u)
       RETURN r`,
       {uId: uId.toString()}
     ),
     runQuery(
-      `MATCH (u:User)-[:dislikes]->(r:Recipe)
-      WHERE u.pk <> {uId}
+      `MATCH (r:Recipe),(u:User {pk:{uId}}) WHERE NOT (r)<-[:dislikes]-(u)
       RETURN r`,
       {uId: uId.toString()}
     )
@@ -240,6 +238,16 @@ const recommend = async uId => {
     recipesNotYetLiked.records.map(record => pk(record)),
     recipesNotYetDisliked.records.map(record => pk(record))
   )
+  console.log(
+    'notYetLiked: ',
+    recipesNotYetLiked.records.map(record => pk(record))
+  )
+  console.log(
+    'notYetDisLiked: ',
+    recipesNotYetDisliked.records.map(record => pk(record))
+  )
+
+  console.log(intersection)
 
   const recArr = await Promise.all(
     intersection.map(rId => {
@@ -251,13 +259,14 @@ const recommend = async uId => {
       .map((recIndex, i) => ({rId: intersection[i], recIndex}))
       .sort((a, b) => b.recIndex - a.recIndex)
   )
+  console.log(recArr)
 
   return recArr
 }
 ;(async () => {
   // await deleteGraph()
   // await createConstraints()
-  await recommend(1)
+  await recommend(4)
 })()
 
 module.exports = {
