@@ -19,3 +19,17 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+
+/* Semantic UI overrides */
+.ui.form .field {
+  margin-left: 10px;
+}
+
+.ui.positive.button {
+  margin-left: 10px;
+}
+
+.ui.primary.button {
+  margin-left: 10px;
+}

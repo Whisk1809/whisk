@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-import { Button, Checkbox, Form } from 'semantic-ui-react'
+import { Button, Checkbox, Form, Message } from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -10,50 +10,28 @@ import { Button, Checkbox, Form } from 'semantic-ui-react'
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
   return (
-    <Form onSubmit={handleSubmit} name={name}>
-      <Form.Field>
-        <label>Email</label>
-        <input name='email' placeholder='email' />
-      </Form.Field>
-      <br>
-      </br>
-      <Form.Field>
-        <label>Password</label>
-        <input name='password' placeholder='password' />
-      </Form.Field>
-      <br>
-      </br>
-      <Form.Field>
-        <Checkbox label='I agree to the Terms and Conditions' />
-      </Form.Field>
-      <Button positive type='submit'>{displayName}</Button>
-    </Form>
+    <div>
+      <Form error={!!error} onSubmit={handleSubmit} name={name}>
+        <Form.Input className="auth" label="Email" name="email" placeholder="Email"/>
+        <br/>
+        <Form.Input label="Password" name="password" placeholder="Password" type="password"/>
+        <br/>
+        <Form.Field>
+          <Checkbox label='I agree to the Terms and Conditions' />
+        </Form.Field>
+        <br/>
+        <Button positive type='submit'>{displayName}</Button>
+        {error && error.response && (
+          <Message error
+          header='An error occurred'
+          content={error.response.data}
+          />
+          )}
+      </Form>
+      <br/>
+      <Button primary>{displayName} with Google</Button>
+    </div>
   )
-
-  // return (
-  //   <div>
-  //     <form onSubmit={handleSubmit} name={name}>
-  //       <div>
-  //         <label htmlFor="email">
-  //           <small>Email</small>
-  //         </label>
-  //         <input name="email" type="text" />
-  //       </div>
-  //       <div>
-  //         <label htmlFor="password">
-  //           <small>Password</small>
-  //         </label>
-  //         <input name="password" type="password" />
-  //       </div>
-  //       <div>
-  //         <button type="submit">{displayName}</button>
-  //       </div>
-  //       {error && error.response && <div> {error.response.data} </div>}
-  //     </form>
-  //     <a href="/auth/google">{displayName} with Google</a>
-  //   </div>
-  // )
-
 }
 
 /**
