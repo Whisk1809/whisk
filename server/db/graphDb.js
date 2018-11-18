@@ -247,7 +247,10 @@ const recommend = async uId => {
     recipesNotYetDisliked.records.map(record => pk(record))
   )
 
-  console.log(intersection)
+  // takes the recipes that a user has not interacted with and does the following:
+  // computes a recommendation index for the recipes
+  // maps the recipes to a new array containing Ids and recommendation indices
+  // sorts the recipes by recommendation index
 
   const recArr = await Promise.all(
     intersection.map(rId => {
@@ -256,10 +259,10 @@ const recommend = async uId => {
     })
   ).then(res =>
     res
-      .map((recIndex, i) => ({rId: intersection[i], recIndex}))
+      .map((recIndex, i) => ({rId: Number(intersection[i]), recIndex}))
       .sort((a, b) => b.recIndex - a.recIndex)
   )
-  console.log(recArr)
+  console.log('recommendations: ', recArr)
 
   return recArr
 }
