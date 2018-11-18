@@ -14,7 +14,6 @@ class Recipes extends Component {
     return (
       <div>
         <RecipeSlider recipes={this.props.recipes} />
-
       </div>
     )
   }
