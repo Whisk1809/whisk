@@ -28,8 +28,6 @@ const AuthForm = props => {
           />
           )}
       </Form>
-      <br/>
-      <Button primary>{displayName} with Google</Button>
     </div>
   )
 }
