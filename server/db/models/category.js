@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Tag = db.define('tag', {
+const Category = db.define('category', {
   name: {
     type: Sequelize.STRING,
     validate: {notEmpty: true},
@@ -11,4 +11,4 @@ const Tag = db.define('tag', {
 
 //
 
-module.exports = Tag
+module.exports = Category
