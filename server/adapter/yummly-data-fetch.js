@@ -84,7 +84,6 @@ const fetchData = async () => {
         sourceId: recipeData.id,
         source: 'YUMMLY',
         prepTimeSeconds: recipeData.totalTimeInSeconds,
-        totalTimeInSeconds: singleRecipeData.totalTimeInSeconds,
         prepTime: singleRecipeData.prepTime,
         numberOfServings: singleRecipeData.numberOfServings,
         sourceRecipeUrl: singleRecipeData.source.sourceRecipeUrl,
