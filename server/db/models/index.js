@@ -10,16 +10,20 @@ const Requirement = require('./requirement')
 //Preference relationships
 User.hasMany(Preference)
 Preference.belongsTo(User, {foreignKey: {allowNull: false}})
-// Preference.belongsTo(Recipe)
+Preference.belongsTo(Recipe)
 Preference.belongsTo(Category)
 Preference.belongsTo(Ingredient)
 
 //Requirement relationships
 User.hasMany(Requirement)
 Requirement.belongsTo(User, {foreignKey: {allowNull: false}})
-// Requirement.belongsTo(Recipe)
+Requirement.belongsTo(Recipe)
 Requirement.belongsTo(Category)
 Requirement.belongsTo(Ingredient)
+
+//User to Favorite Recipe relationship
+User.belongsToMany(Recipe, {through: 'FavoriteRecipes'})
+Recipe.belongsToMany(User, {through: 'FavoriteRecipes'})
 
 // //Category to Recipe relationship
 Recipe.belongsToMany(Category, {through: 'RecipeCategories'})
@@ -35,7 +39,7 @@ Recipe.belongsToMany(Equipment, {through: 'RecipeEquipment'})
 
 module.exports = {
   User,
-  //Recipe
+  Recipe,
   Ingredient,
   Equipment,
   Category,
