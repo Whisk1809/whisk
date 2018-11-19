@@ -21,13 +21,6 @@ const Recipe = db.define('recipe', {
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue: 'default-recipe.jpg'
-  },
-  directions: {
-    type: Sequelize.TEXT,
-    validate: {
-      notEmpty: true
-    },
-    allowNull: false
   }
 })
 
