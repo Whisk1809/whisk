@@ -19,7 +19,7 @@ class RecipeSlider extends Component {
             {this.props.recipes.map(recipe => {
               return (
                 <div>
-                  <RecipeCard recipe={recipe} />
+                  <RecipeCard recipe={recipe}/>
                 </div>
               )
             })}
