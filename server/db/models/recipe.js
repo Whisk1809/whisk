@@ -14,8 +14,10 @@ const Recipe = db.define('recipe', {
   prepTime: {
     type: Sequelize.STRING
   },
+  prepTimeSeconds: {type: Sequelize.INTEGER},
+  numberOfServings: {type: Sequelize.INTEGER},
+  sourceRecipeUrl: {type: Sequelize.STRING},
   ingredientList: {type: Sequelize.ARRAY(Sequelize.STRING)},
-
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue: 'default-recipe.jpg'
