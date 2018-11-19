@@ -32,7 +32,6 @@ const createConstraints = async () => {
 
 const likeRecipe = async (userId, recipeId) => {
   await runQuery(
-    // `MERGE (u:User { pk: {userPk}})-[:likes]->(r:Recipe {pk: {recipePk}})`,
     `MERGE (u:User {pk:{userPk} })
      MERGE (r:Recipe {pk:{recipePk} })
      MERGE (u)-[l:likes]->(r)`,
@@ -266,16 +265,17 @@ const recommend = async uId => {
 
   return recArr
 }
-;(async () => {
-  // await deleteGraph()
-  // await createConstraints()
-  await recommend(4)
-})()
+// ;(async () => {
+//   // await deleteGraph()
+//   // await createConstraints()
+//   await recommend(4)
+// })()
 
 module.exports = {
   likeCategory,
   likeIngredient,
   likeRecipe,
+  graphDb: driver,
   dislikeCategory,
   dislikeIngredient,
   dislikeRecipe,

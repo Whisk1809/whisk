@@ -1,6 +1,13 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const {like, dislike} = require('../graphDb')
+const {
+  likeCategory,
+  likeIngredient,
+  likeRecipe,
+  dislikeCategory,
+  dislikeIngredient,
+  dislikeRecipe
+} = require('../graphDb')
 
 const Preference = db.define('preference', {
   prefers: {
@@ -10,12 +17,21 @@ const Preference = db.define('preference', {
 })
 
 Preference.afterCreate(preference => {
-  const {userId, recipeId, ingredientId, prefers} = preference
-  const entityToPrefer = {entityId: 1, entity: 'Recipe'}
-  if (prefers) {
-    like(userId, entityToPrefer)
-  } else {
-    dislike(userId, entityToPrefer)
+  const {userId, recipeId, ingredientId, categoryId, prefers} = preference
+  let entity
+  if (ingredientId) entity = {id: ingredientId, type: 'Ingredient'}
+  if (recipeId) entity = {id: recipeId, type: 'Recipe'}
+  if (categoryId) entity = {id: categoryId, type: 'Category'}
+
+  if (entity.type === 'Ingredient') {
+    if (prefers) likeIngredient(userId, entity.id)
+    else dislikeIngredient(userId, entity.id)
+  } else if (entity.type === 'Recipe') {
+    if (prefers) likeRecipe(userId, entity.id)
+    else dislikeRecipe(userId, entity.id)
+  } else if (entity.type === 'Category') {
+    if (prefers) likeCategory(userId, entity.id)
+    else dislikeCategory(userId, entity.id)
   }
 })
 Preference.afterUpdate()
