@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, SingleRecipe} from './components'
 import {me} from './store'
 import Recipes from './components/recipes'
+import singleRecipe from './components/singleRecipe';
 
 /**
  * COMPONENT
@@ -29,6 +30,7 @@ class Routes extends Component {
             {/* Showing the same component for both /recipes and /home is open for discussion, for single recipe /recipes/:recipeId is intuitive */}
             <Route path="/recipes" component={Recipes} />
             <Route exact path="/recipes/:recipeId" component={SingleRecipe} />
+            <Route path="/try" component={singleRecipe} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
