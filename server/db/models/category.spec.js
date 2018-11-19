@@ -4,7 +4,7 @@ const {expect} = require('chai')
 const db = require('../index')
 const Category = db.model('category')
 
-describe('Tag model', () => {
+describe('Category model', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
@@ -12,7 +12,7 @@ describe('Tag model', () => {
     return db.sync({force: true})
   })
 
-  describe('tag name', () => {
+  describe('Category name', () => {
     let italian
     beforeEach(async () => {
       italian = await Category.create({
