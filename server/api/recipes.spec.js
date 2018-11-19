@@ -14,9 +14,7 @@ describe('Recipe routes', () => {
       return Recipe.create({
         title: 'Grilled Cheese',
         description: 'A really mediocre sandwich',
-        prepTime: '10 minutes',
-        directions:
-          '1. melt butter in heated pan 2. assemble sandwich 3. Grill it!'
+        prepTime: '10 minutes'
       })
     })
 
