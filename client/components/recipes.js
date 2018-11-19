@@ -2,7 +2,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import React, {Component} from 'react'
 import {getAllRecipes} from '../store/recipes'
-import {Card, List} from 'semantic-ui-react'
+import {Card, List, Button} from 'semantic-ui-react'
 import RecipeSlider from './recipeSlider'
 
 class Recipes extends Component {
