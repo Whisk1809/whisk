@@ -34,6 +34,5 @@ Preference.afterCreate(preference => {
     else dislikeCategory(userId, entity.id)
   }
 })
-Preference.afterUpdate()
 
 module.exports = Preference
