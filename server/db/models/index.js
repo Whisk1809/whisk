@@ -36,7 +36,6 @@ module.exports = {
   User,
   Recipe,
   Ingredient,
-  Equipment,
   Category,
   Preference,
   Requirement
