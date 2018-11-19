@@ -38,7 +38,7 @@ Preference.afterCreate(preference => {
   }
 })
 
-Preference.afterDelete(preference => {
+Preference.afterDestroy(preference => {
   const {userId, recipeId, ingredientId, categoryId} = preference
   let entity
   if (ingredientId) entity = {id: ingredientId, type: 'Ingredient'}
