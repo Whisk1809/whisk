@@ -28,7 +28,6 @@ const createConstraints = async () => {
 }
 
 //verify that user and entity exist in graph db, create / update relationship between them
-//TODO consider case where user switches from liking to disliking an entity (or vice versa)
 
 const likeRecipe = async (userId, recipeId) => {
   await runQuery(
