@@ -50,7 +50,7 @@ describe('thunk creators', () => {
     })
 
     it('getAllRecipes: eventually dispatches the GET_ALL_RECIPES action', async () => {
-      mockAxios.onGet('/api/recipes').replyOnce(200, recipes)
+      mockAxios.onGet('http://localhost:3000/recipes').replyOnce(200, recipes)
       await store.dispatch(getAllRecipes())
       const actions = store.getActions()
       expect(actions[0].type).to.be.equal('GET_ALL_RECIPES')
