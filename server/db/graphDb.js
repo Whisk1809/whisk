@@ -84,6 +84,28 @@ const dislikeIngredient = async (userId, ingredientId) => {
   )
 }
 
+const removeIngredientRelation = async (userId, ingredientId) => {
+  await runQuery(
+    `MATCH (u:User {pk:{userPk} })-[l]->(i:Ingredient {pk:{ingredientPk} })
+     DELETE r`,
+    {userPk: userId.toString(), ingredientPk: ingredientId.toString()}
+  )
+}
+const removeRecipeRelation = async (userId, recipeId) => {
+  await runQuery(
+    `MATCH (u:User {pk:{userPk} })-[l]->(r:Recipe {pk:{recipePk} })
+     DELETE l`,
+    {userPk: userId.toString(), recipePk: recipeId.toString()}
+  )
+}
+const removeCategoryRelation = async (userId, categoryId) => {
+  await runQuery(
+    `MATCH (u:User {pk:{userPk} })-[l]->(c:Category {pk:{categoryPk} })
+     DELETE l`,
+    {userPk: userId.toString(), categoryPk: categoryId.toString()}
+  )
+}
+
 //given a node, returns the pk (as a string)
 const pk = node => {
   return node._fields[0].properties.pk
@@ -279,6 +301,9 @@ module.exports = {
   dislikeCategory,
   dislikeIngredient,
   dislikeRecipe,
+  removeCategoryRelation,
+  removeRecipeRelation,
+  removeIngredientRelation,
   deleteGraph,
   createConstraints,
   computeRecommendationIndex,

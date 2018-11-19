@@ -6,7 +6,10 @@ const {
   likeRecipe,
   dislikeCategory,
   dislikeIngredient,
-  dislikeRecipe
+  dislikeRecipe,
+  removeCategoryRelation,
+  removeIngredientRelation,
+  removeRecipeRelation
 } = require('../graphDb')
 
 const Preference = db.define('preference', {
@@ -33,6 +36,17 @@ Preference.afterCreate(preference => {
     if (prefers) likeCategory(userId, entity.id)
     else dislikeCategory(userId, entity.id)
   }
+})
+
+Preference.afterDelete(preference => {
+  const {userId, recipeId, ingredientId, categoryId} = preference
+  let entity
+  if (ingredientId) entity = {id: ingredientId, type: 'Ingredient'}
+  if (recipeId) entity = {id: recipeId, type: 'Recipe'}
+  if (categoryId) entity = {id: categoryId, type: 'Category'}
+  if (entity.type === 'Ingredient') removeIngredientRelation(userId, entity.id)
+  if (entity.type === 'Recipe') removeRecipeRelation(userId, entity.id)
+  if (entity.type === 'Category') removeCategoryRelation(userId, entity.id)
 })
 
 module.exports = Preference
