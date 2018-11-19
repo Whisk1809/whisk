@@ -2,7 +2,7 @@
 
 const {expect} = require('chai')
 const db = require('../index')
-const Tag = db.model('tag')
+const Category = db.model('category')
 
 describe('Tag model', () => {
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('Tag model', () => {
   describe('tag name', () => {
     let italian
     beforeEach(async () => {
-      italian = await Tag.create({
+      italian = await Category.create({
         name: 'Italian'
       })
     })
