@@ -14,6 +14,7 @@ const Recipe = db.define('recipe', {
   prepTime: {
     type: Sequelize.STRING
   },
+  ingredientList: {type: Sequelize.ARRAY(Sequelize.STRING)},
 
   imageUrl: {
     type: Sequelize.STRING,
