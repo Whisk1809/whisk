@@ -5,10 +5,10 @@ const defaultRecipes = {}
 const GET_ALL_RECIPES = 'GET_ALL_RECIPES'
 const GET_SINGLE_RECIPE = 'GET_SINGLE_RECIPE'
 
-export const setRecipes = recipes => {
+export const setRecipes = allRecipes => {
   return {
     type: GET_ALL_RECIPES,
-    recipes
+    allRecipes
   }
 }
 
@@ -27,6 +27,16 @@ export const getAllRecipes = () => async dispatch => {
     console.error(err)
   }
 }
+
+// uncomment this thunk when the Recipes model is ready to go!
+/* export const getAllRecipes = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/recipes')
+    dispatch(setRecipes(data))
+  } catch (err) {
+    console.error(err)
+  }
+} */
 
 export const getSingleRecipe = (recipeId) => async dispatch => {
   try {
