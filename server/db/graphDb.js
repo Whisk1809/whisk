@@ -258,7 +258,7 @@ const recommend = async uId => {
     })
   ).then(res =>
     res
-      .map((recIndex, i) => ({rId: Number(intersection[i]), recIndex}))
+      .map((recIndex, i) => ({recipeId: Number(intersection[i]), recIndex}))
       .sort((a, b) => b.recIndex - a.recIndex)
   )
   console.log('recommendations: ', recArr)
