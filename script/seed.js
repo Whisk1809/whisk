@@ -1,15 +1,6 @@
 'use strict'
 
 const db = require('../server/db')
-<<<<<<< HEAD
-const {User, Recipe, Preference} = require('../server/db/models')
-const recipes = require('./epicurious-recipes')
-const {
-  graphDb,
-  deleteGraph,
-  createConstraints
-} = require('../server/db/graphDb')
-=======
 const graphDb = require('../server/db/')
 const {
   User,
@@ -22,7 +13,6 @@ const {
 // const recipes = require('./epicurious-recipes')
 const RecipeFactory = require('../server/adapter')
 const yummlyData = require('../server/adapter/yummly-data.json')
->>>>>>> master
 
 async function seed(done) {
   await db.sync({force: true})
@@ -36,10 +26,6 @@ async function seed(done) {
     User.create({email: 'cody@email.com', password: '123'}),
     User.create({email: 'murphy@email.com', password: '123'})
   ])
-<<<<<<< HEAD
-  await Promise.all(recipes.map(recipe => Recipe.create(recipe)))
-  await Preference.create({userId: 1, recipeId: 1, prefers: true})
-=======
   const adaptedData = yummlyData.map(sourceRecipe =>
     RecipeFactory(sourceRecipe, 'YUMMLY')
   )
@@ -65,7 +51,6 @@ async function seed(done) {
     )
   }
 
->>>>>>> master
   console.log(`seeded ${users.length} users`)
   console.log(
     `seeded ${
