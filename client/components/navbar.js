@@ -13,7 +13,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <div>
             {/* The navbar will show these links after you log in */}
             <Link to="/home">
-            <img src='whisk.png' style={{width: 50}}/></Link>
+            <img src='/whisk.png' style={{width: 50}}/></Link>
             <Link to="/home">Home</Link>
             <a href="#" onClick={handleClick}>
               Logout
@@ -22,7 +22,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         ) : (
           <div>
             <Link to="/home">
-            <img src='whisk.png' style={{width: 50}}/></Link>
+            <img src='/whisk.png' style={{width: 50}}/></Link>
             {/* The navbar will show these links before you log in */}
             <Link to="/login">Login</Link>
             <Link to="/signup">Sign Up</Link>

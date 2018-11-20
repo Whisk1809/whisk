@@ -5,8 +5,9 @@ import {Image, Button, Container, Icon, Item, Label} from 'semantic-ui-react'
 
 class SingleRecipe extends Component {
   render() {
-    const {singleRecipe} = this.props
-    const {title, prepTime, sourceRecipeUrl, numberOfServings, ingredientList, imageUrl} = singleRecipe.byId['1']
+    console.log(this.props);
+    const {recipes, match} = this.props
+    const {title, prepTime, sourceRecipeUrl, numberOfServings, ingredientList, imageUrl} = recipes.byId[match.params.recipeId]
     return (
 
       <div>
@@ -17,17 +18,17 @@ class SingleRecipe extends Component {
               <Item.Content>
                 <Item.Header size="huge">{title}</Item.Header>
                 <Item.Meta>
-                  <Image src='ingredients.png' size='tiny' />
+                  <Image src='/ingredients.png' size='tiny' />
                   <strong>Ingredients</strong>{ingredientList.map(ingredient =>
                   <div key={ingredient}>{ingredient}</div>
                   )}
                 </Item.Meta>
                 <Item.Meta>
-                  <Image src='serving-size.png' size='tiny' rounded/>
+                  <Image src='/serving-size.png' size='tiny' rounded/>
                   <strong>Serving Size:</strong> {numberOfServings}
                 </Item.Meta>
                 <Item.Meta>
-                  <Image src='cooking-time.png' size='tiny' /> <strong>Cooking Time</strong>
+                  <Image src='/cooking-time.png' size='tiny' /> <strong>Cooking Time</strong>
                   <div>{prepTime}</div>
                 </Item.Meta>
               </Item.Content>
@@ -66,7 +67,7 @@ class SingleRecipe extends Component {
 }
 
 const mapStateToProps = state => ({
-  singleRecipe: state.recipes.recipes
+  recipes: state.recipes.recipes
 })
 
 // const mapDispatchToProps = dispatch => ({

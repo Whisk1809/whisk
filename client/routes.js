@@ -28,9 +28,8 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={Recipes} />
             {/* Showing the same component for both /recipes and /home is open for discussion, for single recipe /recipes/:recipeId is intuitive */}
-            <Route path="/recipes" component={Recipes} />
             <Route exact path="/recipes/:recipeId" component={SingleRecipe} />
-            <Route path="/try" component={singleRecipe} />
+            <Route path="/recipes" component={Recipes} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
