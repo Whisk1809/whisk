@@ -13,6 +13,7 @@ describe('Recipe routes', () => {
     beforeEach(() => {
       return Recipe.create({
         title: 'Grilled Cheese',
+        sourceId: 'some string',
         description: 'A really mediocre sandwich',
         prepTime: '10 minutes',
         directions:
