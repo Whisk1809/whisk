@@ -4,7 +4,14 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const ingredients = await Ingredient.findAll()
+    console.log('fasdfasdfas', req.query)
+    const ingredients = await Ingredient.findAll({
+      where: {
+        name: {
+          $iLike: req.query.findIngredient + '%'
+        }
+      }
+    })
     res.json(ingredients)
   } catch (err) {
     console.error(err)

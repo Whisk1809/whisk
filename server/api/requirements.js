@@ -13,13 +13,11 @@ router.get('/', async (req, res, next) => {
 })
 
 router.post('/:typeId/:id', async (req, res, next) => {
-  //destructure from req.body here-- for now req.body is put directly in create
-  console.log('asudfh;asjhfl')
   try {
-    console.log('heyykkoo', req._body)
+    const requireBool = req._body
     const addedRequirement = await Requirement.create({
-      requires: req._body,
-
+      requires: requireBool,
+      userId: req.user.dataValues.id,
       [req.params.typeId]: req.params.id
     })
     res.status(201).json(addedRequirement)
@@ -32,7 +30,8 @@ router.delete('/:requirementId', async (req, res, next) => {
   try {
     const deletedRequirement = await Requirement.destroy({
       where: {
-        id: req.params.requirementId
+        ingredientId: req.params.requirementId,
+        userId: req.user.dataValues.id
       }
     })
     res.json(deletedRequirement)

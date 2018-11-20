@@ -6,66 +6,87 @@ import {
   Header,
   Card,
   Container,
-  Button
+  Button,
+  List,
+  Input,
+  Label
 } from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {postRequirement} from '../store/requirements'
-import {fetchCategories} from '../store/categories'
+import {postRequirement, destroyRequirement} from '../store/requirements'
+import {searchIngredients} from '../store/ingredients'
 
 class OnboardRequirements extends Component {
+  constructor() {
+    super()
+    this.state = {
+      search: ''
+    }
+  }
   componentDidMount() {
-    this.props.fetchCategories()
     console.log(this.props)
   }
-  handleRequire = categoryId => {
-    console.log('event', categoryId)
-    this.props.addRequirement('categoryId', categoryId)
+  addRequire = ingredientId => {
+    console.log('event', ingredientId)
+    this.props.addRequirement('ingredientId', ingredientId)
+  }
+  deleteRequire = ingredientId => {
+    this.props.deleteRequirement(ingredientId)
+  }
+  handleChange = evt => {
+    this.setState({search: evt.target.value})
+    this.props.searchIngredients(evt.target.value)
   }
   render() {
     return (
       <div>
-        <Header>Select Your Dietary Requirements</Header>
         <Progress value="1" total="5" progress="ratio" />
-        {this.props.categories ? (
+
+        <Container textAlign="center">
+          <Header as="h1" textAlign="center">
+            If applicable: Select Ingredients You Never Want to See
+          </Header>
+          <Input
+            icon="frown outline"
+            iconPosition="left"
+            placeholder="Search Ingredients..."
+            size="massive"
+            value={this.state.search}
+            onChange={this.handleChange}
+          />
           <Container textAlign="center">
-            <Grid columns={3} centered padded>
-              {this.props.categories.map(category => {
-                return (
-                  <Button
-                    onClick={() => this.handleRequire(category.id)}
-                    category={category.id}
-                    key={category.id}
-                  >
-                    <Grid.Column
-                      color="red"
-                      className="grid-column"
-                      textAlign="center"
-                    >
-                      {category.name}
-                    </Grid.Column>
-                  </Button>
-                )
-              })}
-            </Grid>
+            {this.state.search
+              ? this.props.ingredients.map(ingredient => {
+                  return (
+                    <Container textAlign="center" key={ingredient.id}>
+                      <Label>{ingredient.name}</Label>
+                      <Button onClick={() => this.addRequire(ingredient.id)}>
+                        +
+                      </Button>
+                      <Button onClick={() => this.deleteRequire(ingredient.id)}>
+                        -
+                      </Button>
+                    </Container>
+                  )
+                })
+              : null}
           </Container>
-        ) : null}
+        </Container>
       </div>
     )
   }
 }
 const mapStateToProps = state => {
   return {
-    categories: state.categories
+    ingredients: state.ingredients
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
     addRequirement: (type, idOfRequirement) =>
       dispatch(postRequirement(type, idOfRequirement, true)),
-    excludeRequirement: (type, idOfRequirement) => {
-      dispatch(postRequirement(type, idOfRequirement, false))
-    },
-    fetchCategories: () => dispatch(fetchCategories())
+    deleteRequirement: idOfRequirement =>
+      dispatch(destroyRequirement(idOfRequirement)),
+    searchIngredients: text => dispatch(searchIngredients(text))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(OnboardRequirements)
