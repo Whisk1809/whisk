@@ -7,6 +7,7 @@ const trialState = {
   recipes: {
     byId: {
       '1' : {
+        id: '1',
         title: "Mac and Cheese",
         prepTime: "50 minutes",
         prepTimeSeconds: 3000,
@@ -14,9 +15,39 @@ const trialState = {
         ingredientList: ['2 cups macaroni', '3 lbs ham', '1 pack cream', '1 can of peas', '1 whatever cheese you like'],
         numberOfServings: 3,
         imageUrl: "https://images.media-allrecipes.com/userphotos/720x405/4548620.jpg"
-      }
+      },
+      '2' : {
+        id: '2',
+        title: "Mulligatawny Soup",
+        prepTime: "30 minutes",
+        prepTimeSeconds: 1800,
+        sourceRecipeUrl: "https://www.allrecipes.com/recipe/13087/mulligatawny-soup-i/",
+        ingredientList: ['1/2 cup chopped onion', ' 2 stalks celery, chopped', '1 carrot, diced', '1 can of peas', '1 whatever cheese you like'],
+        numberOfServings: 5,
+        imageUrl: "https://images.media-allrecipes.com/userphotos/720x405/3573231.jpg"
+      },
+      '3': {
+        id: '3',
+        title: "Spaghetti Squash Mediterranean Style",
+        prepTime: "40 minutes",
+        prepTimeSeconds: 2400,
+        sourceRecipeUrl: "https://www.allrecipes.com/recipe/228544/spaghetti-squash-mediterranean-style",
+        ingredientList: ['1 spaghetti squash', '2 tablespoons olive oil', '3 sausage links', '2 spring onions', '3 cloves garlic', '1 zucchini'],
+        numberOfServings: 5,
+        imageUrl: "https://images.media-allrecipes.com/userphotos/720x405/2322620.jpg"
+      },
+      '4': {
+        id: '4',
+        title: "Spaghetti Squash Mediterranean Style",
+        prepTime: "40 minutes",
+        prepTimeSeconds: 2400,
+        sourceRecipeUrl: "https://www.allrecipes.com/recipe/228544/spaghetti-squash-mediterranean-style",
+        ingredientList: ['1 spaghetti squash', '2 tablespoons olive oil', '3 sausage links', '2 spring onions', '3 cloves garlic', '1 zucchini'],
+        numberOfServings: 5,
+        imageUrl: "https://images.media-allrecipes.com/userphotos/720x405/2322620.jpg"
+      },
     },
-    allIds: ['1']
+    allIds: ['1', '2', '3', '4']
   }
 }
 
