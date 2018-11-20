@@ -29,7 +29,11 @@ const terms = [
   'tacos',
   'indian',
   'fish',
-  'meatball'
+  'meatball',
+  'Nuts',
+  'Pescetarian',
+  'Paleo',
+  'Vegetarian'
 ]
 
 //

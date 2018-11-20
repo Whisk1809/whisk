@@ -13,15 +13,17 @@ const {
 // const recipes = require('./epicurious-recipes')
 const RecipeFactory = require('../server/adapter')
 const yummlyData = require('../server/adapter/yummly-data.json')
+const users = require('./seed-helper/user-generator.js')
 
 async function seed(done) {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
+  await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
     User.create({email: 'murphy@email.com', password: '123'})
   ])
+
   const adaptedData = yummlyData.map(sourceRecipe =>
     RecipeFactory(sourceRecipe, 'YUMMLY')
   )
@@ -47,7 +49,7 @@ async function seed(done) {
     )
   }
 
-  console.log(`seeded ${users.length} users`)
+  // console.log(`seeded ${users.length} users`)
   console.log(
     `seeded ${
       adaptedData.length
