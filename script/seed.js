@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const graphDb = require('../server/db/')
+const {graphDb, deleteGraph, createConstraints} = require('../server/db/')
 const {
   User,
   Recipe,
