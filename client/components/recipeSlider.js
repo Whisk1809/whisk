@@ -11,39 +11,41 @@ class RecipeSlider extends Component {
       slidesToShow: 3,
       slidesToScroll: 3
     }
+    const {recipes} = this.props
+    const {allIds, byId} = recipes
     return (
       <div>
         <div>
           <h3>Recipes for you</h3>
           <Slider {...settings}>
-            {this.props.recipes.map(recipe => {
+            {allIds.map(id => {
               return (
-                <div>
-                  <RecipeCard recipe={recipe}/>
+                <div key={id}>
+                  <RecipeCard recipe={byId[id]} />
                 </div>
               )
             })}
           </Slider>
         </div>
         <div>
-        <h3>Trending</h3>
-        <Slider {...settings}>
-          {this.props.recipes.map(recipe => {
-            return (
-              <div>
-                <RecipeCard recipe={recipe} />
-              </div>
-            )
-          })}
-        </Slider>
+          <h3>Trending</h3>
+          <Slider {...settings}>
+            {allIds.map(id => {
+              return (
+                <div key={id}>
+                  <RecipeCard recipe={byId[id]} />
+                </div>
+              )
+            })}
+          </Slider>
       </div>
       <div>
         <h3>Popular</h3>
         <Slider {...settings}>
-          {this.props.recipes.map(recipe => {
+          {allIds.map(id => {
             return (
-              <div>
-                <RecipeCard recipe={recipe} />
+              <div key={id}>
+                <RecipeCard recipe={byId[id]} />
               </div>
             )
           })}
@@ -52,10 +54,10 @@ class RecipeSlider extends Component {
       <div>
         <h3>Try something new</h3>
         <Slider {...settings}>
-          {this.props.recipes.map(recipe => {
+          {allIds.map(id => {
             return (
-              <div>
-                <RecipeCard recipe={recipe} />
+              <div key={id}>
+                <RecipeCard recipe={byId[id]} />
               </div>
             )
           })}
