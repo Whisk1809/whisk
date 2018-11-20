@@ -1,6 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
+<<<<<<< HEAD
 const {User, Recipe, Preference} = require('../server/db/models')
 const recipes = require('./epicurious-recipes')
 const {
@@ -8,8 +9,22 @@ const {
   deleteGraph,
   createConstraints
 } = require('../server/db/graphDb')
+=======
+const graphDb = require('../server/db/')
+const {
+  User,
+  Recipe,
+  Category,
+  Ingredient,
+  Preference,
+  Requirement
+} = require('../server/db/models')
+// const recipes = require('./epicurious-recipes')
+const RecipeFactory = require('../server/adapter')
+const yummlyData = require('../server/adapter/yummly-data.json')
+>>>>>>> master
 
-async function seed() {
+async function seed(done) {
   await db.sync({force: true})
   console.log('db synced!')
   await deleteGraph()
@@ -21,11 +36,45 @@ async function seed() {
     User.create({email: 'cody@email.com', password: '123'}),
     User.create({email: 'murphy@email.com', password: '123'})
   ])
+<<<<<<< HEAD
   await Promise.all(recipes.map(recipe => Recipe.create(recipe)))
   await Preference.create({userId: 1, recipeId: 1, prefers: true})
+=======
+  const adaptedData = yummlyData.map(sourceRecipe =>
+    RecipeFactory(sourceRecipe, 'YUMMLY')
+  )
+  for (let i = 0; i < adaptedData.length; i++) {
+    const [recipe, categories, ingredients] = adaptedData[i]
+    const newCategories = await Promise.all(
+      categories.map(category =>
+        Category.findOrCreate({where: {name: category.name}})
+      )
+    )
+
+    const newIngredients = await Promise.all(
+      ingredients.map(ingredient =>
+        Ingredient.findOrCreate({where: {name: ingredient.name}})
+      )
+    )
+    const newRecipe = await Recipe.create(recipe)
+    await Promise.all(
+      newIngredients.map(ingredient => newRecipe.setIngredients(ingredient[0]))
+    )
+    await Promise.all(
+      newCategories.map(category => newRecipe.setCategories(category[0]))
+    )
+  }
+
+>>>>>>> master
   console.log(`seeded ${users.length} users`)
-  console.log(`seeded ${recipes.length} recipes`)
+  console.log(
+    `seeded ${
+      adaptedData.length
+    } recipes and their associated categories/ingredients`
+  )
   console.log(`seeded successfully`)
+  db.close()
+  if (done) done()
 }
 
 // We've separated the `seed` function from the `runSeed` function.
