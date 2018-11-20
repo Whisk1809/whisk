@@ -4,5 +4,8 @@
 const seed = require('./seed')
 
 describe('seed script', () => {
-  it('completes successfully', seed)
+  it('completes successfully', function(done) {
+    this.timeout(0)
+    seed(done)
+  })
 })

@@ -7,6 +7,14 @@ const Recipe = db.define('recipe', {
     validate: {notEmpty: true},
     allowNull: false
   },
+  source: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  sourceId: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   description: {
     type: Sequelize.STRING,
     allowNull: true
