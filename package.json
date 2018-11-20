@@ -18,7 +18,7 @@
     "prettify": "prettier --write \"**/*.{js,jsx,json,css,scss,md}\"",
     "postinstall": "touch secrets.js",
     "seed": "node script/seed.js",
-    "start": "node server",
+    "start": "node server & node send_sms",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server & node send_sms.js",
     "start-server": "nodemon server -e html,js,scss --ignore public --ignore client & node send_sms.js",
     "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register"
@@ -41,6 +41,7 @@
     "compression": "^1.7.3",
     "connect-session-sequelize": "^4.1.0",
     "cron": "^1.5.0",
+    "cron-scheduler": "^1.2.0",
     "express": "^4.16.3",
     "express-session": "^1.15.1",
     "history": "^4.6.3",
