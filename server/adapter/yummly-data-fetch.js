@@ -23,7 +23,13 @@ const terms = [
   'potato',
   'garlic',
   'kale',
-  'parmesan'
+  'parmesan',
+  'peas',
+  'beef',
+  'tacos',
+  'indian',
+  'fish',
+  'meatball'
 ]
 
 //
