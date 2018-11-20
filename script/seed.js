@@ -19,10 +19,24 @@ async function seed(done) {
   await db.sync({force: true})
   console.log('db synced!')
 
-  await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+  const someUsers = await Promise.all([
+    User.create({
+      email: 'cody@email.com',
+      password: '123',
+      name: 'cody',
+      phone: '111-111-1111'
+    }),
+    User.create({
+      email: 'murphy@email.com',
+      password: '123',
+      name: 'murphy',
+      phone: '111-111-1111'
+    })
   ])
+
+  const mostUsers = await Promise.all(users.map(user => User.create(user)))
+
+  const allUsers = [...someUsers, ...mostUsers]
 
   const adaptedData = yummlyData.map(sourceRecipe =>
     RecipeFactory(sourceRecipe, 'YUMMLY')
@@ -47,6 +61,106 @@ async function seed(done) {
     await Promise.all(
       newCategories.map(category => newRecipe.setCategories(category[0]))
     )
+
+    // for the recipe that was just created, if it fits a certain criteria,
+    // assign it to a different group of profiles
+    // Like Italian, dislike American
+    // Like Kid-Friendly, dislike Asian
+    // Like Barbecue, like American
+    // Like Asian, dislike American
+
+    const len = allUsers.length
+    const partitionSize = Math.floor(len / 4)
+    const group1 = [0, 1 * partitionSize]
+    const group2 = [1 * partitionSize, 2 * partitionSize]
+    const group3 = [2 * partitionSize, 3 * partitionSize]
+    const group4 = [3 * partitionSize]
+    // obviously need to refactor this if time allows
+    // find the users who meet that criteria (or anti-criteria) and create a preference for that user based on a distribution
+    if (categories.map(e => e.name).includes('Italian')) {
+      const likers = allUsers.slice(...group1).filter(() => Math.random() > 0.8)
+      await Promise.all(
+        likers.map(user =>
+          Preference.create({
+            userId: user.id,
+            recipeId: newRecipe.id,
+            prefers: true
+          })
+        )
+      )
+    }
+    if (categories.map(e => e.name).includes('American')) {
+      const likers = allUsers.slice(...group3).filter(() => Math.random() > 0.8)
+      const dislikers = allUsers
+        .slice(...group1)
+        .filter(() => Math.random() > 0.8)
+      await Promise.all(
+        likers.map(user =>
+          Preference.create({
+            userId: user.id,
+            recipeId: newRecipe.id,
+            prefers: true
+          })
+        )
+      )
+      await Promise.all(
+        dislikers.map(user =>
+          Preference.create({
+            userId: user.id,
+            recipeId: newRecipe.id,
+            prefers: false
+          })
+        )
+      )
+    }
+    if (categories.map(e => e.name).includes('Barbecue')) {
+      const likers = allUsers.slice(...group3).filter(() => Math.random() > 0.8)
+      await Promise.all(
+        likers.map(user =>
+          Preference.create({
+            userId: user.id,
+            recipeId: newRecipe.id,
+            prefers: true
+          })
+        )
+      )
+    }
+    if (categories.map(e => e.name).includes('Asian')) {
+      const likers = allUsers.slice(...group4).filter(() => Math.random() > 0.8)
+      const dislikers = allUsers
+        .slice(...group2)
+        .filter(() => Math.random() > 0.8)
+      await Promise.all(
+        likers.map(user =>
+          Preference.create({
+            userId: user.id,
+            recipeId: newRecipe.id,
+            prefers: true
+          })
+        )
+      )
+      await Promise.all(
+        dislikers.map(user =>
+          Preference.create({
+            userId: user.id,
+            recipeId: newRecipe.id,
+            prefers: false
+          })
+        )
+      )
+    }
+    if (categories.map(e => e.name).includes('Kid-Friendly')) {
+      const likers = allUsers.slice(...group2).filter(() => Math.random() > 0.8)
+      await Promise.all(
+        likers.map(user =>
+          Preference.create({
+            userId: user.id,
+            recipeId: newRecipe.id,
+            prefers: true
+          })
+        )
+      )
+    }
   }
 
   // console.log(`seeded ${users.length} users`)
