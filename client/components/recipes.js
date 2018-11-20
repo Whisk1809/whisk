@@ -20,7 +20,7 @@ class Recipes extends Component {
 }
 const mapStateToProps = state => {
   return {
-    recipes: state.recipes.allRecipes
+    recipes: state.allRecipes
   }
 }
 const mapDispatchToProps = dispatch => {

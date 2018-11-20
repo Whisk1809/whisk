@@ -26,7 +26,7 @@ describe('thunk creators', () => {
   })
 
   describe('setRecipes', () => {
-    const recipes = [
+    const allRecipes = [
       {
         title: 'Grilled Cheese',
         description: 'A really mediocre sandwich',
@@ -43,19 +43,19 @@ describe('thunk creators', () => {
     ]
 
     it('setRecipes action creator', () => {
-      expect(setRecipes(recipes)).to.be.deep.equal({
+      expect(setRecipes(allRecipes)).to.be.deep.equal({
         type: 'GET_ALL_RECIPES',
-        recipes
+        allRecipes
       })
     })
 
     it('getAllRecipes: eventually dispatches the GET_ALL_RECIPES action', async () => {
-      mockAxios.onGet('http://localhost:3000/recipes').replyOnce(200, recipes)
+      mockAxios.onGet('http://localhost:3000/recipes').replyOnce(200, allRecipes)
       await store.dispatch(getAllRecipes())
       const actions = store.getActions()
       expect(actions[0].type).to.be.equal('GET_ALL_RECIPES')
       console.log('actions', actions)
-      expect(actions[0].recipes).to.deep.equal(recipes)
+      expect(actions[0].recipes).to.deep.equal(allRecipes)
     })
   })
 })
