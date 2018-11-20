@@ -66,7 +66,7 @@
     "sequelize": "^4.38.0",
     "slick-carousel": "^1.8.1",
     "socket.io": "^2.1.1",
-    "twilio": "^3.24.0"
+    "twilio": "^3.24.0",
     "ws-yummly": "^1.0.24"
   },
   "devDependencies": {
