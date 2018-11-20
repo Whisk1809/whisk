@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import { setSingleRecipe } from '../store'
 import {Image, Button, Container, Icon, Item, Label} from 'semantic-ui-react'
 
 class SingleRecipe extends Component {
@@ -69,9 +68,5 @@ class SingleRecipe extends Component {
 const mapStateToProps = state => ({
   recipes: state.recipes.recipes
 })
-
-// const mapDispatchToProps = dispatch => ({
-//   singleRecipe: (recipeId) => dispatch(setSingleRecipe(recipeId))
-// })
 
 export default connect(mapStateToProps)(SingleRecipe)
