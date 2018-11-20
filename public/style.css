@@ -27,11 +27,15 @@ form div {
 }
 
 .ui.positive.button {
-  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .ui.primary.button {
   margin-left: 10px;
 }
+
+/* .ui.tiny.image {
+  width: 40px;
+} */
 
 /* Slick overrides */
