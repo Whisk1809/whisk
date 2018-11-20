@@ -17,6 +17,7 @@ const yummlyData = require('../server/adapter/yummly-data.json')
 async function seed(done) {
   await db.sync({force: true})
   console.log('db synced!')
+  console.log(JSON.stringify())
   // await deleteGraph()
   // console.log('graph db cleared!')
   // await createConstraints()
