@@ -1,8 +1,17 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Recipe} = require('../server/db/models')
-const recipes = require('./epicurious-recipes')
+const {
+  User,
+  Recipe,
+  Category,
+  Ingredient,
+  Preference,
+  Requirement
+} = require('../server/db/models')
+// const recipes = require('./epicurious-recipes')
+const RecipeFactory = require('../server/adapter')
+const yummlyData = require('../server/adapter/yummly-data.json')
 
 async function seed() {
   await db.sync({force: true})
@@ -12,10 +21,37 @@ async function seed() {
     User.create({email: 'cody@email.com', password: '123'}),
     User.create({email: 'murphy@email.com', password: '123'})
   ])
-  await Promise.all(recipes.map(recipe => Recipe.create(recipe)))
+  const adaptedData = yummlyData.map(sourceRecipe =>
+    RecipeFactory(sourceRecipe, 'YUMMLY')
+  )
+  for (let i = 0; i < adaptedData.length; i++) {
+    const [recipe, categories, ingredients] = adaptedData[i]
+    const newCategories = await Promise.all(
+      categories.map(category =>
+        Category.findOrCreate({where: {name: category.name}})
+      )
+    )
+
+    const newIngredients = await Promise.all(
+      ingredients.map(ingredient =>
+        Ingredient.findOrCreate({where: {name: ingredient.name}})
+      )
+    )
+    const newRecipe = await Recipe.create(recipe)
+    await Promise.all(
+      newIngredients.map(ingredient => newRecipe.setIngredients(ingredient[0]))
+    )
+    await Promise.all(
+      newCategories.map(category => newRecipe.setCategories(category[0]))
+    )
+  }
 
   console.log(`seeded ${users.length} users`)
-  console.log(`seeded ${recipes.length} recipes`)
+  console.log(
+    `seeded ${
+      adaptedData.length
+    } recipes and their associated categories/ingredients`
+  )
   console.log(`seeded successfully`)
 }
 

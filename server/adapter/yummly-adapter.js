@@ -38,9 +38,6 @@ const parseRecipe = sourceRecipe => {
       name: category
     })),
     targetIngedients = ingredients.map(ingredient => ({name: ingredient}))
-  console.log('target ingredients: ', targetIngedients)
-  console.log('target categories: ', targetCategories)
-  console.log('target recipe: ', targetRecipe)
   return [targetRecipe, targetCategories, targetIngedients]
 }
 
