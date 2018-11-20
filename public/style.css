@@ -20,10 +20,10 @@ form div {
   display: inline-block;
 }
 
-
 /* Semantic UI overrides */
 .ui.form .field {
   margin-left: 10px;
+  align-content: center;
 }
 
 .ui.positive.button {
@@ -34,4 +34,10 @@ form div {
   margin-left: 10px;
 }
 
+/* .ui.grid > .column:not(.row) {
+  padding-left: 0rem;
+  padding-right: 0rem;
+} */
+
 /* Slick overrides */
+/* .ui.grid > .row > .column  */

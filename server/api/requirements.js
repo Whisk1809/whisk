@@ -16,8 +16,9 @@ router.post('/:typeId/:id', async (req, res, next) => {
   //destructure from req.body here-- for now req.body is put directly in create
   console.log('asudfh;asjhfl')
   try {
+    console.log('heyykkoo', req._body)
     const addedRequirement = await Requirement.create({
-      requires: true,
+      requires: req._body,
 
       [req.params.typeId]: req.params.id
     })

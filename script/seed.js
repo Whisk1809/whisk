@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Recipe} = require('../server/db/models')
+const {User, Recipe, Category} = require('../server/db/models')
 const recipes = require('./epicurious-recipes')
 
 async function seed() {
@@ -12,10 +12,20 @@ async function seed() {
     User.create({email: 'cody@email.com', password: '123'}),
     User.create({email: 'murphy@email.com', password: '123'})
   ])
-  await Promise.all(recipes.map(recipe => Recipe.create(recipe)))
+
+  const categories = await Promise.all([
+    Category.create({name: 'Gluten Free'}),
+    Category.create({name: 'Vegetarian'}),
+    Category.create({name: 'Vegan'}),
+    Category.create({name: 'Paleo'}),
+    Category.create({name: 'Pescatarian'})
+  ])
+
+  // await Promise.all(recipes.map(recipe => Recipe.create(recipe)))
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${recipes.length} recipes`)
+  console.log(`seeded ${categories.length} categories`)
   console.log(`seeded successfully`)
 }
 

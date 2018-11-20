@@ -42,7 +42,6 @@ export const postRequirement = (
       `/api/requirements/${type}/${idOfRequirement}`,
       requirement
     )
-    console.log(data)
     dispatch(addRequirement(data))
   } catch (err) {
     console.error(err)
@@ -61,6 +60,15 @@ export default function(state = defaultRequirements, action) {
   switch (action.type) {
     case GET_ALL_REQUIREMENTS:
       return action.requirements
+    case ADD_REQUIREMENT:
+      return [...state, action.requirement]
+
+    case DELETE_REQUIREMENT:
+      return state.filter(requirement => {
+        if (requirement !== action.requirement) {
+          return requirement
+        }
+      })
 
     default:
       return state

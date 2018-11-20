@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const defaultCategories = []
 
-const GET_ALL_CATEGORIES = 'GET_ALL_RECIPES'
+const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES'
 
 export const setCategories = categories => {
   return {

@@ -6,6 +6,12 @@ const Category = db.define('category', {
     type: Sequelize.STRING,
     validate: {notEmpty: true},
     allowNull: false
+  },
+  image: {
+    type: Sequelize.STRING,
+    allowNull: true,
+    defaultValue:
+      'https://capitoltheatre.com/wp-content/uploads/2017/03/placeholder3.svg'
   }
 })
 
