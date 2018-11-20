@@ -13,6 +13,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+<<<<<<< HEAD
 router.get('/recommended', async (req, res, next) => {
   try {
     const uId = req.user.id
@@ -25,6 +26,13 @@ router.get('/recommended', async (req, res, next) => {
       recipeIds.map(recipe => Recipe.findById(recipe.recipeId))
     )
     res.json(recipes)
+=======
+router.get("/:recipeId", async (req, res, next) => {
+  try {
+    const recipeId = req.params.recipeId
+    const singleRecipe = await Recipe.findById(recipeId)
+    res.json(singleRecipe)
+>>>>>>> master
   } catch (err) {
     console.error(err)
     next(err)
