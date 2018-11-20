@@ -4,17 +4,18 @@ import {Card, Icon, Image} from 'semantic-ui-react'
 class RecipeCard extends Component {
   render() {
     const {recipe} = this.props
+    const {id, imageUrl, title, prepTime} = recipe
 
     const handleClick = () => {
-      alert('you\'ve clicked this')
+      this.props.history.push(`recipes/${id}`)
     }
 
     return (
       <Card>
-        <Image src={recipe.imageUrl} />
+        <Image src={imageUrl} />
         <Card.Content>
-          <Card.Header onClick={handleClick}> {recipe.title}</Card.Header>
-          <Card.Meta>{recipe.prepTime}</Card.Meta>
+          <Card.Header onClick={handleClick}> {title}</Card.Header>
+          <Card.Meta>{prepTime}</Card.Meta>
           <Card.Description>Direction tba</Card.Description>
         </Card.Content>
         <Card.Content extra>
