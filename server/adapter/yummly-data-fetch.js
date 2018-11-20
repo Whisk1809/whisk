@@ -1,7 +1,6 @@
-const _app_id = '17a7b50a'
-const _app_key = '24c0fdf7b4d6c17c0032b72e425362fe'
 const axios = require('axios')
 const fs = require('fs')
+if (process.env.NODE_ENV !== 'production') require('../../secrets')
 
 const testTerms = ['burrito', 'pizza']
 const terms = [
@@ -34,7 +33,10 @@ const terms = [
 const getRecipe = async recipeId => {
   try {
     const uri = `http://api.yummly.com/v1/api/recipe/${recipeId}`
-    const params = {_app_id, _app_key}
+    const params = {
+      _app_id: process.env.YUMMLY_ID,
+      _app_key: process.env.YUMMLY_KEY
+    }
     const {data} = await axios.get(uri, {params})
     // console.log(data)
     return data
@@ -50,14 +52,16 @@ const getRecipe = async recipeId => {
 // recipeName
 
 const searchRecipes = async searchTerm => {
+  console.log('process.env.YUMMLY_ID:', process.env)
+  console.log('process.env.YUMMLY_KEY:', process.env.YUMMLY_KEY)
   try {
     const uri = `http://api.yummly.com/v1/api/recipes`
     const params = {
-      _app_id,
-      _app_key,
+      _app_id: process.env.YUMMLY_ID,
+      _app_key: process.env.YUMMLY_KEY,
       q: searchTerm,
       requirePictures: true,
-      maxResult: 100
+      maxResult: 1
     }
     const {data} = await axios.get(uri, {params})
     return data
@@ -76,6 +80,7 @@ const fetchRecipeDataFromTerms = async terms => {
 const yummlyData = []
 const fetchData = async () => {
   const recipeTermData = await fetchRecipeDataFromTerms(testTerms) //an array of matches arrays
+
   for (let i = 0; i < recipeTermData.length; i++) {
     for (let j = 0; j < recipeTermData[i].length; j++) {
       const recipeData = recipeTermData[i][j]
