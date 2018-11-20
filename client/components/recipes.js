@@ -6,10 +6,9 @@ import {Card, List, Button} from 'semantic-ui-react'
 import RecipeSlider from './recipeSlider'
 
 class Recipes extends Component {
-  componentDidMount() {
-    console.log('props', this.props)
-    this.props.getAllRecipes()
-  }
+  // componentDidMount() {
+  //   this.props.getAllRecipes()
+  // }
   render() {
     return (
       <div>
@@ -20,12 +19,12 @@ class Recipes extends Component {
 }
 const mapStateToProps = state => {
   return {
-    recipes: state.allRecipes
+    recipes: state.recipes.recipes
   }
 }
-const mapDispatchToProps = dispatch => {
-  return {
-    getAllRecipes: () => dispatch(getAllRecipes())
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Recipes)
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     getAllRecipes: () => dispatch(getAllRecipes())
+//   }
+// }
+export default connect(mapStateToProps)(Recipes)
