@@ -1,7 +1,9 @@
-const {accountSid, authToken} = require('./secrets')
-const client = require('twilio')(accountSid, authToken);
+
 //const schedule = require('node-schedule')
 var CronJob = require('cron').CronJob;
+const accountSid = process.env.accountSid
+const authToken = process.env.authToken
+const client = require('twilio')(accountSid, authToken);
 //define functions and then schedule in same file
 
 
@@ -42,7 +44,7 @@ job.start()
 
 console.log('job started')
 
-const job2 = new CronJob('30 17 * * *', function() {
+const job2 = new CronJob('46 16 * * *', function() {
   console.log('See job2')
   eveningText()
 });
