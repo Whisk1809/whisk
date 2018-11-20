@@ -27,7 +27,7 @@ form div {
 }
 
 .ui.positive.button {
-  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .ui.primary.button {
@@ -37,6 +37,8 @@ form div {
 /* .ui.grid > .column:not(.row) {
   padding-left: 0rem;
   padding-right: 0rem;
+/* .ui.tiny.image {
+  width: 40px;
 } */
 
 /* Slick overrides */
