@@ -1,10 +1,14 @@
 //establish db connection
 const neo4j = require('neo4j-driver').v1
 const _ = require('lodash')
+if (process.env.NODE_ENV === 'test') require('../../secrets')
 
 const driver = neo4j.driver(
-  'bolt://localhost:7687',
-  neo4j.auth.basic('neo4j', 'dev')
+  process.env.GRAPHENEDB_BOLT_URL,
+  neo4j.auth.basic(
+    process.env.GRAPHENEDB_BOLT_USER,
+    process.env.GRAPHENEDB_BOLT_PASSWORD
+  )
 )
 
 async function runQuery(cypher, params = {}) {
