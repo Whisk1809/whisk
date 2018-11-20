@@ -1,7 +1,11 @@
 'use strict'
 
 const db = require('../server/db')
-const {graphDb, deleteGraph, createConstraints} = require('../server/db/')
+const {
+  graphDb,
+  deleteGraph,
+  createConstraints
+} = require('../server/db/graphDb')
 const {
   User,
   Recipe,
@@ -17,11 +21,11 @@ const yummlyData = require('../server/adapter/yummly-data.json')
 async function seed(done) {
   await db.sync({force: true})
   console.log('db synced!')
-  console.log(JSON.stringify())
-  // await deleteGraph()
-  // console.log('graph db cleared!')
-  // await createConstraints()
-  // console.log('created constraints for graph db')
+  console.log(JSON.stringify(deleteGraph))
+  await deleteGraph()
+  console.log('graph db cleared!')
+  await createConstraints()
+  console.log('created constraints for graph db')
 
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
