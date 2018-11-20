@@ -17,10 +17,10 @@ const yummlyData = require('../server/adapter/yummly-data.json')
 async function seed(done) {
   await db.sync({force: true})
   console.log('db synced!')
-  await deleteGraph()
-  console.log('graph db cleared!')
-  await createConstraints()
-  console.log('created constraints for graph db')
+  // await deleteGraph()
+  // console.log('graph db cleared!')
+  // await createConstraints()
+  // console.log('created constraints for graph db')
 
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
