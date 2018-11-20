@@ -11,3 +11,14 @@ router.get("/", async (req, res, next) => {
     next(err)
   }
 })
+
+router.get("/:recipeId", async (req, res, next) => {
+  try {
+    const recipeId = req.params.recipeId
+    const singleRecipe = await Recipe.findById(recipeId)
+    res.json(singleRecipe)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
