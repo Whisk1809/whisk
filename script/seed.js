@@ -1,6 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
+const graphDb = require('../server/db/')
 const {
   User,
   Recipe,
@@ -13,7 +14,7 @@ const {
 const RecipeFactory = require('../server/adapter')
 const yummlyData = require('../server/adapter/yummly-data.json')
 
-async function seed() {
+async function seed(done) {
   await db.sync({force: true})
   console.log('db synced!')
 
@@ -53,6 +54,8 @@ async function seed() {
     } recipes and their associated categories/ingredients`
   )
   console.log(`seeded successfully`)
+  db.close()
+  if (done) done()
 }
 
 // We've separated the `seed` function from the `runSeed` function.
