@@ -10,7 +10,7 @@ const driver = neo4j.driver(
     process.env.GRAPHENEDB_BOLT_PASSWORD
   )
 )
-
+//comment
 async function runQuery(cypher, params = {}) {
   try {
     const session = driver.session()
