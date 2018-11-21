@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getSingleRecipe} from '../store'
 import {Image, Button, Container, Icon, Item, Label} from 'semantic-ui-react'
 
 class SingleRecipe extends Component {
   render() {
     console.log(this.props);
-    const {singleRecipe, match} = this.props
-    const {title, prepTime, sourceRecipeUrl, numberOfServings, ingredientList, imageUrl} = singleRecipe.byId[match.params.recipeId]
+    const {recipes, match} = this.props
+    const {title, prepTime, sourceRecipeUrl, numberOfServings, ingredientList, imageUrl} = recipes.byId[match.params.recipeId]
     return (
 
       <div>
@@ -67,11 +66,7 @@ class SingleRecipe extends Component {
 }
 
 const mapStateToProps = state => ({
-  singleRecipe: state.singleRecipe
-})
-
-const mapDispatchToProps = dispatch => ({
-  getSingleRecipe: (recipeId) => dispatch(getSingleRecipe(recipeId))
+  recipes: state.recipes.recipes
 })
 
 export default connect(mapStateToProps)(SingleRecipe)

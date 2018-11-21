@@ -6,25 +6,34 @@ import {Card, List, Button} from 'semantic-ui-react'
 import RecipeSlider from './recipeSlider'
 
 class Recipes extends Component {
-  // componentDidMount() {
-  //   this.props.getAllRecipes()
-  // }
+  componentDidMount() {
+    this.props.getAllRecipes()
+  }
+
   render() {
-    return (
-      <div>
-        <RecipeSlider recipes={this.props.recipes} />
-      </div>
-    )
+    const {recipes} = this.props
+
+    if (recipes.length) {
+      return (
+        <div>
+          <RecipeSlider recipes={this.props.recipes} />
+        </div>
+      )
+    } else {
+      return (
+        <div>Loading</div>
+      )
+    }
   }
 }
 const mapStateToProps = state => {
   return {
-    recipes: state.recipes.recipes
+    recipes: state.recipes.allRecipes
   }
 }
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     getAllRecipes: () => dispatch(getAllRecipes())
-//   }
-// }
-export default connect(mapStateToProps)(Recipes)
+const mapDispatchToProps = dispatch => {
+  return {
+    getAllRecipes: () => dispatch(getAllRecipes())
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Recipes)
