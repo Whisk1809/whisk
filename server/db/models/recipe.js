@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Op = Sequelize.Op.
+
 
 const Recipe = db.define('recipe', {
   title: {
@@ -31,5 +33,10 @@ const Recipe = db.define('recipe', {
     defaultValue: 'default-recipe.jpg'
   }
 })
+
+
+Recipe.findIds = async (arr) => {
+  Recipe.findAll({ where: { id: {[Op.in]:arr} } })
+}
 
 module.exports = Recipe
