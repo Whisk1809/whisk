@@ -1,8 +1,9 @@
 const router = require('express').Router()
 const {Recipe} = require('../db/models')
+const {recommend} = require('../db/graphDb')
 module.exports = router
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const recipes = await Recipe.findAll()
     res.json(recipes)
@@ -12,7 +13,7 @@ router.get("/", async (req, res, next) => {
   }
 })
 
-router.get("/:recipeId", async (req, res, next) => {
+router.get('/:recipeId', async (req, res, next) => {
   try {
     const recipeId = req.params.recipeId
     const singleRecipe = await Recipe.findById(recipeId)
