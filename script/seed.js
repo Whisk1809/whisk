@@ -81,7 +81,7 @@ async function runSeed() {
     console.log('closing db connection')
     await db.close()
     console.log('db connection closed')
-   await graphDb.close()
+    await graphDb.close()
     console.log('graph db connection closed')
   }
 }
