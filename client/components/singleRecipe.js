@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getSingleRecipe} from '../store'
 import {Image, Button, Container, Icon, Item, Label} from 'semantic-ui-react'
+import Loading from './loading'
 
 class SingleRecipe extends Component {
   componentDidMount() {
@@ -69,7 +70,7 @@ class SingleRecipe extends Component {
         </div>
       )
     } else {
-      return <div>Loading...</div>
+      return <Loading/>
     }
   }
 }
