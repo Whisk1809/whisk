@@ -54,6 +54,7 @@ Recipe.getTrending = async () => {
 
 //returns the 30 recipes sorted based purely on all time absolute like count
 Recipe.getPopular = async () => {
+  const recipes = db.query(
     `
   SELECT  *
   FROM recipes AS r
