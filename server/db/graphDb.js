@@ -1,9 +1,9 @@
 //establish db connection
 const neo4j = require('neo4j-driver').v1
 const _ = require('lodash')
-//if (process.env.NODE_ENV === 'development')
-require('../../secrets')
 
+// if (process.env.NODE_ENV === 'development')
+require('../../secrets')
 
 const driver = neo4j.driver(
   process.env.GRAPHENEDB_BOLT_URL,
@@ -13,10 +13,10 @@ const driver = neo4j.driver(
   )
 )
 
-
+//comment
 async function runQuery(cypher, params = {}) {
+  const session = driver.session()
   try {
-    const session = driver.session()
     const results = session.run(cypher, params)
     session.close()
     return results
@@ -37,15 +37,19 @@ const createConstraints = async () => {
 //verify that user and entity exist in graph db, create / update relationship between them
 
 const likeRecipe = async (userId, recipeId) => {
-  await runQuery(
-    `MERGE (u:User {pk:{userPk} })
-     MERGE (r:Recipe {pk:{recipePk} })
-     MERGE (u)-[l:likes]->(r)`,
-    {
-      userPk: userId.toString(),
-      recipePk: recipeId.toString()
-    }
-  )
+  try {
+    await runQuery(
+      `MERGE (u:User {pk:{userPk} })
+       MERGE (r:Recipe {pk:{recipePk} })
+       MERGE (u)-[l:likes]->(r)`,
+      {
+        userPk: userId.toString(),
+        recipePk: recipeId.toString()
+      }
+    )
+  } catch (err) {
+    console.error(err)
+  }
 }
 const dislikeRecipe = async (userId, recipeId) => {
   await runQuery(
