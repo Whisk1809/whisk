@@ -9,6 +9,8 @@ class Recipes extends Component {
   componentDidMount() {
     this.props.getAllRecipes()
     this.props.getRecommendedRecipes()
+    this.props.getTrending()
+    this.props.getPopular()
   }
 
   render() {
@@ -17,7 +19,7 @@ class Recipes extends Component {
     if (recipes.length && recommended.length) {
       return (
         <div>
-          <RecipeSlider recipes={this.props.recipes} />
+          <RecipeSlider recipes={this.props.recipes} title="trending" />
           <p>Recommended for you</p>
           <RecipeSlider recipes={this.props.recommended} />
         </div>
