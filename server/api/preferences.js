@@ -4,17 +4,17 @@ const {Preference} = require('../db/models')
 router.post('/', async (req, res, next) => {
   try {
     const userId = req.user.id
-    const recipeId = req.recipe.id ? req.recipe.id : null
-    const categoryId = req.category.id ? req.category.id : null
-    const ingredientId = req.ingredient.id ? req.ingredient.id : null
-    const prefers = req.prefers ? req.prefers : null
+    const recipeId = req.body.recipe.id ? req.body.recipe.id : null
+    // const categoryId = req.body.category.id ? req.body.category.id : null
+    // const ingredientId = req.body.ingredient.id ? req.body.ingredient.id : null
+    const prefers = req.body.prefers ? req.body.prefers : null
 
     let data = {
       userId,
       recipeId,
       prefers,
-      categoryId,
-      ingredientId
+      // categoryId,
+      // ingredientId
     }
     const newPreference = await Preference.create(data)
     res.status(200).send(newPreference)
