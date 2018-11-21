@@ -1,8 +1,20 @@
 const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
+const {
+  Recipe,
+  Preference,
+  Requirement,
+  Ingredient,
+  Category
+} = require('../models')
 
 const User = db.define('user', {
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -26,6 +38,10 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  phone: {
+    type: Sequelize.STRING,
+    validate: {} //add regex validation and front end validation
   }
 })
 
@@ -41,6 +57,21 @@ User.prototype.correctPassword = function(candidatePwd) {
 /**
  * classMethods
  */
+User.findFavoriteRecipes = userId => {
+  const user = User.findById(userId, {include: [Recipe]})
+}
+
+User.findRequirements = userId => {
+  const user = User.findById(userId, {
+    include: [{model: Requirement, include: [Ingredient, Category]}]
+  })
+}
+User.findPreferences = userId => {
+  const user = User.findById(userId, {
+    include: [{model: Preference, include: [Ingredient, Category, Recipe]}]
+  })
+}
+
 User.generateSalt = function() {
   return crypto.randomBytes(16).toString('base64')
 }

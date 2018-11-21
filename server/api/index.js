@@ -6,6 +6,8 @@ router.use('/recipes', require('./recipes'))
 router.use('/categories', require('./categories'))
 router.use('/requirements', require('./requirements'))
 router.use('/ingredients', require('./ingredients'))
+router.use ('/recipes', require('./recipes'))
+router.use('/twilio', require('./twilio'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')
