@@ -1,7 +1,6 @@
 //establish db connection
 const neo4j = require('neo4j-driver').v1
 const _ = require('lodash')
-//if (process.env.NODE_ENV === 'development')
 require('../../secrets')
 
 const driver = neo4j.driver(
