@@ -46,6 +46,19 @@ async function seed(done) {
 
   const allUsers = [...someUsers, ...mostUsers]
 
+  // for the recipe that was just created, if it fits a certain criteria,
+  // assign it to a different group of profiles to yield distinct clusters of preferences
+  // Like Italian
+  // Like Kid-Friendly, dislike Asian
+  // Like American
+  // Like Asian, dislike American
+  const len = allUsers.length
+  const partitionSize = Math.floor(len / 4)
+  const group1 = allUsers.slice(0, partitionSize)
+  const group2 = allUsers.slice(1 * partitionSize, 2 * partitionSize)
+  const group3 = allUsers.slice(2 * partitionSize, 3 * partitionSize)
+  const group4 = allUsers.slice(3 * partitionSize)
+
   const adaptedData = yummlyData.map(sourceRecipe =>
     RecipeFactory(sourceRecipe, 'YUMMLY')
   )
@@ -70,108 +83,91 @@ async function seed(done) {
       newCategories.map(category => newRecipe.setCategories(category[0]))
     )
 
-    // for the recipe that was just created, if it fits a certain criteria,
-    // assign it to a different group of profiles
-    // Like Italian, dislike American
-    // Like Kid-Friendly, dislike Asian
-    // Like Barbecue, like American
-    // Like Asian, dislike American
-
-    const len = allUsers.length
-    const partitionSize = Math.floor(len / 4)
-    const group1 = [0, 1 * partitionSize]
-    const group2 = [1 * partitionSize, 2 * partitionSize]
-    const group3 = [2 * partitionSize, 3 * partitionSize]
-    const group4 = [3 * partitionSize]
     // obviously need to refactor this if time allows
-    // find the users who meet that criteria (or anti-criteria) and create a preference for that user based on a distribution
+    // find the users who meet that criteria and create a preference for that user based on a distribution
     if (categories.map(e => e.name).includes('Italian')) {
-      const likers = allUsers.slice(...group1).filter(() => Math.random() > 0.8)
-      await Promise.all(
-        likers.map(user =>
-          Preference.create({
-            userId: user.id,
+      const likers = group1.filter(() => Math.random() > 0.8)
+      for (let i = 0; i < likers.length; i++) {
+        try {
+          await Preference.create({
+            userId: likers[i].id,
             recipeId: newRecipe.id,
             prefers: true
           })
-        )
-      )
+        } catch (err) {
+          console.error(err)
+        }
+      }
     }
     if (categories.map(e => e.name).includes('American')) {
-      const likers = allUsers.slice(...group3).filter(() => Math.random() > 0.8)
-      const dislikers = allUsers
-        .slice(...group1)
-        .filter(() => Math.random() > 0.8)
-      await Promise.all(
-        likers.map(user =>
-          Preference.create({
-            userId: user.id,
+      const likers = group3.filter(() => Math.random() > 0.8)
+      const dislikers = group4.filter(() => Math.random() > 0.8)
+      for (let i = 0; i < likers.length; i++) {
+        try {
+          await Preference.create({
+            userId: likers[i].id,
             recipeId: newRecipe.id,
             prefers: true
           })
-        )
-      )
-      await Promise.all(
-        dislikers.map(user =>
-          Preference.create({
-            userId: user.id,
+        } catch (err) {
+          console.error(err)
+        }
+      }
+      for (let i = 0; i < dislikers.length; i++) {
+        try {
+          await Preference.create({
+            userId: dislikers[i].id,
             recipeId: newRecipe.id,
             prefers: false
           })
-        )
-      )
-    }
-    if (categories.map(e => e.name).includes('Barbecue')) {
-      const likers = allUsers.slice(...group3).filter(() => Math.random() > 0.8)
-      await Promise.all(
-        likers.map(user =>
-          Preference.create({
-            userId: user.id,
-            recipeId: newRecipe.id,
-            prefers: true
-          })
-        )
-      )
+        } catch (err) {
+          console.error(err)
+        }
+      }
     }
     if (categories.map(e => e.name).includes('Asian')) {
-      const likers = allUsers.slice(...group4).filter(() => Math.random() > 0.8)
-      const dislikers = allUsers
-        .slice(...group2)
-        .filter(() => Math.random() > 0.8)
-      await Promise.all(
-        likers.map(user =>
-          Preference.create({
-            userId: user.id,
+      const likers = group4.filter(() => Math.random() > 0.8)
+      const dislikers = group2.filter(() => Math.random() > 0.8)
+      for (let i = 0; i < likers.length; i++) {
+        try {
+          await Preference.create({
+            userId: likers[i].id,
             recipeId: newRecipe.id,
             prefers: true
           })
-        )
-      )
-      await Promise.all(
-        dislikers.map(user =>
-          Preference.create({
-            userId: user.id,
+        } catch (err) {
+          console.error(err)
+        }
+      }
+      for (let i = 0; i < dislikers.length; i++) {
+        try {
+          await Preference.create({
+            userId: dislikers[i].id,
             recipeId: newRecipe.id,
             prefers: false
           })
-        )
-      )
+        } catch (err) {
+          console.error(err)
+        }
+      }
     }
+
     if (categories.map(e => e.name).includes('Kid-Friendly')) {
-      const likers = allUsers.slice(...group2).filter(() => Math.random() > 0.8)
-      await Promise.all(
-        likers.map(user =>
-          Preference.create({
-            userId: user.id,
+      const likers = group2.filter(() => Math.random() > 0.8)
+      for (let i = 0; i < likers.length; i++) {
+        try {
+          await Preference.create({
+            userId: likers[i].id,
             recipeId: newRecipe.id,
             prefers: true
           })
-        )
-      )
+        } catch (err) {
+          console.error(err)
+        }
+      }
     }
   }
 
-  // console.log(`seeded ${users.length} users`)
   console.log(
     `seeded ${
       adaptedData.length
