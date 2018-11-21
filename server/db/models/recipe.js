@@ -51,19 +51,20 @@ Recipe.getPopular = async () => {
 }
 
 Recipe.getTrending = async () => {
+  const t = new Date()
+  t.setDate(t.getMonth() - 1)
   const recipes = db.query(
     `
-  SELECT TOP 30 *
+  SELECT  *
   FROM recipes AS r
   INNER JOIN
-  (SELECT recipeId, COUNT(*) AS likeCount
+  (SELECT p."recipeId", COUNT(*) AS likeCount
   FROM preferences AS p
-  WHERE (p.recipeId IS NOT NULL) AND (p.prefers = TRUE) AND p.createdAt > DATEADD(month,-1,GETDATE())
-  GROUP BY recipeId) AS x
-  ON r.id = x.recipeId
-  ORDER BY likeCount DESC
-  `,
-    {type: Sequelize.QueryTypes.SELECT}
+  WHERE (p."recipeId" IS NOT NULL) AND (p.prefers = TRUE) AND (p."createdAt" > :monthAgo)
+  GROUP BY p."recipeId") AS x
+  ON r.id = x."recipeId"
+  ORDER BY likeCount DESC `,
+    {type: Sequelize.QueryTypes.SELECT, replacements: {monthAgo: t}}
   )
   return recipes
 }
