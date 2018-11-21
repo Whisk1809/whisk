@@ -11,6 +11,7 @@ const driver = neo4j.driver(
   )
 )
 //comment
+
 async function runQuery(cypher, params = {}) {
   try {
     const session = driver.session()
