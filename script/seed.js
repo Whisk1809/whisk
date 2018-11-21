@@ -63,6 +63,7 @@ async function seed(done) {
   )
   console.log(`seeded successfully`)
   db.close()
+  graphDb.close()
   if (done) done()
 }
 
