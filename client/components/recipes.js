@@ -9,8 +9,6 @@ class Recipes extends Component {
   componentDidMount() {
     this.props.getAllRecipes()
     this.props.getRecommendedRecipes()
-    this.props.getTrending()
-    this.props.getPopular()
   }
 
   render() {
