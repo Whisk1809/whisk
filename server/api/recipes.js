@@ -12,6 +12,22 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+router.get('/recommended', async (req, res, next) => {
+  try {
+    const uId = req.user.id
+    if (uId) {
+      const recommendations = recommend(uId)
+      const recipes = await Recipe.findAll()
+      res.json(recipes)
+    } else {
+      const noUser = new Error('cannot give a recommendation without a user id')
+      next(noUser)
+    }
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
 
 router.get('/:recipeId', async (req, res, next) => {
   try {
