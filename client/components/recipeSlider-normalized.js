@@ -8,58 +8,56 @@ class RecipeSlider extends Component {
       dots: true,
       infinite: true,
       speed: 250,
-      slidesToShow: 6,
+      slidesToShow: 3,
       slidesToScroll: 3
     }
     const {recipes} = this.props
+    const {allIds, byId} = recipes
     return (
       <div>
         <div>
           <h3>Recipes for you</h3>
           <Slider {...settings}>
-            {recipes.map((recipe, index) => {
+            {recipes.map(id => {
               return (
-                <div key={index}>
-                  <RecipeCard recipe={recipe} />
+                <div key={id}>
+                  <RecipeCard recipe={byId[id]} />
                 </div>
               )
             })}
           </Slider>
         </div>
-        <br/>
         <div>
           <h3>Trending</h3>
           <Slider {...settings}>
-            {recipes.map((recipe, index) => {
+            {allIds.map(id => {
               return (
-                <div key={index}>
-                  <RecipeCard recipe={recipe} />
+                <div key={id}>
+                  <RecipeCard recipe={byId[id]} />
                 </div>
               )
             })}
           </Slider>
       </div>
-      <br/>
       <div>
         <h3>Popular</h3>
         <Slider {...settings}>
-          {recipes.map((recipe, index) => {
+          {allIds.map(id => {
             return (
-              <div key={index}>
-                <RecipeCard recipe={recipe} />
+              <div key={id}>
+                <RecipeCard recipe={byId[id]} />
               </div>
             )
           })}
         </Slider>
       </div>
-      <br/>
       <div>
         <h3>Try something new</h3>
         <Slider {...settings}>
-          {recipes.map((recipe, index) => {
+          {allIds.map(id => {
             return (
-              <div key={index}>
-                <RecipeCard recipe={recipe} />
+              <div key={id}>
+                <RecipeCard recipe={byId[id]} />
               </div>
             )
           })}

@@ -1,7 +1,11 @@
 'use strict'
 
 const db = require('../server/db')
-const graphDb = require('../server/db/')
+const {
+  graphDb,
+  deleteGraph,
+  createConstraints
+} = require('../server/db/graphDb')
 const {
   User,
   Recipe,
@@ -18,6 +22,10 @@ const users = require('./seed-helper/user-generator.js')
 async function seed(done) {
   await db.sync({force: true})
   console.log('db synced!')
+  await deleteGraph()
+  console.log('graph db cleared!')
+  await createConstraints()
+  console.log('created constraints for graph db')
 
   const someUsers = await Promise.all([
     User.create({
@@ -171,6 +179,7 @@ async function seed(done) {
   )
   console.log(`seeded successfully`)
   db.close()
+  graphDb.close()
   if (done) done()
 }
 
@@ -188,6 +197,8 @@ async function runSeed() {
     console.log('closing db connection')
     await db.close()
     console.log('db connection closed')
+    await graphDb.close()
+    console.log('graph db connection closed')
   }
 }
 
