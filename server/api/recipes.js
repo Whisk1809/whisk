@@ -16,7 +16,13 @@ router.get('/recommended', async (req, res, next) => {
   try {
     const uId = req.user.id
     if (uId) {
-      const recommendations = recommend(uId).map(rec => rec.recipeId)
+      const recommendations = await recommend(uId).then(ret =>
+        ret
+          .filter(rec => rec.recIndex > 0)
+          .sort((a, b) => a.recIndex > b.recIndex)
+          .map(recipe => recipe.recipeId)
+      )
+      console.log('recommendations: ', recommendations)
       const recipes = await Recipe.findIds(recommendations)
       res.json(recipes)
     } else {
