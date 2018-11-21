@@ -32,24 +32,7 @@ const Recipe = db.define('recipe', {
   }
 })
 
-Recipe.getPopular = async () => {
-  const recipes = db.query(
-    `
-  SELECT TOP 30 *
-  FROM recipes AS r
-  INNER JOIN
-  (SELECT recipeId, COUNT(*) AS likeCount
-  FROM preferences AS p
-  WHERE (p.recipeId IS NOT NULL) AND (p.prefers = TRUE)
-  GROUP BY recipeId) AS x
-  ON r.id = x.recipeId
-  ORDER BY likeCount DESC
-  `,
-    {type: Sequelize.QueryTypes.SELECT}
-  )
-  return recipes
-}
-
+//returns the 30 recipes sorted based purely on absolute like count within the past month
 Recipe.getTrending = async () => {
   const t = new Date()
   t.setDate(t.getMonth() - 1)
@@ -65,6 +48,23 @@ Recipe.getTrending = async () => {
   ON r.id = x."recipeId"
   ORDER BY likeCount DESC `,
     {type: Sequelize.QueryTypes.SELECT, replacements: {monthAgo: t}}
+  )
+  return recipes
+}
+
+//returns the 30 recipes sorted based purely on all time absolute like count
+Recipe.getPopular = async () => {
+    `
+  SELECT  *
+  FROM recipes AS r
+  INNER JOIN
+  (SELECT p."recipeId", COUNT(*) AS likeCount
+  FROM preferences AS p
+  WHERE (p."recipeId" IS NOT NULL) AND (p.prefers = TRUE)
+  GROUP BY p."recipeId") AS x
+  ON r.id = x."recipeId"
+  ORDER BY likeCount DESC `,
+    {type: Sequelize.QueryTypes.SELECT}
   )
   return recipes
 }
