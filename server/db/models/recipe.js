@@ -36,7 +36,7 @@ const Recipe = db.define('recipe', {
 Recipe.getTrending = async () => {
   const t = new Date()
   t.setDate(t.getMonth() - 1)
-  const recipes = db.query(
+  const recipes = await db.query(
     `
   SELECT  *
   FROM recipes AS r
@@ -54,7 +54,7 @@ Recipe.getTrending = async () => {
 
 //returns the 30 recipes sorted based purely on all time absolute like count
 Recipe.getPopular = async () => {
-  const recipes = db.query(
+  const recipes = await db.query(
     `
   SELECT  *
   FROM recipes AS r
