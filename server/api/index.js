@@ -4,6 +4,7 @@ module.exports = router
 router.use('/users', require('./users'))
 router.use ('/recipes', require('./recipes'))
 router.use('/twilio', require('./twilio'))
+router.use('/preferences', require('./preferences'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')

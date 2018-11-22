@@ -19,9 +19,9 @@ export const setDislikes = dislikes => {
   }
 }
 
-export const updatePreferences = async ({recipeId}) => {
+export const updatePreferences = (recipeId, prefers) => async dispatch => {
   try {
-    await axios.post('/api/preferences', recipeId)
+    await axios.post('/api/preferences', {recipeId, prefers})
   } catch (err) {
     console.error(err)
   }

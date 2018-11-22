@@ -4,7 +4,7 @@ const {Preference} = require('../db/models')
 router.post('/', async (req, res, next) => {
   try {
     const userId = req.user.id
-    const recipeId = req.body.recipe.id ? req.body.recipe.id : null
+    const recipeId = req.body.recipeId ? req.body.recipeId : null
     // const categoryId = req.body.category.id ? req.body.category.id : null
     // const ingredientId = req.body.ingredient.id ? req.body.ingredient.id : null
     const prefers = req.body.prefers ? req.body.prefers : null
@@ -16,7 +16,7 @@ router.post('/', async (req, res, next) => {
       // categoryId,
       // ingredientId
     }
-    const newPreference = await Preference.create(data)
+    const newPreference = await Preference.findOrcreate(data)
     res.status(200).send(newPreference)
   } catch (err) {
     next(err)

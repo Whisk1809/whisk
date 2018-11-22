@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getSingleRecipe} from '../store'
+import {updatePreferences} from '../store/preferences'
 import {Image, Button, Container, Icon, Item, Label} from 'semantic-ui-react'
 import Loading from './loading'
 
@@ -8,6 +9,20 @@ class SingleRecipe extends Component {
   componentDidMount() {
     const recipeId = Number(this.props.match.params.recipeId)
     this.props.getSingleRecipe(recipeId)
+  }
+
+  handleClickLike = (event) => {
+    event.preventDefault()
+    const recipeId = this.props.singleRecipe.id
+    const prefers = true
+    this.props.updatePreferences(recipeId, prefers)
+  }
+
+  handleClickDislike = (event) => {
+    event.preventDefault()
+    const recipeId = this.props.singleRecipe.id
+    const prefers = false
+    this.props.updatePreferences({recipeId, prefers})
   }
 
   render() {
@@ -40,15 +55,15 @@ class SingleRecipe extends Component {
                 </Item.Content>
               </Item>
             </Item.Group>
-            <Button as='div' labelPosition='right'>
+            <Button onClick={this.handleClickLike} as='div' labelPosition='right'>
               <Button color='green'>
                 <Icon name='heart' />
               </Button>
               <Label as='a' basic color='green' pointing='left'>
-                Show more of this
+                Show more like this
               </Label>
             </Button>
-            <Button as='div' labelPosition='right'>
+            <Button name='false' onClick={this.handleClickDislike} as='div' labelPosition='right'>
               <Button color='red'>
                 <Icon name='ban' />
               </Button>
@@ -80,7 +95,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getSingleRecipe: (recipeId) => dispatch(getSingleRecipe(recipeId))
+  getSingleRecipe: (recipeId) => dispatch(getSingleRecipe(recipeId)),
+  updatePreferences: (recipeId, prefers) => dispatch(updatePreferences(recipeId, prefers))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleRecipe)
