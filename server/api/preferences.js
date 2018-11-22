@@ -7,8 +7,15 @@ router.post('/', async (req, res, next) => {
     const recipeId = req.body.recipeId ? req.body.recipeId : null
     // const categoryId = req.body.category.id ? req.body.category.id : null
     // const ingredientId = req.body.ingredient.id ? req.body.ingredient.id : null
-    const prefers = req.body.prefers ? req.body.prefers : null
 
+    let prefers
+    if (req.body.prefers === false) {
+      prefers = false
+    } else if (req.body.prefers === true) {
+      prefers = true
+    } else {
+      prefers = null
+    }
     let data = {
       userId,
       recipeId,
@@ -16,7 +23,8 @@ router.post('/', async (req, res, next) => {
       // categoryId,
       // ingredientId
     }
-    const newPreference = await Preference.findOrcreate(data)
+
+    const newPreference = await Preference.create(data)
     res.status(200).send(newPreference)
   } catch (err) {
     next(err)

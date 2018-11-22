@@ -22,7 +22,7 @@ class SingleRecipe extends Component {
     event.preventDefault()
     const recipeId = this.props.singleRecipe.id
     const prefers = false
-    this.props.updatePreferences({recipeId, prefers})
+    this.props.updatePreferences(recipeId, prefers)
   }
 
   render() {
@@ -63,7 +63,7 @@ class SingleRecipe extends Component {
                 Show more like this
               </Label>
             </Button>
-            <Button name='false' onClick={this.handleClickDislike} as='div' labelPosition='right'>
+            <Button onClick={this.handleClickDislike} as='div' labelPosition='right'>
               <Button color='red'>
                 <Icon name='ban' />
               </Button>
