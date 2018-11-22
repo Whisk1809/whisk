@@ -9,13 +9,12 @@ router.post('/', async (req, res, next) => {
     // const ingredientId = req.body.ingredient.id ? req.body.ingredient.id : null
 
     let prefers
-    if (req.body.prefers === false) {
-      prefers = false
-    } else if (req.body.prefers === true) {
-      prefers = true
-    } else {
+    if (req.body.prefers !== undefined) {
+      prefers = req.body.prefers
+    }  else {
       prefers = null
     }
+
     let data = {
       userId,
       recipeId,
