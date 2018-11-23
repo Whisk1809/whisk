@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const {Preference} = require('../db/models')
 
+//PLEASE NOTE: this is not restful, I've created a restful route inside api/users.js for this too. This way we might be able to avoid having to use normalizr in state shapes. If we use the routes in api/users.js we'll end up needing normalizr in updating state shapes.
+
 router.post('/', async (req, res, next) => {
   try {
     const userId = req.user.id
@@ -23,8 +25,14 @@ router.post('/', async (req, res, next) => {
       // ingredientId
     }
 
-    const newPreference = await Preference.create(data)
-    res.status(200).send(newPreference)
+    const existingPreference = await Preference.findById({userId, recipeId})
+    if (existingPreference) {
+      await existingPreference.update({prefers})
+      res.status(202).send(existingPreference)
+    } else {
+      const newPreference = await Preference.create(data)
+      res.status(200).send(newPreference)
+    }
   } catch (err) {
     next(err)
   }
