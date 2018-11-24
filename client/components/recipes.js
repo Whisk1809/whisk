@@ -3,7 +3,8 @@ import React, {Component} from 'react'
 import {
   getRecommendedRecipes,
   getTrendingRecipes,
-  getPopularRecipes
+  getPopularRecipes,
+  getNewRecipes
 } from '../store'
 import {Card, List, Button, Header} from 'semantic-ui-react'
 import RecipeSlider from './recipeSlider'
@@ -14,14 +15,21 @@ class Recipes extends Component {
     this.props.getRecommendedRecipes()
     this.props.getTrendingRecipes()
     this.props.getPopularRecipes()
+    this.props.getNewRecipes()
   }
 
   render() {
-    const {trendingRecipes, recommendedRecipes, popularRecipes} = this.props
+    const {
+      trendingRecipes,
+      recommendedRecipes,
+      popularRecipes,
+      newRecipes
+    } = this.props
 
     if (
       trendingRecipes.length &&
       recommendedRecipes.length &&
+      newRecipes.length &&
       popularRecipes.length
     ) {
       return (
@@ -32,6 +40,8 @@ class Recipes extends Component {
           <RecipeSlider recipes={popularRecipes} />
           <Header as="h2">Trending Now</Header>
           <RecipeSlider recipes={trendingRecipes} />
+          <Header as="h2">Something New</Header>
+          <RecipeSlider recipes={newRecipes} />
         </div>
       )
     } else {
@@ -40,17 +50,24 @@ class Recipes extends Component {
   }
 }
 const mapStateToProps = ({recipes}) => {
-  const {trendingRecipes, recommendedRecipes, popularRecipes} = recipes
+  const {
+    trendingRecipes,
+    recommendedRecipes,
+    popularRecipes,
+    newRecipes
+  } = recipes
   return {
     trendingRecipes,
     recommendedRecipes,
-    popularRecipes
+    popularRecipes,
+    newRecipes
   }
 }
 const mapDispatchToProps = {
   getRecommendedRecipes,
   getPopularRecipes,
-  getTrendingRecipes
+  getTrendingRecipes,
+  getNewRecipes
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Recipes)
