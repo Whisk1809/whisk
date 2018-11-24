@@ -1,9 +1,15 @@
 import axios from 'axios'
 
-const initialState = {allRecipes: [], recommendedRecipes: [], singleRecipe: {}}
+const initialState = {
+  trendingRecipes: [],
+  popularRecipes: [],
+  recommendedRecipes: [],
+  singleRecipe: {}
+}
 
-const GET_ALL_RECIPES = 'GET_ALL_RECIPES'
 const GET_RECOMMENDED_RECIPES = 'GET_RECOMMENDED_RECIPES'
+const GET_POPULAR_RECIPES = 'GET_POPULAR_RECIPES'
+const GET_TRENDING_RECIPES = 'GET_TRENDING_RECIPES'
 const GET_SINGLE_RECIPE = 'GET_SINGLE_RECIPE'
 
 export const setRecipes = allRecipes => {
@@ -19,6 +25,18 @@ export const setRecommendedRecipes = recommendedRecipes => {
     recommendedRecipes
   }
 }
+export const setTrendingRecipes = trendingRecipes => {
+  return {
+    type: GET_TRENDING_RECIPES,
+    trendingRecipes
+  }
+}
+export const setPopularRecipes = popularRecipes => {
+  return {
+    type: GET_POPULAR_RECIPES,
+    popularRecipes
+  }
+}
 
 export const setSingleRecipe = singleRecipe => {
   return {
@@ -27,18 +45,26 @@ export const setSingleRecipe = singleRecipe => {
   }
 }
 
-export const getAllRecipes = () => async dispatch => {
-  try {
-    const {data} = await axios.get('/api/recipes')
-    dispatch(setRecipes(data))
-  } catch (err) {
-    console.error(err)
-  }
-}
 export const getRecommendedRecipes = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/recipes/recommended')
     dispatch(setRecommendedRecipes(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const getTrendingRecipes = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/recipes/trending')
+    dispatch(setTrendingRecipes(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+export const getPopularRecipes = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/recipes/popular')
+    dispatch(setPopularRecipes(data))
   } catch (err) {
     console.error(err)
   }
@@ -55,10 +81,12 @@ export const getSingleRecipe = recipeId => async dispatch => {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GET_ALL_RECIPES:
-      return {...state, allRecipes: action.allRecipes}
     case GET_RECOMMENDED_RECIPES:
       return {...state, recommendedRecipes: action.recommendedRecipes}
+    case GET_TRENDING_RECIPES:
+      return {...state, trendingRecipes: action.trendingRecipes}
+    case GET_POPULAR_RECIPES:
+      return {...state, popularRecipes: action.popularRecipes}
     case GET_SINGLE_RECIPE:
       return {...state, singleRecipe: action.singleRecipe}
     default:
