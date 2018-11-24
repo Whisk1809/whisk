@@ -46,7 +46,8 @@ Recipe.getTrending = async () => {
   WHERE (p."recipeId" IS NOT NULL) AND (p.prefers = TRUE) AND (p."createdAt" > :monthAgo)
   GROUP BY p."recipeId") AS x
   ON r.id = x."recipeId"
-  ORDER BY likeCount DESC `,
+  ORDER BY likeCount DESC
+  LIMIT 10`,
     {type: Sequelize.QueryTypes.SELECT, replacements: {monthAgo: t}}
   )
   return recipes
@@ -64,7 +65,8 @@ Recipe.getPopular = async () => {
   WHERE (p."recipeId" IS NOT NULL) AND (p.prefers = TRUE)
   GROUP BY p."recipeId") AS x
   ON r.id = x."recipeId"
-  ORDER BY likeCount DESC `,
+  ORDER BY likeCount DESC
+  LIMIT 10`,
     {type: Sequelize.QueryTypes.SELECT}
   )
   return recipes
