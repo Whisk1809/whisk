@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Op = Sequelize.Op
 
 const Recipe = db.define('recipe', {
   title: {
@@ -67,9 +68,12 @@ Recipe.getPopular = async () => {
   ON r.id = x."recipeId"
   ORDER BY likeCount DESC
   LIMIT 10`,
-    {type: Sequelize.QueryTypes.SELECT}
+    { type: Sequelize.QueryTypes.SELECT }
   )
   return recipes
+}
+Recipe.findIds = async arr => {
+  return Recipe.findAll({where: {id: {[Op.in]: arr}}})
 }
 
 module.exports = Recipe
