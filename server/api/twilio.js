@@ -48,10 +48,11 @@ router.post('/sms', async (req, res) => {
 
       const recommendations =  await recommend(1)
       console.log(recommendations, 'recommendation twilio')
-      const next = await Recipe.findById(recommendations[0].recipeId)
-      const recs = await Recipe.findIds(recommendations)
-      console.log(recs, 'recs')
-      const answer = JSON.parse(next.sourceRecipeUrl)
+      const uId = recommendations[0].recipeId
+      const next = await Recipe.findById(uId)
+     // const recs = await Recipe.findIds(recommendations)
+     // console.log(recs, 'recs')
+      const answer = next.sourceRecipeUrl
     twiml.message(`Okay, try this: ${answer}`);
 
     } catch (err) {
