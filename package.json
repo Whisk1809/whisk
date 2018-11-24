@@ -20,12 +20,8 @@
     "seed": "node script/seed.js",
     "start": "node server & node send_sms",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
-<<<<<<< HEAD
-    "start-server": "nodemon server -e html,js,scss --ignore public --ignore client & node send_sms.js",
-=======
     "start-server": "nodemon server -e html,js,scss --ignore public --ignore client",
     "sms":"node send_sms.js",
->>>>>>> master
     "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register"
   },
   "lint-staged": {
