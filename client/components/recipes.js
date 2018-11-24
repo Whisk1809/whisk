@@ -1,9 +1,9 @@
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import React, {Component} from 'react'
 import {getAllRecipes, getRecommendedRecipes} from '../store/recipes'
 import {Card, List, Button} from 'semantic-ui-react'
 import RecipeSlider from './recipeSlider'
+import Loading from './loading'
 
 class Recipes extends Component {
   componentDidMount() {
@@ -23,7 +23,9 @@ class Recipes extends Component {
         </div>
       )
     } else {
-      return <div>Loading</div>
+      return (
+        <Loading/>
+      )
     }
   }
 }
