@@ -9,12 +9,14 @@ class Recipes extends Component {
   componentDidMount() {
     this.props.getAllRecipes()
     this.props.getRecommendedRecipes()
+    console.log(this.props, 'props')
   }
 
   render() {
     const {recipes, recommended} = this.props
-
-    if (recipes.length && recommended.length) {
+    console.log(this.props, 'props')
+    if (recipes.length) {
+    //if (recipes.length && recommended.length) {
       return (
         <div>
           <RecipeSlider recipes={this.props.recipes} title="trending" />
