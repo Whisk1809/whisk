@@ -1,7 +1,10 @@
 const router = require('express').Router()
 const session = require('express-session')
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+//are your routes correct below?
+const {Recipe, User, Preference} = require('../db/models')
 
+const {recommend} = require('../db/graphDb')
 const accountSid = 'AC73c8fa517d3e83ccc4c9c6897586ce8e';
 const authToken = '9622761b850dfc615521b37b1266db99';
 const client = require('twilio')(accountSid, authToken);
@@ -19,10 +22,18 @@ const client = require('twilio')(accountSid, authToken);
 // });
 
 
-router.post('/sms', (req, res) => {
+
+router.post('/sms', async (req, res) => {
   const twiml = new MessagingResponse();
   console.log('test')
-  if (req.body.Body == '1') {
+  if (req.body.Body == 'Show me') {
+      const number = '+13364136015'
+      const user = await User.findByPhoneNumber(number)
+      const recommendations = await recommend(user.id).then(data => {
+        Recipe.findIds(data)
+      })
+      
+
     twiml.message('Oh no, we will do better next time!');
   } else if (req.body.Body == '2') {
     twiml.message('Good to know, let\'s try something else');

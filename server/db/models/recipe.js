@@ -33,6 +33,7 @@ const Recipe = db.define('recipe', {
   }
 })
 
+
 //returns the 30 recipes sorted based purely on absolute like count within the past month
 Recipe.getTrending = async () => {
   const t = new Date()
