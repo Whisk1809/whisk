@@ -9,17 +9,20 @@ const accountSid = process.env.accountSid
 const authToken = process.env.authToken
 const client = require('twilio')(accountSid, authToken);
 
+
+//const recommended = Recipes.
+
+
 function morningText() {
 
   client.messages
     .create({
-       body: 'What do you want to cook today?',
+       body: 'Are you excited to cook today?  Here is our recommendation for dinner: ',
        from: '+18064244869',
        to: '+13364136015'
      })
     .then(message => console.log(message.sid))
     .done();
-
 
 }
 
