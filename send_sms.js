@@ -69,7 +69,7 @@ function afterText() {
 
 
 
-      const cronJob3 = cron({on: '45 15 * * *'}, function() {
+      const cronJob3 = cron({on: '45 19 * * *'}, function() {
         afterText()
         console.log('inside cron job')
       })

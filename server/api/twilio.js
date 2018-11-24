@@ -3,7 +3,7 @@ const session = require('express-session')
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 //are your routes correct below?
 const {Recipe, User, Preference} = require('../db/models')
-
+const Sequelize = require('sequelize')
 const {recommend} = require('../db/graphDb')
 const accountSid = 'AC73c8fa517d3e83ccc4c9c6897586ce8e';
 const authToken = '9622761b850dfc615521b37b1266db99';
@@ -33,12 +33,25 @@ router.post('/sms', async (req, res) => {
       const {from} = req.body
      // console.log(req.body, 'req.body')
 
-      const user = await User.findByPhoneNumber(from)
-      const recommendations = await recommend(1).then(data => {
-        Recipe.findIds(data)
-        console.log(recommendations, 'rec')
+      //const user = await User.findByPhoneNumber(from)
+
+      const user = User.findOne({
+        where: {
+          phone: number
+        }
       })
-      const answer = JSON.parse(recommendations[0].sourceRecipeUrl)
+      // const recommendations = await recommend(1)
+      // .then(data => {
+      //   Recipe.findIds(data)
+      //   console.log(recommendations, 'rec')
+      // })
+
+      const recommendations =  await recommend(1)
+      console.log(recommendations, 'recommendation twilio')
+      const next = await Recipe.findById(recommendations[0].recipeId)
+      const recs = await Recipe.findIds(recommendations)
+      console.log(recs, 'recs')
+      const answer = JSON.parse(next.sourceRecipeUrl)
     twiml.message(`Okay, try this: ${answer}`);
 
     } catch (err) {
