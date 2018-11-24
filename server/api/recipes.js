@@ -22,6 +22,16 @@ router.get('/trending', async (req, res, next) => {
     next(err)
   }
 })
+router.get('/popular', async (req, res, next) => {
+  try {
+    const popularRecipes = await Recipe.getPopular()
+    res.json(popularRecipes)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
+
 router.get('/:recipeId', async (req, res, next) => {
   try {
     const recipeId = req.params.recipeId
