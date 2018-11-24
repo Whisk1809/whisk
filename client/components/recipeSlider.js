@@ -7,9 +7,9 @@ class RecipeSlider extends Component {
     const settings = {
       dots: true,
       infinite: true,
-      speed: 250,
-      slidesToShow: 6,
-      slidesToScroll: 3
+      speed: 500,
+      slidesToShow: 5,
+      slidesToScroll: 5
     }
     const {recipes} = this.props
     return (

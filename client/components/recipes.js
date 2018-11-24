@@ -5,7 +5,7 @@ import {
   getTrendingRecipes,
   getPopularRecipes
 } from '../store'
-import {Card, List, Button} from 'semantic-ui-react'
+import {Card, List, Button, Header} from 'semantic-ui-react'
 import RecipeSlider from './recipeSlider'
 import Loading from './loading'
 
@@ -26,12 +26,12 @@ class Recipes extends Component {
     ) {
       return (
         <div>
-          <p>Recommended for you</p>
+          <Header as="h2">Recommended for You</Header>
           <RecipeSlider recipes={recommendedRecipes} title="trending" />
-          <p>Trending Recipes</p>
-          <RecipeSlider recipes={trendingRecipes} />
-          <p>Popular Recipes</p>
+          <Header as="h2">Popular on Whisk</Header>
           <RecipeSlider recipes={popularRecipes} />
+          <Header as="h2">Trending Now</Header>
+          <RecipeSlider recipes={trendingRecipes} />
         </div>
       )
     } else {
