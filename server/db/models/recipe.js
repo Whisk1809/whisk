@@ -33,8 +33,7 @@ const Recipe = db.define('recipe', {
   }
 })
 
-
-//returns the 30 recipes sorted based purely on absolute like count within the past month
+//returns the 15 recipes sorted based purely on absolute like count within the past month
 Recipe.getTrending = async () => {
   const t = new Date()
   t.setDate(t.getMonth() - 1)
@@ -49,13 +48,13 @@ Recipe.getTrending = async () => {
   GROUP BY p."recipeId") AS x
   ON r.id = x."recipeId"
   ORDER BY likeCount DESC
-  LIMIT 10`,
+  LIMIT 15`,
     {type: Sequelize.QueryTypes.SELECT, replacements: {monthAgo: t}}
   )
   return recipes
 }
 
-//returns the 30 recipes sorted based purely on all time absolute like count
+//returns the 15 recipes sorted based purely on all time absolute like count
 Recipe.getPopular = async () => {
   const recipes = await db.query(
     `
@@ -68,8 +67,24 @@ Recipe.getPopular = async () => {
   GROUP BY p."recipeId") AS x
   ON r.id = x."recipeId"
   ORDER BY likeCount DESC
-  LIMIT 10`,
-    { type: Sequelize.QueryTypes.SELECT }
+  LIMIT 15`,
+    {type: Sequelize.QueryTypes.SELECT}
+  )
+  return recipes
+}
+//returns the 15 recipes sorted based on create date - specific to the user Id to ensure this is something they have not previously interacted with
+Recipe.getNew = async uId => {
+  const recipes = await db.query(
+    `
+  SELECT  *
+  FROM recipes AS r
+  LEFT JOIN preferences AS p
+  ON r.id = p."recipeId" AND p."userId" <>:uId
+  LEFT JOIN "FavoriteRecipes" as f
+  ON r.id = f."recipeId" AND f."userId" <>:uId
+  ORDER BY r."createdAt" DESC
+  LIMIT 15`,
+    {type: Sequelize.QueryTypes.SELECT, replacements: {uId}}
   )
   return recipes
 }

@@ -54,6 +54,21 @@ router.get('/popular', async (req, res, next) => {
     next(err)
   }
 })
+router.get('/new', async (req, res, next) => {
+  try {
+    const uId = req.user.id
+    if (uId) {
+      const newRecipes = await Recipe.getNew(uId)
+      res.json(newRecipes)
+    } else {
+      const err = new Error('A user must be logged in to be given new recipes')
+      next(err)
+    }
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
 
 router.get('/:recipeId', async (req, res, next) => {
   try {
