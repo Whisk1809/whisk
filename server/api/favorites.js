@@ -15,4 +15,27 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+// router.get('/', async (req, res, next) => {
+//   try {
+//     const userId = req.user.id
+//     const recipeId = req.body.recipe.id
+
+
+
+//     )
+
+// router.delete('/', async (req, res, next) => {
+//   try {
+//     const userId = req.user.id
+//     const recipeId = req.body.recipe.id
+//     const recipeToAdd = Recipe.findById(recipeId)
+//     const user = User.findById(userId)
+//     const recipeToRemove = ???
+//     res.json(favoriteRecipe)
+//   } catch (err) {
+//     console.error(err)
+//     next(err)
+//   }
+// })
+
 module.exports = router
