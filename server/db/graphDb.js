@@ -246,7 +246,7 @@ const computeRecommendationIndex = async (uId, rId) => {
     }, 0)
   )
   const recommendationIndex =
-    (Z1 + Z2) /
+    (Z1 - Z2) /
     (usersWhoLikeRecipe.records.length + usersWhoDislikeRecipe.records.length)
 
   return recommendationIndex
