@@ -6,7 +6,7 @@ class Favorites extends Component {
   render() {
     return (
       <Container>
-        <Segment.Group raised>
+        <Segment.Group>
           <Segment>
             Recipe 1
             <Button color="blue">remove</Button>
