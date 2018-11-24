@@ -1,40 +1,56 @@
 import {connect} from 'react-redux'
 import React, {Component} from 'react'
-import {getAllRecipes, getRecommendedRecipes} from '../store/recipes'
+import {
+  getRecommendedRecipes,
+  getTrendingRecipes,
+  getPopularRecipes
+} from '../store'
 import {Card, List, Button} from 'semantic-ui-react'
 import RecipeSlider from './recipeSlider'
 import Loading from './loading'
 
 class Recipes extends Component {
   componentDidMount() {
-    this.props.getAllRecipes()
     this.props.getRecommendedRecipes()
+    this.props.getTrendingRecipes()
+    this.props.getPopularRecipes()
   }
 
   render() {
-    const {recipes, recommended} = this.props
+    const {trendingRecipes, recommendedRecipes, popularRecipes} = this.props
 
-    if (recipes.length && recommended.length) {
+    if (
+      trendingRecipes.length &&
+      recommendedRecipes.length &&
+      popularRecipes.length
+    ) {
       return (
         <div>
-          <RecipeSlider recipes={this.props.recipes} title="trending" />
           <p>Recommended for you</p>
-          <RecipeSlider recipes={this.props.recommended} />
+          <RecipeSlider recipes={recommendedRecipes} title="trending" />
+          <p>Trending Recipes</p>
+          <RecipeSlider recipes={trendingRecipes} />
+          <p>Popular Recipes</p>
+          <RecipeSlider recipes={popularRecipes} />
         </div>
       )
     } else {
-      return (
-        <Loading/>
-      )
+      return <Loading />
     }
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = ({recipes}) => {
+  const {trendingRecipes, recommendedRecipes, popularRecipes} = recipes
   return {
-    recipes: state.recipes.allRecipes,
-    recommended: state.recipes.recommendedRecipes
+    trendingRecipes,
+    recommendedRecipes,
+    popularRecipes
   }
 }
-const mapDispatchToProps = {getRecommendedRecipes, getAllRecipes}
+const mapDispatchToProps = {
+  getRecommendedRecipes,
+  getPopularRecipes,
+  getTrendingRecipes
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Recipes)
