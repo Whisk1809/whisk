@@ -78,18 +78,10 @@ Recipe.getNew = async uId => {
     `
   SELECT  *
   FROM recipes AS r
-  INNER JOIN
-    (SELECT p."recipeId"
-    FROM preferences AS p
-    WHERE (p."userId" = :uId)
-    GROUP BY p."recipeId") AS x
-  ON r.id = x."recipeId"
-  INNER JOIN
-    (SELECT f."recipeId"
-    FROM FavoriteRecipes AS f
-    WHERE (f."userId" = :uId)
-    GROUP BY p."recipeId") AS y
-  ON r.id = y."recipeId"
+  LEFT JOIN preferences AS p
+  ON r.id = p."recipeId" AND p."userId" <>:uId
+  LEFT JOIN "FavoriteRecipes" as f
+  ON r.id = f."recipeId" AND f."userId" <>:uId
   ORDER BY r."createdAt" DESC
   LIMIT 15`,
     {type: Sequelize.QueryTypes.SELECT, replacements: {uId}}
