@@ -3,21 +3,16 @@ import axios from 'axios'
 const initialState = {
   trendingRecipes: [],
   popularRecipes: [],
+  newRecipes: [],
   recommendedRecipes: [],
   singleRecipe: {}
 }
 
 const GET_RECOMMENDED_RECIPES = 'GET_RECOMMENDED_RECIPES'
 const GET_POPULAR_RECIPES = 'GET_POPULAR_RECIPES'
+const GET_NEW_RECIPES = 'GET_NEW_RECIPES'
 const GET_TRENDING_RECIPES = 'GET_TRENDING_RECIPES'
 const GET_SINGLE_RECIPE = 'GET_SINGLE_RECIPE'
-
-export const setRecipes = allRecipes => {
-  return {
-    type: GET_ALL_RECIPES,
-    allRecipes
-  }
-}
 
 export const setRecommendedRecipes = recommendedRecipes => {
   return {
@@ -29,6 +24,12 @@ export const setTrendingRecipes = trendingRecipes => {
   return {
     type: GET_TRENDING_RECIPES,
     trendingRecipes
+  }
+}
+export const setNewRecipes = newRecipes => {
+  return {
+    type: GET_NEW_RECIPES,
+    newRecipes
   }
 }
 export const setPopularRecipes = popularRecipes => {
@@ -61,6 +62,14 @@ export const getTrendingRecipes = () => async dispatch => {
     console.error(err)
   }
 }
+export const getNewRecipes = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/recipes/new')
+    dispatch(setNewRecipes(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
 export const getPopularRecipes = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/recipes/popular')
@@ -85,6 +94,8 @@ export default function(state = initialState, action) {
       return {...state, recommendedRecipes: action.recommendedRecipes}
     case GET_TRENDING_RECIPES:
       return {...state, trendingRecipes: action.trendingRecipes}
+    case GET_NEW_RECIPES:
+      return {...state, newRecipes: action.newRecipes}
     case GET_POPULAR_RECIPES:
       return {...state, popularRecipes: action.popularRecipes}
     case GET_SINGLE_RECIPE:
