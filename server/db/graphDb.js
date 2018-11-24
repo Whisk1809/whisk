@@ -251,6 +251,45 @@ const computeRecommendationIndex = async (uId, rId) => {
   return recommendationIndex
 }
 
+//given a user Id, returns a list of top N similar users (based purely on the simple jaccard using likes)
+const jaccard = async uId => {
+  const data = runQuery(
+    `MATCH (u:User {pk:{uId}})-[:likes]->(n)<-[:likes]-(likers:User)
+    WITH u,COUNT(n) as likeIntersection, likers
+    MATCH (u:User)-[:likes]->(n)
+    WITH u,likeIntersection,likers,COLLECT(n.pk) as s1
+    MATCH (likers:User)-[:likes]->(n)
+    WITH u,likeIntersection,likers,s1,COLLECT(n.pk) as s2
+    WITH u,likers,likeIntersection,s1,s2
+    WITH u,likers,likeIntersection,s1+filter(x IN s2 WHERE NOT x IN s1) AS union, s1, s2
+    RETURN u.pk, likers.pk, s1,s2,((1.0*likeIntersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT 5`,
+    {uId: uId.toString()}
+  )
+}
+
+const recommender = async uId => {
+  const data = await runQuery(
+    `MATCH (u:User {pk:{uId}})-[l:likes]->(n)<-[:likes]-(likers:User)
+    WITH u,COUNT(n) as likeIntersection, likers, COLLECT(l) AS myLikes
+    MATCH (u:User)-[:likes]->(n)
+    WITH u,likeIntersection,likers,myLikes,COLLECT(n.pk) as s1
+    MATCH (likers:User)-[:likes]->(n)
+    WITH u,likeIntersection,likers, myLikes, s1,COLLECT(n.pk) as s2
+    WITH u,likers,myLikes,likeIntersection,s1,s2
+    WITH u,likers,myLikes,likeIntersection,s1+filter(x IN s2 WHERE NOT x IN s1) AS union, s1, s2
+    WITH u.pk AS userId, likers,myLikes, s1,s2,((1.0*likeIntersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT 5
+    MATCH (likers)-[l2:likes]->(r:Recipe)
+    WITH likers,myLikes,COLLECT(l2) AS otherLikes
+    WITH filter(x in otherLikes WHERE NOT x in myLikes) as f
+    MATCH (a)-[b:likes]->(r:Recipe)
+    WHERE b IN f
+    RETURN r.pk
+    `,
+    {uId: uId.toString()}
+  )
+  return data.records.map(el => Number(el._fields[0]))
+}
+
 //return an array of recommended recipeIds (as nums NOT strings)
 const recommend = async uId => {
   const [recipesNotYetLiked, recipesNotYetDisliked] = await Promise.all([
@@ -297,11 +336,11 @@ const recommend = async uId => {
 
   return recArr
 }
-// ;(async () => {
-//   // await deleteGraph()
-//   // await createConstraints()
-//   await recommend(4)
-// })()
+;(async () => {
+  // await deleteGraph()
+  // await createConstraints()
+  await recommender(1)
+})()
 
 module.exports = {
   likeCategory,
@@ -317,5 +356,6 @@ module.exports = {
   deleteGraph,
   createConstraints,
   computeRecommendationIndex,
-  recommend
+  recommend,
+  recommender
 }
