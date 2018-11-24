@@ -32,9 +32,7 @@ router.post('/sms', async (req, res) => {
       const recommendations = await recommend(user.id).then(data => {
         Recipe.findIds(data)
       })
-      
-
-    twiml.message('Oh no, we will do better next time!');
+    twiml.message(`Okay, try this: ${recommendations[0]}`);
   } else if (req.body.Body == '2') {
     twiml.message('Good to know, let\'s try something else');
   }
