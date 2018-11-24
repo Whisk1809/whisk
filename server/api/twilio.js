@@ -25,14 +25,26 @@ const client = require('twilio')(accountSid, authToken);
 
 router.post('/sms', async (req, res) => {
   const twiml = new MessagingResponse();
-  console.log('test')
+ // console.log('test')
   if (req.body.Body == 'Show me') {
+
+    try {
       const number = '+13364136015'
-      const user = await User.findByPhoneNumber(number)
-      const recommendations = await recommend(user.id).then(data => {
+      const {from} = req.body
+     // console.log(req.body, 'req.body')
+
+      const user = await User.findByPhoneNumber(from)
+      const recommendations = await recommend(1).then(data => {
         Recipe.findIds(data)
+        console.log(recommendations, 'rec')
       })
-    twiml.message(`Okay, try this: ${recommendations[0]}`);
+      const answer = JSON.parse(recommendations[0].sourceRecipeUrl)
+    twiml.message(`Okay, try this: ${answer}`);
+
+    } catch (err) {
+      console.error(err)
+    }
+
   } else if (req.body.Body == '2') {
     twiml.message('Good to know, let\'s try something else');
   }

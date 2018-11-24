@@ -12,6 +12,7 @@ const client = require('twilio')(accountSid, authToken);
 //find user id using sequelize findOne...import sequelize?
 
 
+console.log('job started')
 
 function morningText() {
 

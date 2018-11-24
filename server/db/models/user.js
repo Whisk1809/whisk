@@ -63,10 +63,9 @@ User.prototype.correctPassword = function(candidatePwd) {
      where: {
        phone: number
      },
-     include: [{model: Preference, include: [Ingredient, Category, Recipe]}]
    })
  }
- 
+
 User.findFavoriteRecipes = userId => {
   const user = User.findById(userId, {include: [Recipe]})
 }
