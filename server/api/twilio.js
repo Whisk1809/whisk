@@ -28,22 +28,24 @@ router.post('/sms', async (req, res) => {
   const recommendations =  await recommend(1)
   console.log(recommendations, 'recommendation twilio')
   const uId = recommendations[0].recipeId
-  const next = await Recipe.findById(uId)
+  const first = await Recipe.findById(uId)
+  const uId2 = recommendations[1].recipeId
+  const next = await Recipe.findById(uId2)
+  const nextAnswer = next.sourceRecipeUrl
+  const answer = first.sourceRecipeUrl
 
-  const answer = next.sourceRecipeUrl
-  const number = '+13364136015'
-  const {from} = req.body
+  //const number = '+13364136015'
+  //const {from} = req.body
+
+  let counter = 0
 
   if (req.body.Body == 'Show me') {
 
-    //try {
+
 
 
     twiml.message(`Okay, try this: ${answer}`);
-
-   // } catch (err) {
-     // console.error(err)
-    //}
+  
 
   } else if (req.body.Body == 'Dislike') {
     twiml.message('Good to know, let\'s try something else');
