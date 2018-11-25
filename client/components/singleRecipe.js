@@ -17,6 +17,7 @@ class SingleRecipe extends Component {
     const recipeId = this.props.singleRecipe.id
     const prefers = true
     this.props.updatePreferences(recipeId, prefers)
+    console.log("Liked this recipe")
   }
 
   handleClickDislike = (event) => {
@@ -24,6 +25,7 @@ class SingleRecipe extends Component {
     const recipeId = this.props.singleRecipe.id
     const prefers = false
     this.props.updatePreferences(recipeId, prefers)
+    console.log("Disliked this recipe")
   }
 
   handleClickFavorite = (event) => {
