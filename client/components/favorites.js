@@ -1,13 +1,19 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { Segment, Container, Button, Image} from 'semantic-ui-react'
-import {deleteFavorite, setFavorites} from '../store/favorites'
+import {removeFromFavorites, setFavorites} from '../store/favorites'
 import {Link} from 'react-router-dom'
 import Loading from './loading'
 
 class Favorites extends Component {
   componentDidMount() {
     this.props.setFavorites()
+  }
+
+  handleRemoveClick = (event) => {
+    event.preventDefault()
+    const recipeId = Number(event.target.name)
+    this.props.removeFromFavorites(recipeId)
   }
 
   render() {
@@ -20,9 +26,9 @@ class Favorites extends Component {
             {favorites.map((recipe, index) => {
               return (
                 <Segment key={index}>
-                  <Image src={recipe.imageUrl}/>
+                  <Image src={recipe.imageUrl} size="small"/>
                   <Link to={`recipes/${recipe.id}`}>{recipe.title}</Link>
-                  <Button color="blue">remove</Button>
+                  <Button onClick={this.handleRemoveClick} name={recipe.id}color="blue">remove</Button>
                 </Segment>
               )
             })}
@@ -41,7 +47,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setFavorites: () => dispatch(setFavorites()),
-  deleteFavorite: (recipeId) => dispatch(deleteFavorite(recipeId))
+  removeFromFavorites: (recipeId) => dispatch(removeFromFavorites(recipeId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favorites)
