@@ -41,7 +41,7 @@ class OnboardRequirements extends Component {
     this.setState({search: evt.target.value})
     this.props.searchIngredients(evt.target.value)
   }
-  likeList = () => {}
+
   render() {
     return (
       <div>
@@ -75,7 +75,6 @@ class OnboardRequirements extends Component {
                         <Button
                           onClick={async () => {
                             await this.props.addFalseRequirement(ingredient.id)
-                            await this.props.fetchRequirements()
                           }}
                         >
                           <Icon name="ban" />
@@ -83,7 +82,6 @@ class OnboardRequirements extends Component {
                         <Button
                           onClick={async () => {
                             await this.props.addTrueRequirement(ingredient.id)
-                            await this.props.fetchRequirements()
                           }}
                         >
                           <Icon name="heart" />
@@ -111,11 +109,14 @@ class OnboardRequirements extends Component {
                         <Label className="require-label">
                           {requirement.ingredientName}
                         </Label>
-                        <Button>
-                          <Icon name="ban" />
-                        </Button>
-                        <Button>
-                          <Icon name="heart" />
+                        <Button
+                          onClick={() =>
+                            this.props.deleteRequirement(
+                              requirement.ingredientId
+                            )
+                          }
+                        >
+                          <Icon name="cancel" />
                         </Button>
                       </Button>
                     )
@@ -130,7 +131,25 @@ class OnboardRequirements extends Component {
               ? this.props.requirements.map(requirement => {
                   if (requirement.requires) {
                     return (
-                      <p key={requirement.id}>{requirement.ingredientName}</p>
+                      <Button
+                        className="button-result"
+                        as="div"
+                        labelPosition="left"
+                        key={requirement.id}
+                      >
+                        <Label className="require-label">
+                          {requirement.ingredientName}
+                        </Label>
+                        <Button
+                          onClick={() =>
+                            this.props.deleteRequirement(
+                              requirement.ingredientId
+                            )
+                          }
+                        >
+                          <Icon name="cancel" />
+                        </Button>
+                      </Button>
                     )
                   }
                 })

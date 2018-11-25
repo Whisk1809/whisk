@@ -4,13 +4,7 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const requirements = await Requirement.findAll({
-      // include: [
-      //   {
-      //     model: Ingredient
-      //   }
-      // ]
-    })
+    const requirements = await Requirement.findAll()
     res.json(requirements)
   } catch (err) {
     console.error(err)
@@ -22,7 +16,6 @@ router.post('/:id', async (req, res, next) => {
   try {
     const requireBool = Object.keys(req.body)[0]
     const ingredient = await Ingredient.findById(req.params.id)
-    console.log('ingredient name here', ingredient.name)
 
     let addedRequirement
     const doesExist = await Requirement.findAll({
@@ -40,7 +33,7 @@ router.post('/:id', async (req, res, next) => {
         ingredientName: ingredient.name
       })
     } else {
-      addedRequirement = await Requirement.update(
+      let updatedRequirement = await Requirement.update(
         {
           requires: requireBool,
           userId: req.user.dataValues.id,
@@ -54,18 +47,26 @@ router.post('/:id', async (req, res, next) => {
           }
         }
       )
+      updatedRequirement = await Requirement.findAll({
+        where: {
+          ingredientId: req.params.id,
+          userId: req.user.dataValues.id
+        }
+      })
+      addedRequirement = updatedRequirement[0]
     }
+
     res.status(201).json(addedRequirement)
   } catch (err) {
     console.error(err)
     next(err)
   }
 })
-router.delete('/:requirementId', async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const deletedRequirement = await Requirement.destroy({
       where: {
-        ingredientId: req.params.requirementId,
+        ingredientId: req.params.id,
         userId: req.user.dataValues.id
       }
     })

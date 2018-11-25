@@ -41,6 +41,8 @@ export const postRequirement = (
       `/api/requirements/${ingredientId}`,
       requirement
     )
+
+    dispatch(deleteRequirement(data))
     dispatch(addRequirement(data))
   } catch (err) {
     console.error(err)
@@ -48,9 +50,9 @@ export const postRequirement = (
 }
 export const destroyRequirement = requirementId => async dispatch => {
   try {
-    const {data} = await axios.delete(`/api/requirements/${requirementId}`)
-    console.log(data)
-    dispatch(deleteRequirement(data))
+    const data = await axios.delete(`/api/requirements/${requirementId}`)
+
+    dispatch(fetchRequirements())
   } catch (err) {
     console.error(err)
   }
@@ -64,7 +66,7 @@ export default function(state = defaultRequirements, action) {
 
     case DELETE_REQUIREMENT:
       return state.filter(requirement => {
-        if (requirement !== action.requirement) {
+        if (requirement.id !== action.requirement.id) {
           return requirement
         }
       })
