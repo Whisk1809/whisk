@@ -21,3 +21,6 @@ const store = createStore(reducer, middleware)
 export default store
 export * from './user'
 export * from './recipes'
+export * from './favorites'
+export * from './preferences'
+//these favorites and preferences above didn't cause any problem when they were not exported, not sure why we are exporting it

@@ -27,6 +27,7 @@ export const updateSinglePreference = data => {
     data
   }
 }
+
 export const updatePreferences = (recipeId, prefers) => async dispatch => {
   try {
     const {data} = await axios.post('/api/preferences', {recipeId, prefers})
