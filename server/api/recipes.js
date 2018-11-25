@@ -14,17 +14,9 @@ router.get('/', async (req, res, next) => {
 })
 router.get('/recommended', async (req, res, next) => {
   try {
-    const uId = req.user.id
-    if (uId) {
-      const recommendations = await recommend(uId).then(
-        ret =>
-          ret
-            .filter(rec => rec.recIndex > 0)
-            .sort((a, b) => a.recIndex > b.recIndex)
-            .map(recipe => recipe.recipeId)
-            .slice(0, 10) //somehow should add in random recipes if we don't generate enough recommendations
-      )
-      const recipes = await Recipe.findIds(recommendations)
+    if (req.user) {
+      const uId = req.user.id
+      const recipes = Recipe.recommend(uId)
       res.json(recipes)
     } else {
       const noUser = new Error('cannot give a recommendation without a user id')
