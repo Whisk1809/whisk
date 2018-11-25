@@ -7,13 +7,15 @@ import recipes from './recipes'
 import categories from './categories'
 import ingredients from './ingredients'
 import requirements from './requirements'
+import favorites from './favorites'
 
 const reducer = combineReducers({
   user,
   recipes,
   categories,
   ingredients,
-  requirements
+  requirements,
+  favorites
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

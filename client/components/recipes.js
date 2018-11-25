@@ -1,30 +1,73 @@
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import React, {Component} from 'react'
-import {getAllRecipes} from '../store/recipes'
-import {Card, List, Button} from 'semantic-ui-react'
+import {
+  getRecommendedRecipes,
+  getTrendingRecipes,
+  getPopularRecipes,
+  getNewRecipes
+} from '../store'
+import {Card, List, Button, Header} from 'semantic-ui-react'
 import RecipeSlider from './recipeSlider'
+import Loading from './loading'
 
 class Recipes extends Component {
-  // componentDidMount() {
-  //   this.props.getAllRecipes()
-  // }
+  componentDidMount() {
+    this.props.getRecommendedRecipes()
+    this.props.getTrendingRecipes()
+    this.props.getPopularRecipes()
+    this.props.getNewRecipes()
+  }
+
   render() {
-    return (
-      <div>
-        <RecipeSlider recipes={this.props.recipes} />
-      </div>
-    )
+    const {
+      trendingRecipes,
+      recommendedRecipes,
+      popularRecipes,
+      newRecipes
+    } = this.props
+
+    if (
+      trendingRecipes.length &&
+      recommendedRecipes.length &&
+      newRecipes.length &&
+      popularRecipes.length
+    ) {
+      return (
+        <div>
+          <Header as="h2">Recommended for You</Header>
+          <RecipeSlider recipes={recommendedRecipes} title="trending" />
+          <Header as="h2">Popular on Whisk</Header>
+          <RecipeSlider recipes={popularRecipes} />
+          <Header as="h2">Trending Now</Header>
+          <RecipeSlider recipes={trendingRecipes} />
+          <Header as="h2">Something New</Header>
+          <RecipeSlider recipes={newRecipes} />
+        </div>
+      )
+    } else {
+      return <Loading />
+    }
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = ({recipes}) => {
+  const {
+    trendingRecipes,
+    recommendedRecipes,
+    popularRecipes,
+    newRecipes
+  } = recipes
   return {
-    recipes: state.recipes.recipes
+    trendingRecipes,
+    recommendedRecipes,
+    popularRecipes,
+    newRecipes
   }
 }
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     getAllRecipes: () => dispatch(getAllRecipes())
-//   }
-// }
-export default connect(mapStateToProps)(Recipes)
+const mapDispatchToProps = {
+  getRecommendedRecipes,
+  getPopularRecipes,
+  getTrendingRecipes,
+  getNewRecipes
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Recipes)

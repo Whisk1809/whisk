@@ -102,7 +102,22 @@ class OnboardRequirements extends Component {
               ? this.props.requirements.map(requirement => {
                   if (!requirement.requires) {
                     return (
-                      <p key={requirement.id}>{requirement.ingredientName}</p>
+                      <Button
+                        className="button-result"
+                        as="div"
+                        labelPosition="left"
+                        key={requirement.id}
+                      >
+                        <Label className="require-label">
+                          {requirement.ingredientName}
+                        </Label>
+                        <Button>
+                          <Icon name="ban" />
+                        </Button>
+                        <Button>
+                          <Icon name="heart" />
+                        </Button>
+                      </Button>
                     )
                   }
                 })

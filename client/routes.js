@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, SingleRecipe} from './components'
+import {Login, Signup, UserHome, Favorites, SingleRecipe} from './components'
 import {me} from './store'
 import Recipes from './components/recipes'
 import OnboardRequirements from './components/onboardRequirements'
@@ -32,6 +32,7 @@ class Routes extends Component {
             {/* Showing the same component for both /recipes and /home is open for discussion, for single recipe /recipes/:recipeId is intuitive */}
             <Route exact path="/recipes/:recipeId" component={SingleRecipe} />
             <Route path="/recipes" component={Recipes} />
+            <Route path="/favorites" component={Favorites} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
