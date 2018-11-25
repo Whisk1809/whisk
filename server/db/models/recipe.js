@@ -1,4 +1,6 @@
 const Sequelize = require('sequelize')
+const {recommender} = require('../graphDb')
+
 const db = require('../db')
 const Op = Sequelize.Op
 
@@ -39,7 +41,7 @@ Recipe.getTrending = async () => {
   t.setDate(t.getMonth() - 1)
   const recipes = await db.query(
     `
-  SELECT  *
+  SELECT  r.*
   FROM recipes AS r
   INNER JOIN
   (SELECT p."recipeId", COUNT(*) AS likeCount
@@ -58,7 +60,7 @@ Recipe.getTrending = async () => {
 Recipe.getPopular = async () => {
   const recipes = await db.query(
     `
-  SELECT  *
+  SELECT  r.*
   FROM recipes AS r
   INNER JOIN
   (SELECT p."recipeId", COUNT(*) AS likeCount
@@ -76,7 +78,7 @@ Recipe.getPopular = async () => {
 Recipe.getNew = async uId => {
   const recipes = await db.query(
     `
-  SELECT  *
+  SELECT  r.*
   FROM recipes AS r
   LEFT JOIN preferences AS p
   ON r.id = p."recipeId" AND p."userId" <>:uId
@@ -90,6 +92,25 @@ Recipe.getNew = async uId => {
 }
 Recipe.findIds = async arr => {
   return Recipe.findAll({where: {id: {[Op.in]: arr}}})
+}
+
+Recipe.recommend = async uId => {
+  const ids = await recommender(uId)
+  console.log(ids)
+  const recipes = await db.query(
+    `
+  SELECT  r.*
+  FROM recipes AS r
+    LEFT JOIN preferences AS p
+    ON r.id = p."recipeId" AND p."userId" = :uId
+    LEFT JOIN "FavoriteRecipes" as f
+    ON r.id = f."recipeId" AND f."userId" =:uId
+  WHERE r.id IN (:ids) AND p.id IS NULL AND f."recipeId" IS NULL
+  LIMIT 15`,
+    {type: Sequelize.QueryTypes.SELECT, replacements: {ids, uId}}
+  )
+  console.log(recipes)
+  return recipes
 }
 
 module.exports = Recipe
