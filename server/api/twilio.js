@@ -59,16 +59,10 @@ router.post('/sms', async (req, res) => {
       console.error(err)
     }
 
-  } else if (req.body.Body == '2') {
+  } else if (req.body.Body == 'Dislike') {
     twiml.message('Good to know, let\'s try something else');
   }
-    else if (req.body.Body == '3') {
-      twiml.message('Not too bad!')
-    }
-    else if (req.body.Body == '4') {
-      twiml.message('Hey, that\'s pretty good!')
-    }
-    else if (req.body.Body == '5') {
+    else if (req.body.Body == 'Like') {
       twiml.message('Great! We will send you more recipes like this.')
     }
   //  else {
