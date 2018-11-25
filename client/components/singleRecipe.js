@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getSingleRecipe} from '../store'
 import {updatePreferences} from '../store/preferences'
+import {addToFavorites} from '../store/favorites'
 import {Image, Button, Container, Icon, Item, Label} from 'semantic-ui-react'
 import Loading from './loading'
 
@@ -23,6 +24,12 @@ class SingleRecipe extends Component {
     const recipeId = this.props.singleRecipe.id
     const prefers = false
     this.props.updatePreferences(recipeId, prefers)
+  }
+
+  handleClickFavorite = (event) => {
+    event.preventDefault()
+    const recipeId = this.props.singleRecipe.id
+    this.props.addToFavorites(recipeId)
   }
 
   render() {
@@ -71,7 +78,7 @@ class SingleRecipe extends Component {
                 Don't show me
               </Label>
             </Button>
-            <Button as='div' labelPosition='right'>
+            <Button onClick={this.handleClickFavorite} as='div' labelPosition='right'>
               <Button color='olive'>
                 <Icon name='plus' />
               </Button>
@@ -96,7 +103,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getSingleRecipe: (recipeId) => dispatch(getSingleRecipe(recipeId)),
-  updatePreferences: (recipeId, prefers) => dispatch(updatePreferences(recipeId, prefers))
+  updatePreferences: (recipeId, prefers) => dispatch(updatePreferences(recipeId, prefers)),
+  addToFavorites: (recipeId) => dispatch(addToFavorites(recipeId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleRecipe)

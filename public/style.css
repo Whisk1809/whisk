@@ -34,6 +34,15 @@ form div {
   margin-left: 10px;
 }
 
+.ui.blue.button{
+  justify-self: right;
+}
+
+img.ui.image {
+  display: inline;
+  margin-right: 10px;
+}
+
 /* .ui.tiny.image {
   width: 40px;
 } */
