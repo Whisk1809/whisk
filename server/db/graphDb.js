@@ -269,20 +269,31 @@ const jaccard = async uId => {
 
 const recommender = async uId => {
   const data = await runQuery(
-    `MATCH (u:User {pk:{uId}})-[l:likes]->(n)<-[:likes]-(likers:User)
-    WITH u,COUNT(n) as likeIntersection, likers, COLLECT(l) AS myLikes
-    MATCH (u:User)-[:likes]->(n)
-    WITH u,likeIntersection,likers,myLikes,COLLECT(n.pk) as s1
-    MATCH (likers:User)-[:likes]->(n)
-    WITH u,likeIntersection,likers, myLikes, s1,COLLECT(n.pk) as s2
-    WITH u,likers,myLikes,likeIntersection,s1,s2
-    WITH u,likers,myLikes,likeIntersection,s1+filter(x IN s2 WHERE NOT x IN s1) AS union, s1, s2
-    WITH u.pk AS userId, likers,myLikes, s1,s2,((1.0*likeIntersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT 5
-    MATCH (likers)-[l2:likes]->(r:Recipe)
-    WITH likers,myLikes,COLLECT(l2) AS otherLikes
-    WITH filter(x in otherLikes WHERE NOT x in myLikes) as f
-    MATCH (a)-[b:likes]->(r:Recipe)
-    WHERE b IN f
+    `
+    //find people who like the same things as me
+    OPTIONAL MATCH (u:User {pk:{uId}})-[l:likes]->(n)<-[:likes]-(likers:User)
+    WITH u,COUNT(DISTINCT n) as likeIntersection,likers
+
+    //find the collections of liked things I like
+    OPTIONAL MATCH (u:User {pk:{uId}})-[:likes]->(n)
+    WITH u, likers,likeIntersection,COLLECT(DISTINCT n.pk +labels(n)) as l1
+
+    //find the collections of liked things corresponding to users who like the same things as me
+    OPTIONAL MATCH (likers:User)-[:likes]->(n)
+    WITH u, likers,likeIntersection,l1,COLLECT(DISTINCT n.pk + labels(n)) as l2
+
+    //calculate the union
+    WITH u, likers,likeIntersection,l1,l2,l1+filter(x IN l2 WHERE NOT x IN l1) AS union
+
+    //give back the 5 most similar users
+    WITH u.pk AS userId, likers,((1.0*likeIntersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT 5
+
+
+    //find the recipes that the 5 most similar users like that I have not yet liked
+    MATCH (u {pk:userId})-[:likes]->(r:Recipe)
+    WITH COLLECT(r.pk) as myLikes
+    MATCH (likers:User)-[:likes]->(r:Recipe)
+    WITH likers,r WHERE NOT r.pk IN myLikes
     RETURN r.pk
     `,
     {uId: uId.toString()}
