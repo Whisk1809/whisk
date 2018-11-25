@@ -43,7 +43,7 @@ function eveningText() {
 function afterText() {
   client.messages
     .create({
-      body: 'How was your meal? Enter a rating 1-5',
+      body: 'How was your meal? Type like or dislike',
       from: '+18064244869',
       to: '+13364136015'
     })
@@ -51,6 +51,16 @@ function afterText() {
     .done();
 }
 
+function testText() {
+  client.messages
+    .create({
+      body: 'test',
+      from: '+18064244869',
+      to: '+13364136015'
+    })
+    .then(message => console.log(message.sid))
+    .done();
+}
 //modify the function below so that instead of console logging, it runs morningText function at a specific time in the morning
 
 
@@ -58,20 +68,25 @@ function afterText() {
 
   const cronJob = cron({on: '30 8 * * *'}, function() {
     morningText()
-    console.log('inside cron job 2')
+    console.log('inside morning text')
   })
 
 
     const cronJob2 = cron({on:'00 17 * * *'}, function () {
       eveningText()
-      console.log('inside cron job 3')
+      console.log('inside evening text')
     })
 
 
 
-      const cronJob3 = cron({on: '45 19 * * *'}, function() {
+      const cronJob3 = cron({on: '11 21 * * *'}, function() {
         afterText()
-        console.log('inside cron job')
+        console.log('inside after text')
       })
 
+      // const cronJob4 = cron({on: '09 21 * * *'},
+      // function(){
+      //   testText()
+      //   console.log('still testing')
+      // })
 
