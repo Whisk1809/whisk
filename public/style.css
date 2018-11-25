@@ -19,6 +19,29 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+.require-label {
+  width: 100%;
+}
+.requirements {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.requirements .ui.container {
+  width: 30%;
+}
+.container-r {
+  width: 30%;
+}
+/* .requirements .result {
+  float: left;
+} */
+.result {
+  justify-content: center;
+}
+.button-result {
+  min-width: 100%;
+}
 
 /* Semantic UI overrides */
 .ui.form .field {

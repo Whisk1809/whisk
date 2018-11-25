@@ -33,13 +33,12 @@ export const fetchRequirements = () => async dispatch => {
   }
 }
 export const postRequirement = (
-  type,
-  idOfRequirement,
+  ingredientId,
   requirement
 ) => async dispatch => {
   try {
     const {data} = await axios.post(
-      `/api/requirements/${type}/${idOfRequirement}`,
+      `/api/requirements/${ingredientId}`,
       requirement
     )
     dispatch(addRequirement(data))
