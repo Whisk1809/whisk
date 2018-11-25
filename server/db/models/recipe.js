@@ -1,4 +1,6 @@
 const Sequelize = require('sequelize')
+const {recommender} = require('../graphDb')
+
 const db = require('../db')
 const Op = Sequelize.Op
 
@@ -90,6 +92,23 @@ Recipe.getNew = async uId => {
 }
 Recipe.findIds = async arr => {
   return Recipe.findAll({where: {id: {[Op.in]: arr}}})
+}
+
+Recipe.recommend = async uId => {
+  const ids = await recommender(uId)
+  const recipes = await db.query(
+    `
+  SELECT  *
+  FROM recipes AS r
+    LEFT JOIN preferences AS p
+    ON r.id = p."recipeId" AND p."userId" = :uId
+    LEFT JOIN "FavoriteRecipes" as f
+    ON r.id = f."recipeId" AND f."userId" =:uId
+  WHERE r.id IN (:ids) AND p.id IS NULL AND f.id IS NULL
+  LIMIT 15`,
+    {type: Sequelize.QueryTypes.SELECT, replacements: {ids, uId}}
+  )
+  return recipes
 }
 
 module.exports = Recipe
