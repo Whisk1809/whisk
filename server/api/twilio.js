@@ -71,11 +71,11 @@ router.post('/sms', async (req, res) => {
     else if (req.body.Body == '5') {
       twiml.message('Great! We will send you more recipes like this.')
     }
-   else {
-    twiml.message(
-      'Please enter a number between 1 and 5'
-    );
-  }
+  //  else {
+  //   twiml.message(
+  //     'Please enter a number between 1 and 5'
+  //   );
+  // }
 
   res.writeHead(200, { 'Content-Type': 'text/xml' });
   res.end(twiml.toString());
