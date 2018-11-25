@@ -271,15 +271,15 @@ const recommender = async uId => {
   const data = await runQuery(
     `
     //find people who like the same things as me
-    OPTIONAL MATCH (u:User {pk:{uId}})-[l:likes]->(n)<-[:likes]-(likers:User)
+     MATCH (u:User {pk:{uId}})-[l:likes]->(n)<-[:likes]-(likers:User)
     WITH u,COUNT(DISTINCT n) as likeIntersection,likers
 
     //find the collections of liked things I like
-    OPTIONAL MATCH (u:User {pk:{uId}})-[:likes]->(n)
+     MATCH (u:User {pk:{uId}})-[:likes]->(n)
     WITH u, likers,likeIntersection,COLLECT(DISTINCT n.pk +labels(n)) as l1
 
     //find the collections of liked things corresponding to users who like the same things as me
-    OPTIONAL MATCH (likers:User)-[:likes]->(n)
+     MATCH (likers:User)-[:likes]->(n)
     WITH u, likers,likeIntersection,l1,COLLECT(DISTINCT n.pk + labels(n)) as l2
 
     //calculate the union
@@ -294,10 +294,11 @@ const recommender = async uId => {
     WITH COLLECT(r.pk) as myLikes
     MATCH (likers:User)-[:likes]->(r:Recipe)
     WITH likers,r WHERE NOT r.pk IN myLikes
-    RETURN r.pk
+    RETURN DISTINCT r.pk
     `,
     {uId: uId.toString()}
   )
+
   return data.records.map(el => Number(el._fields[0]))
 }
 

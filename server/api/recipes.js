@@ -16,7 +16,7 @@ router.get('/recommended', async (req, res, next) => {
   try {
     if (req.user) {
       const uId = req.user.id
-      const recipes = Recipe.recommend(uId)
+      const recipes = await Recipe.recommend(uId)
       res.json(recipes)
     } else {
       const noUser = new Error('cannot give a recommendation without a user id')
