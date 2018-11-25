@@ -3,13 +3,14 @@
 //var CronJob = require('cron').CronJob;
 var cron = require('cron-scheduler')
 //define functions and then schedule in same file
-const accountSid = 'AC73c8fa517d3e83ccc4c9c6897586ce8e';
-const authToken = '9622761b850dfc615521b37b1266db99';
-//const accountSid = process.env.accountSid
-//const authToken = process.env.authToken
-const client = require('twilio')(accountSid, authToken);
+//const accountSid = 'AC73c8fa517d3e83ccc4c9c6897586ce8e';
+//const authToken = '9622761b850dfc615521b37b1266db99';
 
-//find user id using sequelize findOne...import sequelize?
+require('./secrets')
+
+const accountSid = process.env.accountSid
+const authToken = process.env.authToken
+const client = require('twilio')(accountSid, authToken);
 
 
 console.log('job started')

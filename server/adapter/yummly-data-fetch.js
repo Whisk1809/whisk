@@ -2,7 +2,7 @@ const axios = require('axios')
 const fs = require('fs')
 if (process.env.NODE_ENV !== 'production') require('../../secrets')
 
-const testTerms = ['burrito', 'pizza']
+const testTerms = ['burrito', 'pizza', 'sandwich']
 const terms = [
   'christmas',
   'burrito',
