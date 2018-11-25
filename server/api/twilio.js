@@ -26,7 +26,7 @@ const client = require('twilio')(accountSid, authToken);
 router.post('/sms', async (req, res) => {
   const twiml = new MessagingResponse();
   const recommendations =  await recommend(1)
-  console.log(recommendations, 'recommendation twilio')
+  //console.log(recommendations, 'recommendation twilio')
   const uId = recommendations[0].recipeId
   const first = await Recipe.findById(uId)
   const uId2 = recommendations[1].recipeId
@@ -44,10 +44,14 @@ router.post('/sms', async (req, res) => {
 
 
 
-    twiml.message(`Okay, try this: ${answer}`);
-  
+    twiml.message(`Okay, try this: ${answer}.  If you don't like that idea, text 'Show me something else'`);
+  }
 
-  } else if (req.body.Body == 'Dislike') {
+  else if (req.body.Body == 'Show me something else') {
+    twiml.message(`No problem. Take a look at this one instead: ${nextAnswer}`)
+  }
+
+  else if (req.body.Body == 'Dislike') {
     twiml.message('Good to know, let\'s try something else');
   }
     else if (req.body.Body == 'Like') {

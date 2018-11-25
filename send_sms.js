@@ -56,7 +56,7 @@ function testText() {
     .create({
       body: 'test',
       from: '+18064244869',
-      to: '+13364136015'
+      to: '+14252137005'
     })
     .then(message => console.log(message.sid))
     .done();
@@ -72,7 +72,7 @@ function testText() {
   })
 
 
-    const cronJob2 = cron({on:'00 17 * * *'}, function () {
+    const cronJob2 = cron({on:'06 17 * * *'}, function () {
       eveningText()
       console.log('inside evening text')
     })
@@ -84,7 +84,7 @@ function testText() {
         console.log('inside after text')
       })
 
-      const cronJob4 = cron({on: '34 14 * * *'},
+      const cronJob4 = cron({on: '30 15 * * *'},
       function(){
         testText()
         console.log('still testing')
