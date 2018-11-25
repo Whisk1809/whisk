@@ -5,11 +5,13 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import recipes from './recipes'
 import favorites from './favorites'
+import preferences from './preferences'
 
 const reducer = combineReducers({
   user,
   recipes,
-  favorites
+  favorites,
+  preferences
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
