@@ -251,6 +251,57 @@ const computeRecommendationIndex = async (uId, rId) => {
   return recommendationIndex
 }
 
+//given a user Id, returns a list of top N similar users (based purely on the simple jaccard using likes)
+const jaccard = async uId => {
+  const data = runQuery(
+    `MATCH (u:User {pk:{uId}})-[:likes]->(n)<-[:likes]-(likers:User)
+    WITH u,COUNT(n) as likeIntersection, likers
+    MATCH (u:User)-[:likes]->(n)
+    WITH u,likeIntersection,likers,COLLECT(n.pk) as s1
+    MATCH (likers:User)-[:likes]->(n)
+    WITH u,likeIntersection,likers,s1,COLLECT(n.pk) as s2
+    WITH u,likers,likeIntersection,s1,s2
+    WITH u,likers,likeIntersection,s1+filter(x IN s2 WHERE NOT x IN s1) AS union, s1, s2
+    RETURN u.pk, likers.pk, s1,s2,((1.0*likeIntersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT 5`,
+    {uId: uId.toString()}
+  )
+}
+
+const recommender = async uId => {
+  const data = await runQuery(
+    `
+    //find people who like the same things as me
+     MATCH (u:User {pk:{uId}})-[l:likes]->(n)<-[:likes]-(likers:User)
+    WITH u,COUNT(DISTINCT n) as likeIntersection,likers
+
+    //find the collections of liked things I like
+     MATCH (u:User {pk:{uId}})-[:likes]->(n)
+    WITH u, likers,likeIntersection,COLLECT(DISTINCT n.pk +labels(n)) as l1
+
+    //find the collections of liked things corresponding to users who like the same things as me
+     MATCH (likers:User)-[:likes]->(n)
+    WITH u, likers,likeIntersection,l1,COLLECT(DISTINCT n.pk + labels(n)) as l2
+
+    //calculate the union
+    WITH u, likers,likeIntersection,l1,l2,l1+filter(x IN l2 WHERE NOT x IN l1) AS union
+
+    //give back the 5 most similar users
+    WITH u.pk AS userId, likers,((1.0*likeIntersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT 5
+
+
+    //find the recipes that the 5 most similar users like that I have not yet liked
+    MATCH (u {pk:userId})-[:likes]->(r:Recipe)
+    WITH COLLECT(r.pk) as myLikes
+    MATCH (likers:User)-[:likes]->(r:Recipe)
+    WITH likers,r WHERE NOT r.pk IN myLikes
+    RETURN DISTINCT r.pk
+    `,
+    {uId: uId.toString()}
+  )
+
+  return data.records.map(el => Number(el._fields[0]))
+}
+
 //return an array of recommended recipeIds (as nums NOT strings)
 const recommend = async uId => {
   const [recipesNotYetLiked, recipesNotYetDisliked] = await Promise.all([
@@ -297,11 +348,11 @@ const recommend = async uId => {
 
   return recArr
 }
-// ;(async () => {
-//   // await deleteGraph()
-//   // await createConstraints()
-//   await recommend(4)
-// })()
+;(async () => {
+  // await deleteGraph()
+  // await createConstraints()
+  await recommender(1)
+})()
 
 module.exports = {
   likeCategory,
@@ -317,5 +368,6 @@ module.exports = {
   deleteGraph,
   createConstraints,
   computeRecommendationIndex,
-  recommend
+  recommend,
+  recommender
 }
