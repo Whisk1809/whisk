@@ -32,13 +32,13 @@ async function seed(done) {
       email: 'cody@email.com',
       password: '123',
       name: 'cody',
-      phone: '111-111-1111'
+      phone: '+13364136015'
     }),
     User.create({
       email: 'murphy@email.com',
       password: '123',
       name: 'murphy',
-      phone: '111-111-1111'
+      phone: '+1111-111-1111'
     })
   ])
 

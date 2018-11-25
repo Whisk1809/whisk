@@ -57,6 +57,15 @@ User.prototype.correctPassword = function(candidatePwd) {
 /**
  * classMethods
  */
+
+ User.findByPhoneNumber = number => {
+   const user = User.findOne({
+     where: {
+       phone: number
+     },
+   })
+ }
+
 User.findFavoriteRecipes = userId => {
   const user = User.findById(userId, {include: [Recipe]})
 }
