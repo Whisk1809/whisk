@@ -3,8 +3,7 @@
 //var CronJob = require('cron').CronJob;
 var cron = require('cron-scheduler')
 //define functions and then schedule in same file
-//const accountSid = 'AC73c8fa517d3e83ccc4c9c6897586ce8e';
-//const authToken = '9622761b850dfc615521b37b1266db99';
+
 
 require('./secrets')
 
@@ -57,7 +56,7 @@ function testText() {
     .create({
       body: 'test',
       from: '+18064244869',
-      to: '+14252137005'
+      to: '+13364136015'
     })
     .then(message => console.log(message.sid))
     .done();
@@ -85,7 +84,7 @@ function testText() {
         console.log('inside after text')
       })
 
-      const cronJob4 = cron({on: '30 15 * * *'},
+      const cronJob4 = cron({on: '40 17 * * *'},
       function(){
         testText()
         console.log('still testing')
