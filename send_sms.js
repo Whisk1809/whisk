@@ -18,7 +18,7 @@ function morningText() {
 
   client.messages
     .create({
-       body: 'What do you want to cook today?',
+       body: 'What do you want to cook today? Text \'Show me\' to see today\'s recommendation!',
        from: '+18064244869',
        to: '+13364136015'
      })
