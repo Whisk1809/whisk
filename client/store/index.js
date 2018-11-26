@@ -9,8 +9,8 @@ import ingredients from './ingredients'
 import requirements from './requirements'
 import favorites from './favorites'
 import preferences from './preferences'
-import categories from './categories'
-import ingredients from './ingredients'
+import recipeSearch from './recipeSearch'
+import searchStatus from './searchStatus'
 
 const reducer = combineReducers({
   user,
@@ -18,9 +18,10 @@ const reducer = combineReducers({
   categories,
   ingredients,
   requirements,
-
+  recipeSearch,
   favorites,
-  preferences
+  preferences,
+  searchStatus
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

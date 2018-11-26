@@ -12,23 +12,23 @@ class SingleRecipe extends Component {
     this.props.getSingleRecipe(recipeId)
   }
 
-  handleClickLike = (event) => {
+  handleClickLike = event => {
     event.preventDefault()
     const recipeId = this.props.singleRecipe.id
     const prefers = true
     this.props.updatePreferences(recipeId, prefers)
-    console.log("Liked this recipe")
+    console.log('Liked this recipe')
   }
 
-  handleClickDislike = (event) => {
+  handleClickDislike = event => {
     event.preventDefault()
     const recipeId = this.props.singleRecipe.id
     const prefers = false
     this.props.updatePreferences(recipeId, prefers)
-    console.log("Disliked this recipe")
+    console.log('Disliked this recipe')
   }
 
-  handleClickFavorite = (event) => {
+  handleClickFavorite = event => {
     event.preventDefault()
     const recipeId = this.props.singleRecipe.id
     this.props.addToFavorites(recipeId)
@@ -36,65 +36,92 @@ class SingleRecipe extends Component {
 
   render() {
     const {singleRecipe} = this.props
-    const {title, prepTime, sourceRecipeUrl, numberOfServings, ingredientList, imageUrl} = singleRecipe
+    const {
+      title,
+      prepTime,
+      sourceRecipeUrl,
+      numberOfServings,
+      ingredientList,
+      imageUrl
+    } = singleRecipe
 
-    if(singleRecipe.id) {
+    if (singleRecipe.id) {
       return (
         <div>
           <Container>
             <Item.Group>
               <Item>
-                <Item.Image src={imageUrl} size='large'/>
+                <Item.Image src={imageUrl} size="large" />
                 <Item.Content>
                   <Item.Header size="huge">{title}</Item.Header>
                   <Item.Meta>
-                    <Image src='/ingredients.png' size='tiny' />
-                    <strong>Ingredients</strong>{ingredientList.map(ingredient =>
-                    <div key={ingredient}>{ingredient}</div>
-                    )}
+                    <Image src="/ingredients.png" size="tiny" />
+                    <strong>Ingredients</strong>
+                    {ingredientList.map(ingredient => (
+                      <div key={ingredient}>{ingredient}</div>
+                    ))}
                   </Item.Meta>
                   <Item.Meta>
-                    <Image src='/serving-size.png' size='tiny' rounded/>
+                    <Image src="/serving-size.png" size="tiny" rounded />
                     <strong>Serving Size:</strong> {numberOfServings}
                   </Item.Meta>
                   <Item.Meta>
-                    <Image src='/cooking-time.png' size='tiny' /> <strong>Cooking Time</strong>
+                    <Image src="/cooking-time.png" size="tiny" />{' '}
+                    <strong>Cooking Time</strong>
                     <div>{prepTime}</div>
                   </Item.Meta>
                 </Item.Content>
               </Item>
             </Item.Group>
-            <Button onClick={this.handleClickLike} as='div' labelPosition='right'>
-              <Button color='green'>
-                <Icon name='heart' />
+            <Button
+              onClick={this.handleClickLike}
+              as="div"
+              labelPosition="right"
+            >
+              <Button color="green">
+                <Icon name="heart" />
               </Button>
-              <Label as='a' basic color='green' pointing='left'>
+              <Label as="a" basic color="green" pointing="left">
                 Show more like this
               </Label>
             </Button>
-            <Button onClick={this.handleClickDislike} as='div' labelPosition='right'>
-              <Button color='red'>
-                <Icon name='ban' />
+            <Button
+              onClick={this.handleClickDislike}
+              as="div"
+              labelPosition="right"
+            >
+              <Button color="red">
+                <Icon name="ban" />
               </Button>
-              <Label as='a' basic color='red' pointing='left'>
+              <Label as="a" basic color="red" pointing="left">
                 Don't show me
               </Label>
             </Button>
-            <Button onClick={this.handleClickFavorite} as='div' labelPosition='right'>
-              <Button color='olive'>
-                <Icon name='plus' />
+            <Button
+              onClick={this.handleClickFavorite}
+              as="div"
+              labelPosition="right"
+            >
+              <Button color="olive">
+                <Icon name="plus" />
               </Button>
-              <Label as='a' basic color='olive' pointing='left'>
+              <Label as="a" basic color="olive" pointing="left">
                 Add to My List
               </Label>
             </Button>
-            <br/>
-            <a className="ui huge positive button" href={sourceRecipeUrl} style={{color: "white"}}>Get Cooking!</a>
+            <br />
+            <a
+              className="ui huge positive button"
+              href={sourceRecipeUrl}
+              style={{color: 'white'}}
+            >
+              Get Cooking!
+            </a>
           </Container>
         </div>
       )
     } else {
-      return <Loading/>
+      return <Loading />
     }
   }
 }
@@ -104,9 +131,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getSingleRecipe: (recipeId) => dispatch(getSingleRecipe(recipeId)),
-  updatePreferences: (recipeId, prefers) => dispatch(updatePreferences(recipeId, prefers)),
-  addToFavorites: (recipeId) => dispatch(addToFavorites(recipeId))
+  getSingleRecipe: recipeId => dispatch(getSingleRecipe(recipeId)),
+  updatePreferences: (recipeId, prefers) =>
+    dispatch(updatePreferences(recipeId, prefers)),
+  addToFavorites: recipeId => dispatch(addToFavorites(recipeId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleRecipe)
