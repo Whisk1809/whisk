@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {getCategories} from './categories'
 
 const initialState = {likes: [], dislikes: []}
 
@@ -40,9 +41,19 @@ export const updatePreferences = (recipeId, prefers) => async dispatch => {
 export const getPreferences = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/preferences')
-    //call thunks of recipe/ingredient/cuisine/whatever to go load the ids
-    // data.categoryId await axios.get('/api/categories')
-    // data.ingredientId
+    let categoryIds = [];
+    let ingredientIds = [];
+    data.forEach(datum => {
+      if(datum.categoryId){
+        categoryIds.push(datum.categoryId)
+      } else if (datum.ingredientId) {
+        ingredientIds.push(datum.ingredientId)
+      }
+    })
+
+    //call thunks on categoryIds and ingredientIds
+    dispatch(getCategories(categoryIds))
+
     const dataLikes = data.filter(datum =>
       datum.prefers)
     const dataDislikes = data.filter(datum => !datum.prefers)

@@ -10,31 +10,32 @@ import Loading from './loading'
 class ProfilePreferences extends Component {
 
   render() {
-    const {likes, dislikes} = this.props
-    console.log("likes array", likes)
-    console.log("dislikes array", dislikes)
+    const {likedCategories, dislikedCategories} = this.props
     return (
       <div>
         <div>Your likes:</div>
           <div>Ingredients</div>
 
           <div>Categories</div>
-          <ul>
-            {likes.map((el, index) => {
-              return (
-                <li key={index}>
-                  {el.recipeId}
-                </li>
-              )
-            })}
-          </ul>
+            <ul>
+              {likedCategories.map((el) => {
+                return (
+                  <li key={el.id}>
+                    {el.name}
+                  </li>
+                )
+              })}
+            </ul>
 
         <div>Your dislikes: </div>
+          <div>Ingredients</div>
+
+          <div>Categories</div>
           <ul>
-              {dislikes.map((el, index) => {
+              {dislikedCategories.map((el) => {
                 return (
-                  <li key={index}>
-                    {el.recipeId}
+                  <li key={el.id}>
+                    {el.name}
                   </li>
                 )
               })}
@@ -44,14 +45,33 @@ class ProfilePreferences extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  likes: state.preferences.likes,
-  dislikes: state.preferences.dislikes
-})
+const mapStateToProps = (state) => {
+  let likes = state.preferences.likes;
+  let dislikes = state.preferences.dislikes;
 
-// const mapDispatchToProps = dispatch => ({
-//   setLikes: () => dispatch(setLikes()),
-//   setDislikes: () => dispatch(setDislikes())
-// })
+  const likedCategories = [];
+  const dislikedCategories = [];
+  likes.forEach(like =>{
+    if(like.categoryId){
+      const category = state.categories[like.categoryId]
+      if(category){
+        likedCategories.push(category)
+      }
+    // } else if(like.ingredientId){
+
+    // }
+    }
+  })
+  dislikes.forEach(dislike => {
+    if(dislike.categoryId){
+      const category = state.categories[dislike.categoryId]
+      if(category){
+        dislikedCategories.push(category)
+      }
+    }
+  })
+
+  return {likedCategories, dislikedCategories};
+}
 
 export default connect(mapStateToProps)(ProfilePreferences)
