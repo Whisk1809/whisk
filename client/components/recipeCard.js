@@ -38,31 +38,30 @@ class RecipeCard extends Component {
 
     return (
       <Grid className="fill-content">
-      <Container>
-        <Card fluid>
-
-          <Image src={imageUrl} as={Link} to={`/recipes/${id}`} />
-          <Card.Content as={Link} to={`/recipes/${id}`}>
-            <Card.Header> {title}</Card.Header>
-            <Card.Meta>{convertPrepTime(recipe)}</Card.Meta>
-            <Card.Description />
-          </Card.Content>
-          <Card.Content extra>
-            <Button
-              color={this.state.likeButtonColor}
-              onClick={this.handleClickLike}
-            >
-              <Icon name="heart" />
-            </Button>
-            <Button
-              color={this.state.dislikeButtonColor}
-              onClick={this.handleClickDislike}
-            >
-              <Icon name="ban" />
-            </Button>
-          </Card.Content>
-        </Card>
-      </Container>
+        <Container>
+          <Card fluid>
+            <Image src={imageUrl} as={Link} to={`/recipes/${id}`} />
+            <Card.Content as={Link} to={`/recipes/${id}`}>
+              <Card.Header> {title}</Card.Header>
+              <Card.Meta>{convertPrepTime(recipe)}</Card.Meta>
+              <Card.Description />
+            </Card.Content>
+            <Card.Content extra>
+              <Button
+                color={this.state.likeButtonColor}
+                onClick={this.handleClickLike}
+              >
+                <Icon name="heart" />
+              </Button>
+              <Button
+                color={this.state.dislikeButtonColor}
+                onClick={this.handleClickDislike}
+              >
+                <Icon name="ban" />
+              </Button>
+            </Card.Content>
+          </Card>
+        </Container>
       </Grid>
     )
   }
