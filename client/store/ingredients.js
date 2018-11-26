@@ -1,32 +1,32 @@
 import axios from 'axios'
 
-const defaultIngredients = []
+const initialState = {}
 
-const SEARCH_INGREDIENTS = 'SEARCH_INGREDIENTS'
+const SET_INGREDIENTS = 'SET_INGREDIENTS'
 
-export const setIngredients = ingredients => {
-  return {
-    type: SEARCH_INGREDIENTS,
-    ingredients
-  }
-}
+export const setIngredients = ingredients => ({
+  type: SET_INGREDIENTS,
+  ingredients
+})
 
-export const searchIngredients = searchParams => async dispatch => {
+export const getIngredients = (ingredientsArr) => async dispatch => {
   try {
-    const {data} = await axios.get(
-      `/api/ingredients?findIngredient=${searchParams}`
-    )
+    const ingrIds = ingredientsArr.join(',')
+    const {data} = await axios.get(`/api/ingredients?ids=${ingrIds}`)
     dispatch(setIngredients(data))
-  } catch (err) {
+  } catch(err) {
     console.error(err)
   }
 }
 
-export default function(state = defaultIngredients, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
-    case SEARCH_INGREDIENTS:
-      return action.ingredients
-
+    case SET_INGREDIENTS:
+    {
+      const newState = {...state};
+      action.ingredients.forEach(ingr => {newState[ingr.id] = ingr})
+      return newState
+    }
     default:
       return state
   }

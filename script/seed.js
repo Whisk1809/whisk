@@ -11,8 +11,8 @@ const {
   Recipe,
   Category,
   Ingredient,
-  Preference,
-  Requirement
+  Requirement,
+  Preference
 } = require('../server/db/models')
 
 const RecipeFactory = require('../server/adapter')
@@ -42,6 +42,8 @@ async function seed(done) {
     })
   ])
 
+  const cody = someUsers[0]
+
   const mostUsers = await Promise.all(users.map(user => User.create(user)))
 
   const allUsers = [...someUsers, ...mostUsers]
@@ -62,6 +64,9 @@ async function seed(done) {
   const adaptedData = yummlyData.map(sourceRecipe =>
     RecipeFactory(sourceRecipe, 'YUMMLY')
   )
+  //these vars will be used to help us split trending and popular
+  let j = 0
+  let createdAt = '9-1-2018'
   for (let i = 0; i < adaptedData.length; i++) {
     const [recipe, categories, ingredients] = adaptedData[i]
     const newCategories = await Promise.all(
@@ -92,8 +97,12 @@ async function seed(done) {
           await Preference.create({
             userId: likers[i].id,
             recipeId: newRecipe.id,
-            prefers: true
+            prefers: true,
+            createdAt
           })
+          j++
+
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -107,8 +116,12 @@ async function seed(done) {
           await Preference.create({
             userId: likers[i].id,
             recipeId: newRecipe.id,
-            prefers: true
+            prefers: true,
+            createdAt
           })
+
+          j++
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -118,8 +131,12 @@ async function seed(done) {
           await Preference.create({
             userId: dislikers[i].id,
             recipeId: newRecipe.id,
-            prefers: false
+            prefers: false,
+            createdAt
           })
+
+          j++
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -133,8 +150,12 @@ async function seed(done) {
           await Preference.create({
             userId: likers[i].id,
             recipeId: newRecipe.id,
-            prefers: true
+            prefers: true,
+            createdAt
           })
+
+          j++
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -144,8 +165,12 @@ async function seed(done) {
           await Preference.create({
             userId: dislikers[i].id,
             recipeId: newRecipe.id,
-            prefers: false
+            prefers: false,
+            createdAt
           })
+
+          j++
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -159,14 +184,38 @@ async function seed(done) {
           await Preference.create({
             userId: likers[i].id,
             recipeId: newRecipe.id,
-            prefers: true
+            prefers: true,
+            createdAt
           })
+
+          j++
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
       }
     }
   }
+
+  //adds some favorites and requirements for cody for the demo
+  await Promise.all([
+    cody.setRecipes([3, 34, 56]),
+    Requirement.create({
+      userId: 1,
+      ingredientId: 1,
+      requires: false
+    }),
+    Requirement.create({
+      userId: 1,
+      ingredientId: 4,
+      requires: false
+    }),
+    Requirement.create({
+      userId: 1,
+      ingredientId: 29,
+      requires: false
+    })
+  ])
 
   console.log(
     `seeded ${

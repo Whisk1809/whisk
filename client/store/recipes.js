@@ -14,6 +14,17 @@ const GET_NEW_RECIPES = 'GET_NEW_RECIPES'
 const GET_TRENDING_RECIPES = 'GET_TRENDING_RECIPES'
 const GET_SINGLE_RECIPE = 'GET_SINGLE_RECIPE'
 
+export const convertPrepTime = recipe => {
+  const m = Math.floor(recipe.prepTimeSeconds / 60)
+  const hours = Math.floor(m / 60)
+  const minutes = m % 60
+  if (hours === 0) return `${minutes} minutes`
+  if (hours === 1 && minutes === 0) return `${hours} hour`
+  if (hours === 1) return `${hours} hour and ${minutes} minutes`
+  if (hours > 1 && minutes === 0) return `${hours} hours`
+  return `${hours} hours and ${minutes} minutes`
+}
+
 export const setRecommendedRecipes = recommendedRecipes => {
   return {
     type: GET_RECOMMENDED_RECIPES,

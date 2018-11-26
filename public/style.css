@@ -42,6 +42,16 @@ form div {
 .button-result {
   min-width: 100%;
 }
+.container-size .ui.container {
+  max-width: 500px !important;
+  padding: 15px;
+}
+.user-info {
+  background-color: aqua;
+}
+#user-info-li {
+  padding: 10px;
+}
 
 /* Semantic UI overrides */
 .ui.form .field {
@@ -66,8 +76,33 @@ img.ui.image {
   margin-right: 10px;
 }
 
+i.icon.heart:after {
+  background-color: black;
+}
+
+h2.ui.header {
+  text-align: center;
+}
+
+nav {
+  text-align: center;
+  font-size: large;
+}
+
+div a {
+  text-align: center;
+}
+
+div form {
+  text-align: center;
+  justify-content: center;
+}
+
 /* .ui.tiny.image {
   width: 40px;
 } */
 
 /* Slick overrides */
+/* button.ui.button {
+  background-color: blue
+} */

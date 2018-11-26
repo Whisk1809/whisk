@@ -1,30 +1,33 @@
 import axios from 'axios'
 
-const defaultCategories = []
+const initialState = {}
 
-const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES'
+const SET_CATEGORIES = 'SET_CATEGORIES'
 
-export const setCategories = categories => {
-  return {
-    type: GET_ALL_CATEGORIES,
-    categories
-  }
-}
+export const setCategories = categories => ({
+  type: SET_CATEGORIES,
+  categories
+})
 
-export const fetchCategories = () => async dispatch => {
+export const getCategories = categoriesArr => async dispatch => {
   try {
-    const {data} = await axios.get('/api/categories')
+    const catIds = categoriesArr.join(',')
+    const {data} = await axios.get(`/api/categories?ids=${catIds}`)
     dispatch(setCategories(data))
   } catch (err) {
     console.error(err)
   }
 }
 
-export default function(state = defaultCategories, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
-    case GET_ALL_CATEGORIES:
-      return action.categories
-
+    case SET_CATEGORIES: {
+      const newState = {...state}
+      action.categories.forEach(cat => {
+        newState[cat.id] = cat
+      })
+      return newState
+    }
     default:
       return state
   }
