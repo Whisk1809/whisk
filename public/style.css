@@ -83,6 +83,10 @@ div a {
   text-align: center
 }
 
+div form {
+  text-align: center;
+  justify-content: center;
+}
 
 /* .ui.tiny.image {
   width: 40px;
