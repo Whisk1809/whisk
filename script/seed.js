@@ -83,6 +83,16 @@ async function seed(done) {
       newCategories.map(category => newRecipe.setCategories(category[0]))
     )
 
+    // await Promise.all(
+    //   Preference.create({prefers: true, userId: 1, categoryId: 1}),
+    //   Preference.create({prefers: true, userId: 1, categoryId: 2}),
+    //   Preference.create({prefers: false, userId: 1, categoryId: 3}),
+    //   Preference.create({prefers: false, userId: 1, categoryId: 4}),
+    //   Preference.create({prefers: true, userId: 1, ingredientId: 5}),
+    //   Preference.create({prefers: true, userId: 1, ingredientId: 6}),
+    //   Preference.create({prefers: true, userId: 1, ingredientId: 6})
+    // )
+
     // obviously need to refactor this if time allows
     // find the users who meet that criteria and create a preference for that user based on a distribution
     if (categories.map(e => e.name).includes('Italian')) {

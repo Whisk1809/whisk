@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { Segment, Container, Button, Image} from 'semantic-ui-react'
-import {removeFromFavorites, setFavorites} from '../store/favorites'
+import {removeFromFavorites, setFavorites} from '../store'
 import {Link} from 'react-router-dom'
 import Loading from './loading'
 
@@ -36,7 +36,11 @@ class Favorites extends Component {
         </Container>
       )
     } else {
-      return <Loading/>
+      return (
+        <Container>
+          <div>No favorite recipes to show</div>
+        </Container>
+      )
     }
   }
 }

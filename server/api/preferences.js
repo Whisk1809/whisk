@@ -27,11 +27,15 @@ router.post('/', async (req, res, next) => {
 
     const existingPreference = await Preference.findOne({where:{userId, recipeId}})
     if (existingPreference) {
-      await existingPreference.update({prefers})
-      res.status(202).send(existingPreference)
+      if (existingPreference.prefers !== prefers) {
+        await existingPreference.update({prefers})
+        res.status(200).send(existingPreference)
+      } else {
+        res.sendStatus(409)
+      }
     } else {
       const newPreference = await Preference.create(data)
-      res.status(200).send(newPreference)
+      res.status(201).send(newPreference)
     }
   } catch (err) {
     next(err)

@@ -40,9 +40,12 @@ export const updatePreferences = (recipeId, prefers) => async dispatch => {
 export const getPreferences = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/preferences')
-    const dataLikes = data.filter(recipe =>
-      recipe.prefers)
-    const dataDislikes = data.filter(recipe => !recipe.prefers)
+    //call thunks of recipe/ingredient/cuisine/whatever to go load the ids
+    // data.categoryId await axios.get('/api/categories')
+    // data.ingredientId
+    const dataLikes = data.filter(datum =>
+      datum.prefers)
+    const dataDislikes = data.filter(datum => !datum.prefers)
     dispatch(setLikes(dataLikes))
     dispatch(setDislikes(dataDislikes))
   } catch (err) {
@@ -60,10 +63,10 @@ export default function(state = initialState, action) {
     {
       let likes, dislikes;
       if (action.data.prefers) {
-        dislikes = state.dislikes.filter(el => el.recipeId === action.data.recipeId)
+        dislikes = state.dislikes.filter(el => el.recipeId !== action.data.recipeId)
         likes = [...state.likes, action.data]
       } else {
-        likes = state.likes.filter(el => el.recipeId === action.data.recipeId)
+        likes = state.likes.filter(el => el.recipeId !== action.data.recipeId)
         dislikes = [...state.dislikes, action.data]
       }
       return {...state, likes, dislikes};

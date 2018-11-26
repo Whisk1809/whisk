@@ -11,26 +11,30 @@ class ProfilePreferences extends Component {
 
   render() {
     const {likes, dislikes} = this.props
-    console.log(this.props)
+    console.log("likes array", likes)
+    console.log("dislikes array", dislikes)
     return (
       <div>
         <div>Your likes:</div>
+          <div>Ingredients</div>
+
+          <div>Categories</div>
           <ul>
             {likes.map((el, index) => {
               return (
                 <li key={index}>
-                  {el}
+                  {el.recipeId}
                 </li>
               )
             })}
           </ul>
 
-        <div>You dislikes: </div>
+        <div>Your dislikes: </div>
           <ul>
               {dislikes.map((el, index) => {
                 return (
                   <li key={index}>
-                    {el}
+                    {el.recipeId}
                   </li>
                 )
               })}
