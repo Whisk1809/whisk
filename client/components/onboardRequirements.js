@@ -162,7 +162,7 @@ class OnboardRequirements extends Component {
 }
 const mapStateToProps = state => {
   return {
-    ingredients: state.ingredients,
+    ingredients: state.ingredientSearch,
     requirements: state.requirements
   }
 }
