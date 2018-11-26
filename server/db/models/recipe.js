@@ -41,7 +41,7 @@ Recipe.getTrending = async () => {
   t.setDate(t.getMonth() - 1)
   const recipes = await db.query(
     `
-  SELECT  r.*
+  SELECT DISTINCT r.*,x.likeCount
   FROM recipes AS r
   INNER JOIN
   (SELECT p."recipeId", COUNT(*) AS likeCount
@@ -60,7 +60,7 @@ Recipe.getTrending = async () => {
 Recipe.getPopular = async () => {
   const recipes = await db.query(
     `
-  SELECT  r.*
+  SELECT DISTINCT r.*,x.likeCount
   FROM recipes AS r
   INNER JOIN
   (SELECT p."recipeId", COUNT(*) AS likeCount
@@ -78,7 +78,7 @@ Recipe.getPopular = async () => {
 Recipe.getNew = async uId => {
   const recipes = await db.query(
     `
-  SELECT  r.*
+  SELECT DISTINCT r.*
   FROM recipes AS r
   LEFT JOIN preferences AS p
   ON r.id = p."recipeId" AND p."userId" <>:uId
@@ -97,17 +97,42 @@ Recipe.findIds = async arr => {
 Recipe.recommend = async uId => {
   const ids = await recommender(uId)
   console.log(ids)
+  const padding = 15 - ids.length >= 0 ? 15 - ids.length : 0
   const recipes = await db.query(
     `
-  SELECT  r.*
+WITH
+recommendations AS(SELECT DISTINCT r.*
   FROM recipes AS r
     LEFT JOIN preferences AS p
     ON r.id = p."recipeId" AND p."userId" = :uId
     LEFT JOIN "FavoriteRecipes" as f
-    ON r.id = f."recipeId" AND f."userId" =:uId
+    ON r.id = f."recipeId" AND f."userId" = :uId
   WHERE r.id IN (:ids) AND p.id IS NULL AND f."recipeId" IS NULL
-  LIMIT 15`,
-    {type: Sequelize.QueryTypes.SELECT, replacements: {ids, uId}}
+  LIMIT 15),
+padding AS (
+SELECT DISTINCT r.*
+  FROM recipes AS r
+    INNER JOIN
+    (SELECT p."recipeId", COUNT(*) AS likeCount
+    FROM preferences AS p
+    WHERE (p."recipeId" IS NOT NULL) AND (p.prefers = TRUE)
+    GROUP BY p."recipeId"
+    ORDER BY likeCount DESC
+    ) AS x
+    ON r.id = x."recipeId"
+    LEFT JOIN preferences AS p
+    ON r.id = p."recipeId" AND p."userId" = :uId
+    LEFT JOIN "FavoriteRecipes" as f
+    ON r.id = f."recipeId" AND f."userId" = :uId
+  WHERE r.id NOT IN (SELECT id from recommendations ) and p.id IS NULL AND f."recipeId" IS NULL
+  LIMIT :padding
+  )
+
+SELECT * from recommendations
+UNION ALL
+SELECT * FROM padding
+  `,
+    {type: Sequelize.QueryTypes.SELECT, replacements: {ids, uId, padding}}
   )
   console.log(recipes)
   return recipes
