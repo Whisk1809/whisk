@@ -203,17 +203,17 @@ async function seed(done) {
     Requirement.create({
       userId: 1,
       ingredientId: 1,
-      prefers: false
+      requires: false
     }),
     Requirement.create({
       userId: 1,
       ingredientId: 4,
-      prefers: false
+      requires: false
     }),
     Requirement.create({
       userId: 1,
       ingredientId: 29,
-      prefers: false
+      requires: false
     })
   ])
 
