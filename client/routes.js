@@ -2,8 +2,15 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, Favorites, SingleRecipe} from './components'
-import {me} from './store'
+import {
+  Login,
+  Signup,
+  UserHome,
+  Favorites,
+  SingleRecipe,
+  ProfilePreferences
+} from './components'
+import {me, getPreferences} from './store'
 import Recipes from './components/recipes'
 import OnboardRequirements from './components/onboardRequirements'
 import singleRecipe from './components/singleRecipe'
@@ -33,6 +40,7 @@ class Routes extends Component {
             <Route exact path="/recipes/:recipeId" component={SingleRecipe} />
             <Route path="/recipes" component={Recipes} />
             <Route path="/favorites" component={Favorites} />
+            <Route path="/preferences" component={ProfilePreferences} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -57,6 +65,7 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
+      dispatch(getPreferences())
     }
   }
 }

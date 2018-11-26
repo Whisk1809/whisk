@@ -2,8 +2,9 @@ const axios = require('axios')
 const fs = require('fs')
 if (process.env.NODE_ENV !== 'production') require('../../secrets')
 
-const testTerms = ['burrito', 'pizza']
+const testTerms = ['burrito', 'pizza', 'sandwich', 'soup']
 const terms = [
+  'kosher',
   'christmas',
   'burrito',
   'pizza',
@@ -30,10 +31,11 @@ const terms = [
   'indian',
   'fish',
   'meatball',
-  'Nuts',
-  'Pescetarian',
-  'Paleo',
-  'Vegetarian'
+  'seafood',
+  'burger',
+  'healthy',
+  'vegetarian',
+  'vegetable'
 ]
 
 //
@@ -71,7 +73,7 @@ const searchRecipes = async searchTerm => {
       _app_key: process.env.YUMMLY_KEY,
       q: searchTerm,
       requirePictures: true,
-      maxResult: 1
+      maxResult: 25
     }
     const {data} = await axios.get(uri, {params})
     return data
@@ -89,7 +91,7 @@ const fetchRecipeDataFromTerms = async terms => {
 
 const yummlyData = []
 const fetchData = async () => {
-  const recipeTermData = await fetchRecipeDataFromTerms(testTerms) //an array of matches arrays
+  const recipeTermData = await fetchRecipeDataFromTerms(terms) //an array of matches arrays
 
   for (let i = 0; i < recipeTermData.length; i++) {
     for (let j = 0; j < recipeTermData[i].length; j++) {

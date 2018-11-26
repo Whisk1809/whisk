@@ -1,27 +1,21 @@
 const router = require('express').Router()
 const {Ingredient} = require('../db/models')
-module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const ingredients = await Ingredient.findAll({
-      where: {
-        name: {
-          $iLike: req.query.findIngredient + '%'
-        }
-      }
-    })
-    res.json(ingredients)
+    const ids = req.query.ids
+    if (ids) {
+      const idsArr = ids.split(',')
+      const ingredients = await Ingredient.findAll({where: {id: idsArr}})
+      res.json(ingredients)
+    } else {
+      const ingredients = await Ingredient.findAll()
+      res.json(ingredients)
+    }
   } catch (err) {
     console.error(err)
     next(err)
   }
 })
-router.get('/:id', async (req, res, next) => {
-  try {
-    const ingredient = await Ingredient.findById(req.params.id)
-    res.json(ingredient)
-  } catch (err) {
-    console.error(err)
-  }
-})
+
+module.exports = router

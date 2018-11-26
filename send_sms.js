@@ -3,13 +3,13 @@
 //var CronJob = require('cron').CronJob;
 var cron = require('cron-scheduler')
 //define functions and then schedule in same file
-const accountSid = 'AC73c8fa517d3e83ccc4c9c6897586ce8e';
-const authToken = '9622761b850dfc615521b37b1266db99';
-//const accountSid = process.env.accountSid
-//const authToken = process.env.authToken
-const client = require('twilio')(accountSid, authToken);
 
-//find user id using sequelize findOne...import sequelize?
+
+require('./secrets')
+
+const accountSid = process.env.accountSid
+const authToken = process.env.authToken
+const client = require('twilio')(accountSid, authToken);
 
 
 console.log('job started')
@@ -72,7 +72,7 @@ function testText() {
   })
 
 
-    const cronJob2 = cron({on:'00 17 * * *'}, function () {
+    const cronJob2 = cron({on:'06 17 * * *'}, function () {
       eveningText()
       console.log('inside evening text')
     })
@@ -84,9 +84,9 @@ function testText() {
         console.log('inside after text')
       })
 
-      // const cronJob4 = cron({on: '09 21 * * *'},
-      // function(){
-      //   testText()
-      //   console.log('still testing')
-      // })
+      const cronJob4 = cron({on: '40 17 * * *'},
+      function(){
+        testText()
+        console.log('still testing')
+      })
 

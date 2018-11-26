@@ -14,7 +14,7 @@ export const setIngredients = ingredients => {
 export const searchIngredients = searchParams => async dispatch => {
   try {
     const {data} = await axios.get(
-      `/api/ingredients?findIngredient=${searchParams}`
+      `/api/ingredientSearch?findIngredient=${searchParams}`
     )
     dispatch(setIngredients(data))
   } catch (err) {

@@ -18,7 +18,7 @@ import {
   destroyRequirement,
   fetchRequirements
 } from '../store/requirements'
-import {searchIngredients} from '../store/ingredients'
+import {searchIngredients} from '../store/ingredientSearch'
 
 class OnboardRequirements extends Component {
   constructor() {
