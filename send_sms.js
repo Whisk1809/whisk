@@ -66,7 +66,7 @@ function testText() {
 
 
 
-  const cronJob = cron({on: '10 10 * * *'}, function() {
+  const cronJob = cron({on: '30 09 * * *'}, function() {
     morningText()
     console.log('inside morning text')
   })
@@ -79,12 +79,12 @@ function testText() {
 
 
 
-      const cronJob3 = cron({on: '11 21 * * *'}, function() {
+      const cronJob3 = cron({on: '45 21 * * *'}, function() {
         afterText()
         console.log('inside after text')
       })
 
-      const cronJob4 = cron({on: '40 17 * * *'},
+      const cronJob4 = cron({on: '40 09 * * *'},
       function(){
         testText()
         console.log('still testing')
