@@ -5,11 +5,17 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import recipes from './recipes'
 import favorites from './favorites'
+import preferences from './preferences'
+import categories from './categories'
+import ingredients from './ingredients'
 
 const reducer = combineReducers({
   user,
   recipes,
-  favorites
+  favorites,
+  preferences,
+  categories,
+  ingredients
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -19,3 +25,7 @@ const store = createStore(reducer, middleware)
 export default store
 export * from './user'
 export * from './recipes'
+export * from './favorites'
+export * from './preferences'
+export * from './categories'
+export * from './ingredients'
