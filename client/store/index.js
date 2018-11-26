@@ -5,7 +5,7 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import recipes from './recipes'
 import categories from './categories'
-import ingredients from './ingredients'
+import ingredientSearch from './ingredientSearch'
 import requirements from './requirements'
 import favorites from './favorites'
 
@@ -13,7 +13,7 @@ const reducer = combineReducers({
   user,
   recipes,
   categories,
-  ingredients,
+  ingredientSearch,
   requirements,
   favorites
 })
