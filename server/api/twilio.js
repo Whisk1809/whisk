@@ -25,41 +25,33 @@ const client = require('twilio')(accountSid, authToken);
 
 router.post('/sms', async (req, res) => {
   const twiml = new MessagingResponse();
- // console.log('test')
+  const recommendations =  await recommend(1)
+  //console.log(recommendations, 'recommendation twilio')
+  const uId = recommendations[0].recipeId
+  const first = await Recipe.findById(uId)
+  const uId2 = recommendations[1].recipeId
+  const next = await Recipe.findById(uId2)
+  const nextAnswer = next.sourceRecipeUrl
+  const answer = first.sourceRecipeUrl
+
+  //const number = '+13364136015'
+  //const {from} = req.body
+
+  let counter = 0
+
   if (req.body.Body == 'Show me') {
 
-    try {
-      const number = '+13364136015'
-      const {from} = req.body
-     // console.log(req.body, 'req.body')
 
-      //const user = await User.findByPhoneNumber(from)
 
-      const user = User.findOne({
-        where: {
-          phone: number
-        }
-      })
-      // const recommendations = await recommend(1)
-      // .then(data => {
-      //   Recipe.findIds(data)
-      //   console.log(recommendations, 'rec')
-      // })
 
-      const recommendations =  await recommend(1)
-      console.log(recommendations, 'recommendation twilio')
-      const uId = recommendations[0].recipeId
-      const next = await Recipe.findById(uId)
-     // const recs = await Recipe.findIds(recommendations)
-     // console.log(recs, 'recs')
-      const answer = next.sourceRecipeUrl
-    twiml.message(`Okay, try this: ${answer}`);
+    twiml.message(`Okay, try this: ${answer}.  If you don't like that idea, text 'Show me something else'`);
+  }
 
-    } catch (err) {
-      console.error(err)
-    }
+  else if (req.body.Body == 'Show me something else') {
+    twiml.message(`No problem. Take a look at this one instead: ${nextAnswer}`)
+  }
 
-  } else if (req.body.Body == 'Dislike') {
+  else if (req.body.Body == 'Dislike') {
     twiml.message('Good to know, let\'s try something else');
   }
     else if (req.body.Body == 'Like') {
