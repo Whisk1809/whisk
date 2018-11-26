@@ -8,7 +8,7 @@ import {
   UserHome,
   Favorites,
   SingleRecipe,
-  ProfilePreferences
+  ProfilePreferences, GridExampleStretchedEqual
 } from './components'
 import {me, getPreferences} from './store'
 import Recipes from './components/recipes'
@@ -41,6 +41,7 @@ class Routes extends Component {
             <Route path="/recipes" component={Recipes} />
             <Route path="/favorites" component={Favorites} />
             <Route path="/preferences" component={ProfilePreferences} />
+            <Route path="/try" component={GridExampleStretchedEqual} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
