@@ -27,10 +27,12 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.delete('/', async (req, res, next) => {
+router.delete('/:favoriteId', async (req, res, next) => {
   try {
     const userId = req.user.id
     const recipeId = req.body.recipeId
+    const favroiteId = req.params.favroiteId
+
     const recipeToRemove = await Recipe.findById(recipeId)
     const user = await User.findById(userId)
     await user.removeRecipe(recipeToRemove);

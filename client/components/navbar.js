@@ -19,6 +19,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
               Logout
             </a>
             <Link to="/favorites">My favorite recipes</Link>
+            <Link to="/preferences">Preferences</Link>
           </div>
         ) : (
           <div>
