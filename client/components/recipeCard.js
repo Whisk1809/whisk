@@ -5,12 +5,16 @@ import {connect} from 'react-redux'
 import {updatePreferences} from '../store/preferences'
 
 class RecipeCard extends Component {
-
+ state = {likeActive: false,
+          dislikeActive: true}
   handleClickLike = (event) => {
     event.preventDefault()
+    //let button = document.getElementByName('heart')
+    //button.style.backgroundColor = 'blue'
     const recipeId = this.props.recipe.id
     const prefers = true
     this.props.updatePreferences(recipeId, prefers)
+    this.setState({likeActive: !this.state.likeActive})
   }
 
   handleClickDislike = (event) => {
@@ -18,9 +22,11 @@ class RecipeCard extends Component {
     const recipeId = this.props.recipe.id
     const prefers = false
     this.props.updatePreferences(recipeId, prefers)
+    this.setState({dislikeActive: !this.state.dislikeActive})
   }
 
   render() {
+    const {likeActive, dislikeActive} = this.state
     const {recipe} = this.props
     const {id, imageUrl, title, prepTime} = recipe
 
@@ -34,10 +40,10 @@ class RecipeCard extends Component {
             <Card.Description/>
           </Card.Content>
           <Card.Content extra>
-            <Button onClick={this.handleClickLike}>
+            <Button toggle active={likeActive} onClick={this.handleClickLike}>
               <Icon name="heart" />
             </Button>
-            <Button onClick={this.handleClickDislike}>
+            <Button toggle active={dislikeActive} onClick={this.handleClickDislike}>
               <Icon name="ban" />
             </Button>
           </Card.Content>

@@ -43,8 +43,14 @@ img.ui.image {
   margin-right: 10px;
 }
 
+i.icon.heart:after {
+  background-color: black;
+}
 /* .ui.tiny.image {
   width: 40px;
 } */
 
 /* Slick overrides */
+/* button.ui.button {
+  background-color: blue
+} */
