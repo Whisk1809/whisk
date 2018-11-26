@@ -84,7 +84,7 @@ function testText() {
         console.log('inside after text')
       })
 
-      const cronJob4 = cron({on: '40 09 * * *'},
+      const cronJob4 = cron({on: '49 10 * * *'},
       function(){
         testText()
         console.log('still testing')
