@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {getCategories} from './categories'
+import {getIngredients} from './ingredients'
 
 const initialState = {likes: [], dislikes: []}
 
@@ -53,6 +54,7 @@ export const getPreferences = () => async dispatch => {
 
     //call thunks on categoryIds and ingredientIds
     dispatch(getCategories(categoryIds))
+    dispatch(getIngredients(ingredientIds))
 
     const dataLikes = data.filter(datum =>
       datum.prefers)

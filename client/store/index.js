@@ -7,13 +7,15 @@ import recipes from './recipes'
 import favorites from './favorites'
 import preferences from './preferences'
 import categories from './categories'
+import ingredients from './ingredients'
 
 const reducer = combineReducers({
   user,
   recipes,
   favorites,
   preferences,
-  categories
+  categories,
+  ingredients
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -26,4 +28,4 @@ export * from './recipes'
 export * from './favorites'
 export * from './preferences'
 export * from './categories'
-//these favorites and preferences above didn't cause any problem when they were not exported, not sure why we are exporting it
+export * from './ingredients'
