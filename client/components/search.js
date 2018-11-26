@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+<<<<<<< HEAD
 import {connect} from 'react-redux'
 import {searchRecipes} from '../store/recipeSearch'
 import RecipeCard from './recipeCard'
@@ -54,3 +55,13 @@ const mapDispatchToProps = dispatch => {
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Search)
+=======
+
+class Search extends Component {
+  render() {
+    return <div />
+  }
+}
+
+export default Sh
+>>>>>>> ace7cd7813cfbf7f230720f04b9bdf0fc69f2838

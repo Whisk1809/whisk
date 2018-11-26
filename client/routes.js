@@ -47,6 +47,8 @@ class Routes extends Component {
             <Route path="/recipes" component={Recipes} />
             <Route path="/favorites" component={Favorites} />
             <Route path="/preferences" component={ProfilePreferences} />
+            <Route path="/home" component={Recipes} />
+            <Route exact path="/" component={Recipes} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

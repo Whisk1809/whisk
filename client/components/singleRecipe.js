@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getSingleRecipe} from '../store'
-import {updatePreferences} from '../store/preferences'
+import {updatePreferences, convertPrepTime} from '../store'
 import {addToFavorites} from '../store/favorites'
 import {Image, Button, Container, Icon, Item, Label} from 'semantic-ui-react'
 import Loading from './loading'
@@ -68,7 +68,11 @@ class SingleRecipe extends Component {
                   <Item.Meta>
                     <Image src="/cooking-time.png" size="tiny" />{' '}
                     <strong>Cooking Time</strong>
+<<<<<<< HEAD
                     <div>{prepTime}</div>
+=======
+                    <div>{convertPrepTime(singleRecipe)}</div>
+>>>>>>> ace7cd7813cfbf7f230720f04b9bdf0fc69f2838
                   </Item.Meta>
                 </Item.Content>
               </Item>

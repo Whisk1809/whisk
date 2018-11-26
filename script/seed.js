@@ -64,8 +64,17 @@ async function seed(done) {
   const adaptedData = yummlyData.map(sourceRecipe =>
     RecipeFactory(sourceRecipe, 'YUMMLY')
   )
+  //these vars will be used to help us split trending and popular
+  let j = 0
+  let createdAt = '9-1-2018'
   for (let i = 0; i < adaptedData.length; i++) {
     const [recipe, categories, ingredients] = adaptedData[i]
+    if (!recipe.prepTimeSeconds) continue //don't want to add to db if we don't have preptime
+    const [newRecipe, created] = await Recipe.findOrCreate({
+      where: {title: recipe.title}
+    })
+    if (!created) continue //skip if this is a name duplicate
+    await newRecipe.update(recipe)
     const newCategories = await Promise.all(
       categories.map(category =>
         Category.findOrCreate({where: {name: category.name}})
@@ -77,7 +86,7 @@ async function seed(done) {
         Ingredient.findOrCreate({where: {name: ingredient.name}})
       )
     )
-    const newRecipe = await Recipe.create(recipe)
+
     await Promise.all(
       newIngredients.map(ingredient => newRecipe.setIngredients(ingredient[0]))
     )
@@ -94,8 +103,12 @@ async function seed(done) {
           await Preference.create({
             userId: likers[i].id,
             recipeId: newRecipe.id,
-            prefers: true
+            prefers: true,
+            createdAt
           })
+          j++
+
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -109,8 +122,12 @@ async function seed(done) {
           await Preference.create({
             userId: likers[i].id,
             recipeId: newRecipe.id,
-            prefers: true
+            prefers: true,
+            createdAt
           })
+
+          j++
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -120,8 +137,12 @@ async function seed(done) {
           await Preference.create({
             userId: dislikers[i].id,
             recipeId: newRecipe.id,
-            prefers: false
+            prefers: false,
+            createdAt
           })
+
+          j++
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -135,8 +156,12 @@ async function seed(done) {
           await Preference.create({
             userId: likers[i].id,
             recipeId: newRecipe.id,
-            prefers: true
+            prefers: true,
+            createdAt
           })
+
+          j++
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -146,8 +171,12 @@ async function seed(done) {
           await Preference.create({
             userId: dislikers[i].id,
             recipeId: newRecipe.id,
-            prefers: false
+            prefers: false,
+            createdAt
           })
+
+          j++
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -161,8 +190,12 @@ async function seed(done) {
           await Preference.create({
             userId: likers[i].id,
             recipeId: newRecipe.id,
-            prefers: true
+            prefers: true,
+            createdAt
           })
+
+          j++
+          if (j === 300) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -176,17 +209,17 @@ async function seed(done) {
     Requirement.create({
       userId: 1,
       ingredientId: 1,
-      prefers: false
+      requires: false
     }),
     Requirement.create({
       userId: 1,
       ingredientId: 4,
-      prefers: false
+      requires: false
     }),
     Requirement.create({
       userId: 1,
       ingredientId: 29,
-      prefers: false
+      requires: false
     })
   ])
 
