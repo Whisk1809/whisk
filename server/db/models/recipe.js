@@ -134,7 +134,6 @@ SELECT * FROM padding
   `,
     {type: Sequelize.QueryTypes.SELECT, replacements: {ids, uId, padding}}
   )
-  console.log(recipes)
   return recipes
 }
 
