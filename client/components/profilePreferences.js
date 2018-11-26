@@ -12,7 +12,7 @@ class ProfilePreferences extends Component {
       <div>
         <Container>
           <Segment.Group>
-              <Segment><Header as='h1'>Your likes</Header></Segment>
+              <Segment><Header as='h1' textAlign="center">Your likes</Header></Segment>
               <Segment.Group>
                 <Segment><Header as="h3">Ingredients</Header></Segment>
                 <Segment.Group>
@@ -43,7 +43,7 @@ class ProfilePreferences extends Component {
           <br/>
           <Container>
             <Segment.Group>
-              <Segment><Header as="h1">Your dislikes</Header></Segment>
+              <Segment><Header as="h1" textAlign="center">Your dislikes</Header></Segment>
               <Segment.Group>
                 <Segment><Header as="h3">Ingredients</Header></Segment>
                 <Segment.Group>
