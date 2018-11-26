@@ -15,8 +15,8 @@ const Recipe = db.define('recipe', {
     allowNull: true
   },
   sourceId: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
+    // allowNull: false
   },
   description: {
     type: Sequelize.STRING,
