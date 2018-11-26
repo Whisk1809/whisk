@@ -2,25 +2,27 @@ import React, {Component} from 'react'
 import {Card, Icon, Image, Container, Button} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {updatePreferences} from '../store/preferences'
+import {updatePreferences, convertPrepTime} from '../store'
 
 class RecipeCard extends Component {
- state = {likeActive: false,
-          dislikeActive: true,
-          likeButtonColor: 'blue',
-          dislikeButtonColor: 'red'}
-  handleClickLike = (event) => {
+  state = {
+    likeActive: false,
+    dislikeActive: true,
+    likeButtonColor: 'blue',
+    dislikeButtonColor: 'red'
+  }
+  handleClickLike = event => {
     event.preventDefault()
     //let button = document.getElementByName('heart')
     //button.style.backgroundColor = 'blue'
     const recipeId = this.props.recipe.id
     const prefers = true
     this.props.updatePreferences(recipeId, prefers)
-   // this.setState({likeActive: !this.state.likeActive})
-   this.setState({likeButtonColor: 'black'})
+    // this.setState({likeActive: !this.state.likeActive})
+    this.setState({likeButtonColor: 'black'})
   }
 
-  handleClickDislike = (event) => {
+  handleClickDislike = event => {
     event.preventDefault()
     const recipeId = this.props.recipe.id
     const prefers = false
@@ -37,17 +39,23 @@ class RecipeCard extends Component {
     return (
       <Container>
         <Card>
-          <Image src={imageUrl} as={Link} to={`/recipes/${id}`}/>
+          <Image src={imageUrl} as={Link} to={`/recipes/${id}`} />
           <Card.Content as={Link} to={`/recipes/${id}`}>
-            <Card.Header> {title} </Card.Header>
-            <Card.Meta>{prepTime}</Card.Meta>
-            <Card.Description/>
+            <Card.Header> {title}</Card.Header>
+            <Card.Meta>{convertPrepTime(recipe)}</Card.Meta>
+            <Card.Description />
           </Card.Content>
           <Card.Content extra>
-            <Button color={this.state.likeButtonColor} onClick={this.handleClickLike}>
+            <Button
+              color={this.state.likeButtonColor}
+              onClick={this.handleClickLike}
+            >
               <Icon name="heart" />
             </Button>
-            <Button color={this.state.dislikeButtonColor} onClick={this.handleClickDislike}>
+            <Button
+              color={this.state.dislikeButtonColor}
+              onClick={this.handleClickDislike}
+            >
               <Icon name="ban" />
             </Button>
           </Card.Content>
@@ -58,7 +66,8 @@ class RecipeCard extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updatePreferences: (recipeId, prefers) => dispatch(updatePreferences(recipeId, prefers))
+  updatePreferences: (recipeId, prefers) =>
+    dispatch(updatePreferences(recipeId, prefers))
 })
 
 export default connect(null, mapDispatchToProps)(RecipeCard)

@@ -11,8 +11,8 @@ const {
   Recipe,
   Category,
   Ingredient,
-  Preference,
-  Requirement
+  Requirement,
+  Preference
 } = require('../server/db/models')
 
 const RecipeFactory = require('../server/adapter')
@@ -41,6 +41,8 @@ async function seed(done) {
       phone: '+1111-111-1111'
     })
   ])
+
+  const cody = someUsers[0]
 
   const mostUsers = await Promise.all(users.map(user => User.create(user)))
 
@@ -167,6 +169,26 @@ async function seed(done) {
       }
     }
   }
+
+  //adds some favorites and requirements for cody for the demo
+  await Promise.all([
+    cody.setRecipes([3, 34, 56]),
+    Requirement.create({
+      userId: 1,
+      ingredientId: 1,
+      prefers: false
+    }),
+    Requirement.create({
+      userId: 1,
+      ingredientId: 4,
+      prefers: false
+    }),
+    Requirement.create({
+      userId: 1,
+      ingredientId: 29,
+      prefers: false
+    })
+  ])
 
   console.log(
     `seeded ${
