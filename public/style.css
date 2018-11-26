@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  padding: 10px;
 }
 
 a {
@@ -69,6 +70,15 @@ img.ui.image {
 i.icon.heart:after {
   background-color: black;
 }
+
+.ui.card, .ui.cards>.card {
+  min-height: 343px;
+}
+
+.ui.card>.content>.header:not(.ui), .ui.cards>.card>.content>.header:not(.ui) {
+  min-height: 50px;
+}
+
 /* .ui.tiny.image {
   width: 40px;
 } */

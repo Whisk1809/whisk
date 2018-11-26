@@ -8,7 +8,7 @@ import {
   UserHome,
   Favorites,
   SingleRecipe,
-  ProfilePreferences, GridExampleStretchedEqual
+  ProfilePreferences, GridsTry
 } from './components'
 import {me, getPreferences} from './store'
 import Recipes from './components/recipes'
@@ -32,6 +32,7 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/requirements" component={OnboardRequirements} />
+        <Route path="/try" component={GridsTry} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -41,7 +42,7 @@ class Routes extends Component {
             <Route path="/recipes" component={Recipes} />
             <Route path="/favorites" component={Favorites} />
             <Route path="/preferences" component={ProfilePreferences} />
-            <Route path="/try" component={GridExampleStretchedEqual} />
+            <Route path="/try" component={GridsTry} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

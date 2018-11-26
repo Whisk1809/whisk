@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, Icon, Image, Container, Button} from 'semantic-ui-react'
+import {Card, Icon, Image, Container, Button, Grid, Segment} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {updatePreferences, convertPrepTime} from '../store'
