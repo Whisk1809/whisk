@@ -2,9 +2,18 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, Favorites, SingleRecipe, ProfilePreferences} from './components'
+import {
+  Login,
+  Signup,
+  UserHome,
+  Favorites,
+  SingleRecipe,
+  ProfilePreferences
+} from './components'
 import {me, getPreferences} from './store'
 import Recipes from './components/recipes'
+import OnboardRequirements from './components/onboardRequirements'
+import singleRecipe from './components/singleRecipe'
 
 /**
  * COMPONENT
@@ -22,6 +31,7 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/requirements" component={OnboardRequirements} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
