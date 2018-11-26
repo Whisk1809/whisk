@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-import { Button, Checkbox, Form, Message } from 'semantic-ui-react'
+import { Button, Checkbox, Form, Message, Container } from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -11,23 +11,21 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
   return (
     <div>
-      <Form error={!!error} onSubmit={handleSubmit} name={name}>
-        <Form.Input className="auth" label="Email" name="email" placeholder="Email"/>
-        <br/>
-        <Form.Input label="Password" name="password" placeholder="Password" type="password"/>
-        <br/>
-        <Form.Field>
-          <Checkbox label='I agree to the Terms and Conditions' />
-        </Form.Field>
-        <br/>
-        <Button positive type='submit'>{displayName}</Button>
-        {error && error.response && (
-          <Message error
-          header='An error occurred'
-          content={error.response.data}
-          />
-          )}
-      </Form>
+      <Container>
+        <Form error={!!error} onSubmit={handleSubmit} name={name}>
+          <Form.Input className="auth" label="Email" name="email" placeholder="Email"/>
+          <br/>
+          <Form.Input label="Password" name="password" placeholder="Password" type="password"/>
+          <br/>
+          <Button positive type='submit'>{displayName}</Button>
+          {error && error.response && (
+            <Message error
+            header='An error occurred'
+            content={error.response.data}
+            />
+            )}
+        </Form>
+      </Container>
     </div>
   )
 }
