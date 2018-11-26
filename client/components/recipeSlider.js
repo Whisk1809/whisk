@@ -16,7 +16,7 @@ class RecipeSlider extends Component {
       <Slider {...settings}>
         {recipes.map(recipe => {
           return (
-            <div key={recipe.id}>
+            <div key={recipe.id} className="ui cards">
               <RecipeCard recipe={recipe} />
             </div>
           )

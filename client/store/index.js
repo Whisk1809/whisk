@@ -9,6 +9,8 @@ import ingredientSearch from './ingredientSearch'
 import requirements from './requirements'
 import favorites from './favorites'
 import preferences from './preferences'
+import recipeSearch from './recipeSearch'
+import searchStatus from './searchStatus'
 
 import ingredients from './ingredients'
 
@@ -18,10 +20,10 @@ const reducer = combineReducers({
   categories,
   ingredientSearch,
   requirements,
+  recipeSearch,
   favorites,
-
   preferences,
-
+  searchStatus,
   ingredients
 })
 const middleware = composeWithDevTools(

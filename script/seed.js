@@ -69,6 +69,12 @@ async function seed(done) {
   let createdAt = '9-1-2018'
   for (let i = 0; i < adaptedData.length; i++) {
     const [recipe, categories, ingredients] = adaptedData[i]
+    if (!recipe.prepTimeSeconds) continue //don't want to add to db if we don't have preptime
+    const [newRecipe, created] = await Recipe.findOrCreate({
+      where: {title: recipe.title}
+    })
+    if (!created) continue //skip if this is a name duplicate
+    await newRecipe.update(recipe)
     const newCategories = await Promise.all(
       categories.map(category =>
         Category.findOrCreate({where: {name: category.name}})
@@ -80,7 +86,7 @@ async function seed(done) {
         Ingredient.findOrCreate({where: {name: ingredient.name}})
       )
     )
-    const newRecipe = await Recipe.create(recipe)
+
     await Promise.all(
       newIngredients.map(ingredient => newRecipe.setIngredients(ingredient[0]))
     )
@@ -203,17 +209,17 @@ async function seed(done) {
     Requirement.create({
       userId: 1,
       ingredientId: 1,
-      prefers: false
+      requires: false
     }),
     Requirement.create({
       userId: 1,
       ingredientId: 4,
-      prefers: false
+      requires: false
     }),
     Requirement.create({
       userId: 1,
       ingredientId: 29,
-      prefers: false
+      requires: false
     })
   ])
 
