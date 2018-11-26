@@ -96,3 +96,21 @@ div form {
 /* button.ui.button {
   background-color: blue
 } */
+
+button.ui.blue.button {
+  justify-content: flex-end;
+  /* margin-left: 600px; */
+}
+
+div.ui.segment {
+
+  display: flex;
+  justify-content: space-between;
+  max-height: 150px;
+}
+/* .flex-container {
+  display: flex;
+  justify-content: space-between;
+} */
+
+
