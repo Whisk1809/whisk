@@ -7,6 +7,7 @@ import {me} from './store'
 import Recipes from './components/recipes'
 import OnboardRequirements from './components/onboardRequirements'
 import singleRecipe from './components/singleRecipe'
+import Profile from './components/profile'
 
 /**
  * COMPONENT
@@ -33,6 +34,7 @@ class Routes extends Component {
             <Route exact path="/recipes/:recipeId" component={SingleRecipe} />
             <Route path="/recipes" component={Recipes} />
             <Route path="/favorites" component={Favorites} />
+            <Route path="/profile" component={Profile} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
