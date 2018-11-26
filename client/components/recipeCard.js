@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, Icon, Image, Container, Button} from 'semantic-ui-react'
+import {Card, Icon, Image, Container, Button, Grid} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {updatePreferences, convertPrepTime} from '../store'
@@ -37,8 +37,10 @@ class RecipeCard extends Component {
     const {id, imageUrl, title, prepTime} = recipe
 
     return (
+      <Grid className="fill-content">
       <Container>
-        <Card>
+        <Card fluid>
+
           <Image src={imageUrl} as={Link} to={`/recipes/${id}`} />
           <Card.Content as={Link} to={`/recipes/${id}`}>
             <Card.Header> {title}</Card.Header>
@@ -61,6 +63,7 @@ class RecipeCard extends Component {
           </Card.Content>
         </Card>
       </Container>
+      </Grid>
     )
   }
 }

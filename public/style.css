@@ -69,6 +69,25 @@ img.ui.image {
 i.icon.heart:after {
   background-color: black;
 }
+
+h2.ui.header {
+  text-align: center
+}
+
+nav {
+  text-align: center;
+  font-size: large;
+}
+
+div a {
+  text-align: center
+}
+
+div form {
+  text-align: center;
+  justify-content: center;
+}
+
 /* .ui.tiny.image {
   width: 40px;
 } */
