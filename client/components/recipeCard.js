@@ -39,7 +39,7 @@ class RecipeCard extends Component {
         <Card>
           <Image src={imageUrl} as={Link} to={`/recipes/${id}`}/>
           <Card.Content as={Link} to={`/recipes/${id}`}>
-            <Card.Header> {title}</Card.Header>
+            <Card.Header> {title} </Card.Header>
             <Card.Meta>{prepTime}</Card.Meta>
             <Card.Description/>
           </Card.Content>

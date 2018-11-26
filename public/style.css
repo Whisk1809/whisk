@@ -46,6 +46,10 @@ img.ui.image {
 i.icon.heart:after {
   background-color: black;
 }
+
+h2.ui.header {
+  text-align: center
+}
 /* .ui.tiny.image {
   width: 40px;
 } */
