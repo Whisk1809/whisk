@@ -15,8 +15,8 @@ const Recipe = db.define('recipe', {
     allowNull: true
   },
   sourceId: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type: Sequelize.STRING
+    // allowNull: false
   },
   description: {
     type: Sequelize.STRING,
@@ -134,7 +134,6 @@ SELECT * FROM padding
   `,
     {type: Sequelize.QueryTypes.SELECT, replacements: {ids, uId, padding}}
   )
-  console.log(recipes)
   return recipes
 }
 

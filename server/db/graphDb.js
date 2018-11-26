@@ -286,7 +286,7 @@ const recommender = async uId => {
     WITH u, likers,likeIntersection,l1,l2,l1+filter(x IN l2 WHERE NOT x IN l1) AS union
 
     //give back the 5 most similar users
-    WITH u.pk AS userId, likers,((1.0*likeIntersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT 5
+    WITH u.pk AS userId, likers,((1.0*likeIntersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT 3
 
 
     //find the recipes that the 5 most similar users like that I have not yet liked
@@ -294,7 +294,8 @@ const recommender = async uId => {
     WITH COLLECT(r.pk) as myLikes
     MATCH (likers:User)-[:likes]->(r:Recipe)
     WITH likers,r WHERE NOT r.pk IN myLikes
-    RETURN DISTINCT r.pk
+    WITH r.pk AS recipeId,COUNT(DISTINCT likers) AS likeCount ORDER BY likeCount DESC LIMIT 15
+    RETURN DISTINCT recipeId
     `,
     {uId: uId.toString()}
   )
