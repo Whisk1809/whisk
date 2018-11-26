@@ -6,7 +6,9 @@ import {updatePreferences} from '../store/preferences'
 
 class RecipeCard extends Component {
  state = {likeActive: false,
-          dislikeActive: true}
+          dislikeActive: true,
+          likeButtonColor: 'blue',
+          dislikeButtonColor: 'red'}
   handleClickLike = (event) => {
     event.preventDefault()
     //let button = document.getElementByName('heart')
@@ -14,7 +16,8 @@ class RecipeCard extends Component {
     const recipeId = this.props.recipe.id
     const prefers = true
     this.props.updatePreferences(recipeId, prefers)
-    this.setState({likeActive: !this.state.likeActive})
+   // this.setState({likeActive: !this.state.likeActive})
+   this.setState({likeButtonColor: 'black'})
   }
 
   handleClickDislike = (event) => {
@@ -22,7 +25,8 @@ class RecipeCard extends Component {
     const recipeId = this.props.recipe.id
     const prefers = false
     this.props.updatePreferences(recipeId, prefers)
-    this.setState({dislikeActive: !this.state.dislikeActive})
+    //this.setState({dislikeActive: !this.state.dislikeActive})
+    this.setState({dislikeButtonColor: 'black'})
   }
 
   render() {
@@ -40,10 +44,10 @@ class RecipeCard extends Component {
             <Card.Description/>
           </Card.Content>
           <Card.Content extra>
-            <Button toggle active={likeActive} onClick={this.handleClickLike}>
+            <Button color={this.state.likeButtonColor} onClick={this.handleClickLike}>
               <Icon name="heart" />
             </Button>
-            <Button toggle active={dislikeActive} onClick={this.handleClickDislike}>
+            <Button color={this.state.dislikeButtonColor} onClick={this.handleClickDislike}>
               <Icon name="ban" />
             </Button>
           </Card.Content>
