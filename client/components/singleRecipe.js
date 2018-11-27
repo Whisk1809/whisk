@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {getSingleRecipe} from '../store'
 import {updatePreferences, convertPrepTime} from '../store'
 import {addToFavorites} from '../store/favorites'
-import {Button, Container, Icon, Item, List, Header} from 'semantic-ui-react'
+import {Button, Container, Icon, Item, List, Header, Popup} from 'semantic-ui-react'
 import Loading from './loading'
 
 class SingleRecipe extends Component {
@@ -117,26 +117,29 @@ class SingleRecipe extends Component {
                   </a>
                   <br />
                   <br />
+                  <Popup trigger={
                   <Button
                     color={isLikeActive ? 'green' : 'gray'}
                     onClick={this.handleClickLike}
                     disabled={isDislikeActive}
                   >
                     <Icon name="heart" />
-                  </Button>
+                  </Button>} content="Show me more recipes like this" inverted />
+                  <Popup trigger={
                   <Button
                     color={isDislikeActive ? 'red' : 'gray'}
                     onClick={this.handleClickDislike}
                     disabled={isLikeActive}
                   >
                     <Icon name="ban" />
-                  </Button>
+                  </Button>} content="Show me fewer recipes like this" inverted />
+                  <Popup trigger={
                   <Button
                     color={isBookmarkActive ? 'teal' : 'gray'}
                     onClick={this.handleClickFavorite}
                   >
                     <Icon name="bookmark" />
-                  </Button>
+                  </Button>} content="Add to my recipe book" inverted />
                 </Item.Content>
               </Item>
             </Item.Group>
