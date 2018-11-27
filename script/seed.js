@@ -108,7 +108,7 @@ async function seed(done) {
           })
           j++
 
-          if (j === 300) createdAt = '11-26-2018'
+          if (j === 200) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -127,7 +127,7 @@ async function seed(done) {
           })
 
           j++
-          if (j === 300) createdAt = '11-26-2018'
+          if (j === 200) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -142,7 +142,7 @@ async function seed(done) {
           })
 
           j++
-          if (j === 300) createdAt = '11-26-2018'
+          if (j === 200) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -161,7 +161,7 @@ async function seed(done) {
           })
 
           j++
-          if (j === 300) createdAt = '11-26-2018'
+          if (j === 200) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -176,7 +176,7 @@ async function seed(done) {
           })
 
           j++
-          if (j === 300) createdAt = '11-26-2018'
+          if (j === 200) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -195,7 +195,7 @@ async function seed(done) {
           })
 
           j++
-          if (j === 300) createdAt = '11-26-2018'
+          if (j === 200) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
