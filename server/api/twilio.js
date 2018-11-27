@@ -41,6 +41,13 @@ router.post('/sms', twilio.webhook({validate: false}), async (req, res) => {
 
   else if (req.body.Body == 'Dislike') {
     twiml.message('Good to know, let\'s try something else');
+    let data = {
+      userId: '1',
+      recipeId: uId,
+      prefers: false
+     }
+     const newPreference1 = await Preference.create(data)
+
 
   }
     else if (req.body.Body == 'Like') {
@@ -51,7 +58,7 @@ router.post('/sms', twilio.webhook({validate: false}), async (req, res) => {
        recipeId: uId,
        prefers: true
       }
-      const newPreference = await Preference.create(data)
+      const newPreference2 = await Preference.create(data)
 
     }
 
