@@ -81,9 +81,10 @@ Recipe.getNew = async uId => {
   SELECT DISTINCT r.*
   FROM recipes AS r
   LEFT JOIN preferences AS p
-  ON r.id = p."recipeId" AND p."userId" <>:uId
+  ON r.id = p."recipeId" AND p."userId" = :uId
   LEFT JOIN "FavoriteRecipes" as f
-  ON r.id = f."recipeId" AND f."userId" <>:uId
+  ON r.id = f."recipeId" AND f."userId" = :uId
+  WHERE p.id IS NULL AND f."recipeId" IS NULL
   ORDER BY r."createdAt" DESC
   LIMIT 15`,
     {type: Sequelize.QueryTypes.SELECT, replacements: {uId}}
@@ -96,7 +97,7 @@ Recipe.findIds = async arr => {
 
 Recipe.recommend = async uId => {
   const ids = await recommender(uId)
-  console.log(ids)
+  console.log('recipes recommended by recommendation engine: ', ids)
   const padding = 15 - ids.length >= 0 ? 15 - ids.length : 0
   const recipes = await db.query(
     `

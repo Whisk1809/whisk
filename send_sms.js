@@ -2,8 +2,6 @@
 //const schedule = require('node-schedule')
 //var CronJob = require('cron').CronJob;
 var cron = require('cron-scheduler')
-//define functions and then schedule in same file
-
 
 require('./secrets')
 
