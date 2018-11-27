@@ -33,7 +33,7 @@ form div {
 }
 
 .ui.container {
-  max-width: 90%!important;
+  max-width: 90% !important;
 }
 
 .container-r {
@@ -60,7 +60,9 @@ form div {
 #user-info-li {
   padding: 10px;
 }
-
+.onboard-nav {
+  padding: 15px;
+}
 /* Semantic UI overrides */
 .ui.form .field {
   margin-left: 10px;
@@ -88,11 +90,13 @@ i.icon.heart:after {
   background-color: black;
 }
 
-.ui.card, .ui.cards>.card {
+.ui.card,
+.ui.cards > .card {
   min-height: 343px;
 }
 
-.ui.card>.content>.header:not(.ui), .ui.cards>.card>.content>.header:not(.ui) {
+.ui.card > .content > .header:not(.ui),
+.ui.cards > .card > .content > .header:not(.ui) {
   min-height: 50px;
 }
 
@@ -129,20 +133,18 @@ button.ui.blue.button {
 }
 
 div.ui.segment {
-
   display: flex;
   justify-content: space-between;
   max-height: 130px;
-  background-color:lightblue;
+  background-color: lightblue;
 }
 
 div.ui.segment a {
   text-align: center;
   margin-top: 40px;
-  font-family: "Lucida Console", Monaco, monospace;
+  font-family: 'Lucida Console', Monaco, monospace;
   font-size: 20px;
   color: black;
-
 }
 /* .flex-container {
   display: flex;
@@ -164,9 +166,10 @@ body {
 } */
 
 div.extra.content {
-    background-color: aliceblue;
+  background-color: aliceblue;
 }
 
-.ui.card>.content, .ui.cards>.card>.content {
+.ui.card > .content,
+.ui.cards > .card > .content {
   background-color: white;
 }
