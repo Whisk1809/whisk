@@ -122,3 +122,51 @@ div form {
 /* button.ui.button {
   background-color: blue
 } */
+
+button.ui.blue.button {
+  justify-content: flex-end;
+  /* margin-left: 600px; */
+}
+
+div.ui.segment {
+
+  display: flex;
+  justify-content: space-between;
+  max-height: 130px;
+  background-color:lightblue;
+}
+
+div.ui.segment a {
+  text-align: center;
+  margin-top: 40px;
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 20px;
+  color: black;
+
+}
+/* .flex-container {
+  display: flex;
+  justify-content: space-between;
+} */
+
+a.content {
+  background-color: lightblue;
+  color: lightblue;
+}
+
+body {
+  background-color: aliceblue;
+}
+
+/* div {
+  background-color:#7C8ABD;
+  color:black;
+} */
+
+div.extra.content {
+    background-color: aliceblue;
+}
+
+.ui.card>.content, .ui.cards>.card>.content {
+  background-color: white;
+}
