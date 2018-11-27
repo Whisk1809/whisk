@@ -75,6 +75,7 @@ class RecipeCard extends Component {
             <Button
               color={isBookmarkActive ? 'teal' : 'gray'}
               onClick={this.handleClickBookmark}
+              disabled={isDislikeActive}
             >
               <Icon name="bookmark" />
             </Button>} content="Add to my recipe book" inverted />
