@@ -1,7 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {me, updateUser} from '../store/user'
-
+import {
+  Link,
+  Element,
+  Events,
+  animateScroll as scroll,
+  scrollSpy,
+  scroller
+} from 'react-scroll'
 import {
   Grid,
   Image,
@@ -25,9 +32,15 @@ class Profile extends Component {
       email: '',
       phone: ''
     }
+    this.scrollInto = React.createRef()
   }
   componentDidMount() {
     this.props.getCurrentUser()
+    this.setState({
+      name: this.props.user.name,
+      email: this.props.user.email,
+      phone: this.props.user.phone
+    })
   }
   handleClick = () => {
     if (this.state.showEdit) {
@@ -35,9 +48,10 @@ class Profile extends Component {
     } else {
       this.setState({showEdit: true})
     }
-    const element = document.getElementById('scroll-into')
-    console.log(element)
-    element.scrollIntoView({block: 'start', inline: 'nearest'})
+    // const element = document.getElementById('scroll-into')
+    // console.log(element)
+    // element.scrollIntoView({block: 'start', inline: 'nearest'})
+    scroll.scrollToBottom()
   }
   handleChange = evt => {
     console.log('cirrent state', this.state)
@@ -63,6 +77,9 @@ class Profile extends Component {
     return (
       <div className="container-size">
         <Container className="user-info" textAlign="center">
+          <Header>
+            Welcome to your account settings, {this.props.user.name}
+          </Header>
           <List>
             <List.Item id="user-info-li">
               <List.Header>Username</List.Header>
@@ -81,7 +98,7 @@ class Profile extends Component {
         </Container>
 
         {this.state.showEdit ? (
-          <Container id="scroll-into" className="user-info" textAlign="center">
+          <Container className="user-info" textAlign="center">
             <Form onSubmit={this.handleSubmit}>
               <List>
                 <List.Item id="user-info-li">
@@ -118,7 +135,7 @@ class Profile extends Component {
             </Form>
           </Container>
         ) : null}
-        <Container id="scroll-into" />
+        <Container ref="hello" />
       </div>
     )
   }

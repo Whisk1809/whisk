@@ -47,6 +47,7 @@ class Navbar extends Component {
               </a>
               <Link to="/favorites">My favorite recipes</Link>
               <Link to="/preferences">Preferences</Link>
+              <Link to="/profile">Profile</Link>
             </div>
           ) : (
             <div>
