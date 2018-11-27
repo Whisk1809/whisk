@@ -1,29 +1,23 @@
 const router = require('express').Router()
 const session = require('express-session')
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
-//are your routes correct below?
+const twilio = require('twilio')
 const {Recipe, User, Preference} = require('../db/models')
 const Sequelize = require('sequelize')
 const {recommend} = require('../db/graphDb')
-const accountSid = 'AC73c8fa517d3e83ccc4c9c6897586ce8e';
-const authToken = '9622761b850dfc615521b37b1266db99';
+const bodyParser = require('body-parser');
+//const {updatePreferences} = require('../../client/store');
+require('../../secrets')
+//const accountSid = 'AC73c8fa517d3e83ccc4c9c6897586ce8e';
+//const authToken = '9622761b850dfc615521b37b1266db99';
+const accountSid = process.env.accountSid
+const authToken = process.env.authToken
 const client = require('twilio')(accountSid, authToken);
 
-// router.post('/sms', (req, res) => {
-//   const twiml = new MessagingResponse();
-
-//   const message = twiml.message()
-
-//   message.body('The Robots are coming! Head for the hills!');
-//   message.media('https://farm8.staticflickr.com/7090/6941316406_80b4d6d50e_z_d.jpg');
-
-//   res.writeHead(200, {'Content-Type': 'text/xml'});
-//   res.end(twiml.toString());
-// });
+router.use(bodyParser.urlencoded({ extended: false }));
 
 
-
-router.post('/sms', async (req, res) => {
+router.post('/sms', twilio.webhook({validate: false}), async (req, res) => {
   const twiml = new MessagingResponse();
   const recommendations =  await recommend(1)
   //console.log(recommendations, 'recommendation twilio')
@@ -34,14 +28,8 @@ router.post('/sms', async (req, res) => {
   const nextAnswer = next.sourceRecipeUrl
   const answer = first.sourceRecipeUrl
 
-  //const number = '+13364136015'
-  //const {from} = req.body
-
-  let counter = 0
 
   if (req.body.Body == 'Show me') {
-
-
 
 
     twiml.message(`Okay, try this: ${answer}.  If you don't like that idea, text 'Show me something else'`);
@@ -53,15 +41,19 @@ router.post('/sms', async (req, res) => {
 
   else if (req.body.Body == 'Dislike') {
     twiml.message('Good to know, let\'s try something else');
+
   }
     else if (req.body.Body == 'Like') {
       twiml.message('Great! We will send you more recipes like this.')
+
+      let data = {
+       userId: '1',
+       recipeId: uId,
+       prefers: true
+      }
+      const newPreference = await Preference.create(data)
+
     }
-  //  else {
-  //   twiml.message(
-  //     'Please enter a number between 1 and 5'
-  //   );
-  // }
 
   res.writeHead(200, { 'Content-Type': 'text/xml' });
   res.end(twiml.toString());
