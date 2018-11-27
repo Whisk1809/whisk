@@ -106,7 +106,17 @@ div.ui.segment {
 
   display: flex;
   justify-content: space-between;
-  max-height: 150px;
+  max-height: 130px;
+  background-color: green;
+}
+
+div.ui.segment a {
+  text-align: center;
+  margin-top: 40px;
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 20px;
+  color: white;
+
 }
 /* .flex-container {
   display: flex;
@@ -114,3 +124,7 @@ div.ui.segment {
 } */
 
 
+div {
+  background-color: blue;
+  color: white;
+}
