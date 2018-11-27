@@ -15,6 +15,7 @@ import Recipes from './components/recipes'
 import OnboardRequirements from './components/onboardRequirements'
 import singleRecipe from './components/singleRecipe'
 import Profile from './components/profile'
+import Search from './components/search'
 
 /**
  * COMPONENT
@@ -33,17 +34,23 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/requirements" component={OnboardRequirements} />
+        {this.props.searchStatus ? (
+          <Route path="/home" component={Search} />
+        ) : (
+          <Route path="/home" component={Recipes} />
+        )}
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={Recipes} />
+
             {/* Showing the same component for both /recipes and /home is open for discussion, for single recipe /recipes/:recipeId is intuitive */}
             <Route exact path="/recipes/:recipeId" component={SingleRecipe} />
             <Route path="/recipes" component={Recipes} />
             <Route path="/favorites" component={Favorites} />
             <Route path="/profile" component={Profile} />
             <Route path="/preferences" component={ProfilePreferences} />
-            <Route path="/" component={Recipes} />
+            <Route path="/home" component={Recipes} />
+            <Route exact path="/" component={Recipes} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
@@ -60,7 +67,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    searchStatus: state.searchStatus
   }
 }
 

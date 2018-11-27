@@ -48,6 +48,8 @@ form div {
 }
 .user-info {
   background-color: aqua;
+  margin: 30px;
+  border-radius: 25px;
 }
 #user-info-li {
   padding: 10px;

@@ -68,7 +68,11 @@ class SingleRecipe extends Component {
                   <Item.Meta>
                     <Image src="/cooking-time.png" size="tiny" />{' '}
                     <strong>Cooking Time</strong>
+<<<<<<< HEAD
+                    <div>{prepTime}</div>
+=======
                     <div>{convertPrepTime(singleRecipe)}</div>
+>>>>>>> ace7cd7813cfbf7f230720f04b9bdf0fc69f2838
                   </Item.Meta>
                 </Item.Content>
               </Item>
