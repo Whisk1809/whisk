@@ -48,6 +48,18 @@ form div {
 .button-result {
   min-width: 100%;
 }
+.container-size .ui.container {
+  max-width: 500px !important;
+  padding: 15px;
+}
+.user-info {
+  background-color: aqua;
+  margin: 30px;
+  border-radius: 25px;
+}
+#user-info-li {
+  padding: 10px;
+}
 
 /* Semantic UI overrides */
 .ui.form .field {
@@ -85,7 +97,7 @@ i.icon.heart:after {
 }
 
 h2.ui.header {
-  text-align: center
+  text-align: center;
 }
 
 nav {
@@ -94,7 +106,7 @@ nav {
 }
 
 div a {
-  text-align: center
+  text-align: center;
 }
 
 div form {
