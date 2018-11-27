@@ -53,8 +53,10 @@ form div {
   padding: 15px;
 }
 .user-info {
-  background-color: aqua;
+  background-color:white;
   margin: 30px;
+  border-style: solid;
+  border-width: 5px;
   border-radius: 25px;
 }
 #user-info-li {
@@ -133,7 +135,7 @@ div.ui.segment {
   display: flex;
   justify-content: space-between;
   max-height: 130px;
-  background-color:lightblue;
+  background-color:white;
 }
 
 div.ui.segment a {

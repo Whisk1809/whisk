@@ -78,7 +78,7 @@ class Profile extends Component {
       <div className="container-size">
         <Container className="user-info" textAlign="center">
           <Header>
-            Welcome to your account settings, {this.props.user.name}
+            Welcome to your account settings, {this.props.user.name}!
           </Header>
           <List>
             <List.Item id="user-info-li">
@@ -92,6 +92,10 @@ class Profile extends Component {
             <List.Item id="user-info-li">
               <List.Header>Phone</List.Header>
               {this.props.user.phone}
+            </List.Item>
+            <List.Item id="user-info-li">
+              <List.Header>SMS Settings</List.Header>
+
             </List.Item>
           </List>
           <Button onClick={this.handleClick}>Edit Profile</Button>

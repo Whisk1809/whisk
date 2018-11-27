@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, Icon, Image, Container, Button} from 'semantic-ui-react'
+import {Card, Icon, Image, Container, Button, Popup} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {updatePreferences, convertPrepTime, addToFavorites} from '../store'
@@ -58,26 +58,30 @@ class RecipeCard extends Component {
             <Card.Description />
           </Card.Content>
           <Card.Content extra>
+          <Popup trigger={
             <Button
               color={isLikeActive ? 'green' : 'gray'}
               onClick={this.handleClickLike}
               disabled={isDislikeActive}
             >
               <Icon name="heart" />
-            </Button>
+            </Button>} content="Show me more recipes like this" inverted />
+            <Popup trigger={
             <Button
               color={isDislikeActive ? 'red' : 'gray'}
               onClick={this.handleClickDislike}
               disabled={isLikeActive}
             >
               <Icon name="ban" />
-            </Button>
+            </Button>} content="Show me fewer recipes like this" inverted />
+              <Popup trigger={
             <Button
               color={isBookmarkActive ? 'teal' : 'gray'}
               onClick={this.handleClickBookmark}
+              disabled={isDislikeActive}
             >
               <Icon name="bookmark" />
-            </Button>
+            </Button>} content="Add to my recipe book" inverted />
           </Card.Content>
         </Card>
       </Container>
