@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {Redirect} from 'react-router'
 import {logout} from '../store'
-import {Image, Input, Button, Form, Icon} from 'semantic-ui-react'
+import {Image, Input, Button, Form, Icon, Menu, Header} from 'semantic-ui-react'
 import {searchRecipes} from '../store/recipeSearch'
 import {setSearchStatus} from '../store/searchStatus'
 import Search from './search'
@@ -30,24 +30,43 @@ class Navbar extends Component {
     }
   }
 
+  handleItemClick = (evt, { name }) => {
+    this.setState({ activeItem: name })
+  }
+
   render() {
     console.log(this.props)
+    const { activeItem } = this.state
     return (
       <div>
         <nav>
           {this.props.isLoggedIn ? (
             <div>
               {/* The navbar will show these links after you log in */}
-              <Link to="/home">
-                <img src="/whisk.png" style={{width: 50}} />
-              </Link>
-              <Link to="/home">Home</Link>
-              <a href="#" onClick={this.props.handleClick}>
-                Logout
-              </a>
-              <Link to="/recipeBook">My Recipe Book</Link>
-              <Link to="/preferences">Preferences</Link>
-              <Link to="/profile">Profile</Link>
+
+              <Menu>
+                <Menu.Item>
+                  <Link to="/home">
+                    <Header as="h2" size="huge">
+                      <img src="/whisk.png" style={{width: 50}} /> Whisk
+                    </Header>
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                <a href="#" onClick={this.props.handleClick}>
+                  Logout
+                </a>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/recipeBook">My Recipe Book</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/preferences">Preferences</Link>
+                </Menu.Item>
+                <Menu.Item position='right'>
+                  <Link to="/profile">Profile</Link>
+                </Menu.Item>
+              </Menu>
             </div>
           ) : (
             <div>
