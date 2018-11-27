@@ -24,6 +24,7 @@
     "sms": "node send_sms.js",
     "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register"
   },
+
   "lint-staged": {
     "*.{js,jsx}": [
       "prettier --write",

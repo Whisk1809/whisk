@@ -38,7 +38,7 @@ const Recipe = db.define('recipe', {
 //returns the 15 recipes sorted based purely on absolute like count within the past month
 Recipe.getTrending = async () => {
   const t = new Date()
-  t.setDate(t.getMonth() - 1)
+  t.setMonth(t.getMonth() - 1)
   const recipes = await db.query(
     `
   SELECT DISTINCT r.*,x.likeCount
@@ -49,10 +49,14 @@ Recipe.getTrending = async () => {
   WHERE (p."recipeId" IS NOT NULL) AND (p.prefers = TRUE) AND (p."createdAt" > :monthAgo)
   GROUP BY p."recipeId") AS x
   ON r.id = x."recipeId"
-  ORDER BY likeCount DESC
+  ORDER BY x.likeCount DESC
   LIMIT 15`,
-    {type: Sequelize.QueryTypes.SELECT, replacements: {monthAgo: t}}
+    {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: {monthAgo: t.toLocaleDateString()}
+    }
   )
+
   return recipes
 }
 
