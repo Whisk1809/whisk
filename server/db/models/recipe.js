@@ -97,7 +97,7 @@ Recipe.findIds = async arr => {
 
 Recipe.recommend = async uId => {
   const ids = await recommender(uId)
-  console.log(ids)
+  console.log('recipes recommended by recommendation engine: ', ids)
   const padding = 15 - ids.length >= 0 ? 15 - ids.length : 0
   const recipes = await db.query(
     `
