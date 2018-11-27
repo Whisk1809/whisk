@@ -106,7 +106,7 @@ class SingleRecipe extends Component {
                 <Icon name="plus" />
               </Button>
               <Label as="a" basic color="olive" pointing="left">
-                Add to My List
+                Add to My Recipe Book
               </Label>
             </Button>
             <br />
