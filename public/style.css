@@ -107,7 +107,7 @@ div.ui.segment {
   display: flex;
   justify-content: space-between;
   max-height: 130px;
-  background-color: green;
+  background-color: grey;
 }
 
 div.ui.segment a {
@@ -115,7 +115,7 @@ div.ui.segment a {
   margin-top: 40px;
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 20px;
-  color: white;
+  color: black;
 
 }
 /* .flex-container {
@@ -123,8 +123,24 @@ div.ui.segment a {
   justify-content: space-between;
 } */
 
+a.content {
+  background-color: lightblue;
+  color: lightblue;
+}
+
+body {
+  background-color: lightblue;
+}
 
 div {
-  background-color: blue;
-  color: white;
+  background-color:lightblue;
+  color:black;
+}
+
+div.extra.content {
+    background-color: lightblue;
+}
+
+.ui.card>.content, .ui.cards>.card>.content {
+  color: lightblue;
 }
