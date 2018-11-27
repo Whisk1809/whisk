@@ -8,7 +8,7 @@ import {
   UserHome,
   Favorites,
   SingleRecipe,
-  ProfilePreferences, GridsTry
+  ProfilePreferences
 } from './components'
 import {me, getPreferences} from './store'
 import Recipes from './components/recipes'
