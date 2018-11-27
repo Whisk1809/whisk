@@ -43,7 +43,7 @@ class RecipeCard extends Component {
   render() {
     const {isLikeActive, isDislikeActive, isBookmarkActive} = this.state
     const {recipe} = this.props
-    const {id, imageUrl, title, prepTime} = recipe
+    const {id, imageUrl, title} = recipe
 
     return (
       <Container>
