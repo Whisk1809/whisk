@@ -5,10 +5,13 @@ import {connect} from 'react-redux'
 import {updatePreferences, convertPrepTime, addToFavorites} from '../store'
 
 class RecipeCard extends Component {
-  state = {
-    isLikeActive: false,
-    isDislikeActive: false,
-    isBookmarkActive: false,
+  constructor() {
+    super()
+    this.state = {
+      isLikeActive: false,
+      isDislikeActive: false,
+      isBookmarkActive: false
+    }
   }
 
   handleClickLike = event => {
@@ -89,7 +92,7 @@ class RecipeCard extends Component {
 const mapDispatchToProps = dispatch => ({
   updatePreferences: (recipeId, prefers) =>
     dispatch(updatePreferences(recipeId, prefers)),
-  addToFavorites: (recipeId) => dispatch(addToFavorites(recipeId))
+  addToFavorites: recipeId => dispatch(addToFavorites(recipeId))
 })
 
 export default connect(null, mapDispatchToProps)(RecipeCard)
