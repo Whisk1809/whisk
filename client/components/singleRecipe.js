@@ -3,10 +3,19 @@ import {connect} from 'react-redux'
 import {getSingleRecipe} from '../store'
 import {updatePreferences, convertPrepTime} from '../store'
 import {addToFavorites} from '../store/favorites'
-import {Image, Button, Container, Icon, Item, Label} from 'semantic-ui-react'
+import {Button, Container, Icon, Item, List, Header, Popup} from 'semantic-ui-react'
 import Loading from './loading'
 
 class SingleRecipe extends Component {
+  constructor() {
+    super()
+    this.state = {
+      isLikeActive: false,
+      isDislikeActive: false,
+      isBookmarkActive: false
+    }
+  }
+
   componentDidMount() {
     const recipeId = Number(this.props.match.params.recipeId)
     this.props.getSingleRecipe(recipeId)
@@ -15,6 +24,9 @@ class SingleRecipe extends Component {
   handleClickLike = event => {
     event.preventDefault()
     const recipeId = this.props.singleRecipe.id
+    this.setState(prevState => ({
+      isLikeActive: !prevState.isLikeActive
+    }))
     const prefers = true
     this.props.updatePreferences(recipeId, prefers)
     console.log('Liked this recipe')
@@ -23,6 +35,9 @@ class SingleRecipe extends Component {
   handleClickDislike = event => {
     event.preventDefault()
     const recipeId = this.props.singleRecipe.id
+    this.setState(prevState => ({
+      isDislikeActive: !prevState.isDislikeActive
+    }))
     const prefers = false
     this.props.updatePreferences(recipeId, prefers)
     console.log('Disliked this recipe')
@@ -32,13 +47,16 @@ class SingleRecipe extends Component {
     event.preventDefault()
     const recipeId = this.props.singleRecipe.id
     this.props.addToFavorites(recipeId)
+    this.setState(prevState => ({
+      isBookmarkActive: !prevState.isBookmarkActive
+    }))
   }
 
   render() {
+    const {isLikeActive, isDislikeActive, isBookmarkActive} = this.state
     const {singleRecipe} = this.props
     const {
       title,
-      prepTime,
       sourceRecipeUrl,
       numberOfServings,
       ingredientList,
@@ -49,74 +67,82 @@ class SingleRecipe extends Component {
       return (
         <div>
           <Container>
+            <Header as="h2" textAlign="left">
+              {title}
+            </Header>
             <Item.Group>
               <Item>
                 <Item.Image src={imageUrl} size="large" />
                 <Item.Content>
-                  <Item.Header size="huge">{title}</Item.Header>
                   <Item.Meta>
-                    <Image src="/ingredients.png" size="tiny" />
-                    <strong>Ingredients</strong>
-                    {ingredientList.map(ingredient => (
-                      <div key={ingredient}>{ingredient}</div>
-                    ))}
+                    <List>
+                      <List.Item>
+                        <List.Icon name="shopping bag" />
+                        <List.Content>
+                          <strong>Ingredients</strong>
+                          <List>
+                            {ingredientList.map(ingredient => (
+                              <List.Item key={ingredient}>
+                                {ingredient}
+                              </List.Item>
+                            ))}
+                          </List>
+                        </List.Content>
+                      </List.Item>
+                      <List.Item>
+                        <List.Icon name="food" />
+                        <List.Content>
+                          <strong>Serving Size</strong>
+                          <List>
+                            <List.Item> {numberOfServings}</List.Item>
+                          </List>
+                        </List.Content>
+                      </List.Item>
+                      <List.Item>
+                        <List.Icon name="clock outline" />
+                        <List.Content>
+                          <strong>Cooking Time</strong>
+                          <List>
+                            <List.Item>
+                              {convertPrepTime(singleRecipe)}
+                            </List.Item>
+                          </List>
+                        </List.Content>
+                      </List.Item>
+                    </List>
                   </Item.Meta>
-                  <Item.Meta>
-                    <Image src="/serving-size.png" size="tiny" rounded />
-                    <strong>Serving Size:</strong> {numberOfServings}
-                  </Item.Meta>
-                  <Item.Meta>
-                    <Image src="/cooking-time.png" size="tiny" />{' '}
-                    <strong>Cooking Time</strong>
-                    <div>{convertPrepTime(singleRecipe)}</div>
-                  </Item.Meta>
+
+                  <a className="ui huge button" href={sourceRecipeUrl}>
+                    Get Cooking!
+                  </a>
+                  <br />
+                  <br />
+                  <Popup trigger={
+                  <Button
+                    color={isLikeActive ? 'green' : 'gray'}
+                    onClick={this.handleClickLike}
+                    disabled={isDislikeActive}
+                  >
+                    <Icon name="heart" />
+                  </Button>} content="Show me more recipes like this" inverted />
+                  <Popup trigger={
+                  <Button
+                    color={isDislikeActive ? 'red' : 'gray'}
+                    onClick={this.handleClickDislike}
+                    disabled={isLikeActive}
+                  >
+                    <Icon name="ban" />
+                  </Button>} content="Show me fewer recipes like this" inverted />
+                  <Popup trigger={
+                  <Button
+                    color={isBookmarkActive ? 'teal' : 'gray'}
+                    onClick={this.handleClickFavorite}
+                  >
+                    <Icon name="bookmark" />
+                  </Button>} content="Add to my recipe book" inverted />
                 </Item.Content>
               </Item>
             </Item.Group>
-            <Button
-              onClick={this.handleClickLike}
-              as="div"
-              labelPosition="right"
-            >
-              <Button color="green">
-                <Icon name="heart" />
-              </Button>
-              <Label as="a" basic color="green" pointing="left">
-                Show more like this
-              </Label>
-            </Button>
-            <Button
-              onClick={this.handleClickDislike}
-              as="div"
-              labelPosition="right"
-            >
-              <Button color="red">
-                <Icon name="ban" />
-              </Button>
-              <Label as="a" basic color="red" pointing="left">
-                Don't show me
-              </Label>
-            </Button>
-            <Button
-              onClick={this.handleClickFavorite}
-              as="div"
-              labelPosition="right"
-            >
-              <Button color="olive">
-                <Icon name="plus" />
-              </Button>
-              <Label as="a" basic color="olive" pointing="left">
-                Add to My Recipe Book
-              </Label>
-            </Button>
-            <br />
-            <a
-              className="ui huge positive button"
-              href={sourceRecipeUrl}
-              style={{color: 'white'}}
-            >
-              Get Cooking!
-            </a>
           </Container>
         </div>
       )
