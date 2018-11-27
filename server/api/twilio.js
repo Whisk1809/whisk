@@ -28,7 +28,7 @@ router.post('/sms', twilio.webhook({validate: false}), async (req, res) => {
   const nextAnswer = next.sourceRecipeUrl
   const answer = first.sourceRecipeUrl
 
-
+  let counter = 0;
   if (req.body.Body == 'Show me') {
 
 
@@ -37,13 +37,22 @@ router.post('/sms', twilio.webhook({validate: false}), async (req, res) => {
 
   else if (req.body.Body == 'Show me something else') {
     twiml.message(`No problem. Take a look at this one instead: ${nextAnswer}`)
+
+    counter++
   }
 
   else if (req.body.Body == 'Dislike') {
-    twiml.message('Good to know, let\'s try something else');
+    twiml.message('Thanks for your feedback, we will try something different next time!');
+    let recipeId
+    if (counter > 0) {
+      recipeId = uId2
+    }
+
+    else recipeId = uId
+
     let data = {
       userId: '1',
-      recipeId: uId,
+      recipeId: recipeId,
       prefers: false
      }
      const newPreference1 = await Preference.create(data)
@@ -52,10 +61,17 @@ router.post('/sms', twilio.webhook({validate: false}), async (req, res) => {
   }
     else if (req.body.Body == 'Like') {
       twiml.message('Great! We will send you more recipes like this.')
+      let recipeId
+
+      if (counter > 0) {
+        recipeId = uId2
+      }
+
+      else recipeId = uId
 
       let data = {
        userId: '1',
-       recipeId: uId,
+       recipeId: recipeId,
        prefers: true
       }
       const newPreference2 = await Preference.create(data)
