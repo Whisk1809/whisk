@@ -14,6 +14,7 @@ import {me, getPreferences} from './store'
 import Recipes from './components/recipes'
 import OnboardRequirements from './components/onboardRequirements'
 import singleRecipe from './components/singleRecipe'
+import Profile from './components/profile'
 import Search from './components/search'
 
 /**
@@ -45,7 +46,12 @@ class Routes extends Component {
             {/* Showing the same component for both /recipes and /home is open for discussion, for single recipe /recipes/:recipeId is intuitive */}
             <Route exact path="/recipes/:recipeId" component={SingleRecipe} />
             <Route path="/recipes" component={Recipes} />
+
+            <Route path="/favorites" component={Favorites} />
+            <Route path="/profile" component={Profile} />
+
             <Route path="/recipeBook" component={Favorites} />
+
             <Route path="/preferences" component={ProfilePreferences} />
             <Route path="/home" component={Recipes} />
             <Route exact path="/" component={Recipes} />

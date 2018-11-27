@@ -15,3 +15,24 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+router.put('/', async (req, res, next) => {
+  try {
+    console.log('body here', req.body)
+    const updatedUser = await User.update(
+      {
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone
+      },
+      {
+        where: {
+          id: req.user.dataValues.id
+        }
+      }
+    )
+    res.json(updatedUser)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
