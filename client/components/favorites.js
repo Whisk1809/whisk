@@ -22,6 +22,7 @@ class Favorites extends Component {
     if (favorites.length) {
       return (
         <Container>
+        <div className="flex-container">
           <Segment.Group>
             {favorites.map((recipe, index) => {
               return (
@@ -33,6 +34,7 @@ class Favorites extends Component {
               )
             })}
           </Segment.Group>
+        </div>
         </Container>
       )
     } else {
