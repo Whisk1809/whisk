@@ -97,7 +97,7 @@ async function seed(done) {
     // obviously need to refactor this if time allows
     // find the users who meet that criteria and create a preference for that user based on a distribution
     if (categories.map(e => e.name).includes('Italian')) {
-      const likers = group1.filter(() => Math.random() > 0.8)
+      const likers = group1.filter(() => j % 3 === 0)
       for (let i = 0; i < likers.length; i++) {
         try {
           await Preference.create({
@@ -115,8 +115,8 @@ async function seed(done) {
       }
     }
     if (categories.map(e => e.name).includes('American')) {
-      const likers = group3.filter(() => Math.random() > 0.8)
-      const dislikers = group4.filter(() => Math.random() > 0.8)
+      const likers = group3.filter(() => j % 3 === 0)
+      const dislikers = group4.filter(() => j % 3 === 0)
       for (let i = 0; i < likers.length; i++) {
         try {
           await Preference.create({
@@ -149,8 +149,8 @@ async function seed(done) {
       }
     }
     if (categories.map(e => e.name).includes('Asian')) {
-      const likers = group4.filter(() => Math.random() > 0.8)
-      const dislikers = group2.filter(() => Math.random() > 0.8)
+      const likers = group4.filter(() => j % 3 === 0)
+      const dislikers = group2.filter(() => j % 3 === 0)
       for (let i = 0; i < likers.length; i++) {
         try {
           await Preference.create({
@@ -184,7 +184,7 @@ async function seed(done) {
     }
 
     if (categories.map(e => e.name).includes('Kid-Friendly')) {
-      const likers = group2.filter(() => Math.random() > 0.8)
+      const likers = group2.filter(() => j % 3 === 0)
       for (let i = 0; i < likers.length; i++) {
         try {
           await Preference.create({
