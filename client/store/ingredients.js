@@ -14,11 +14,7 @@ export const getIngredients = ingredientsArr => async dispatch => {
     const ingrIds = ingredientsArr.join(',')
     const {data} = await axios.get(`/api/ingredients?ids=${ingrIds}`)
     dispatch(setIngredients(data))
-<<<<<<< HEAD
   } catch (err) {
-=======
-  } catch(err) {
->>>>>>> ace7cd7813cfbf7f230720f04b9bdf0fc69f2838
     console.error(err)
   }
 }

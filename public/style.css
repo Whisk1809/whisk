@@ -31,6 +31,11 @@ form div {
 .requirements .ui.container {
   width: 30%;
 }
+
+.ui.container {
+  max-width: 90%!important;
+}
+
 .container-r {
   width: 30%;
 }
