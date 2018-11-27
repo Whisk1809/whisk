@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  padding: 10px;
 }
 
 a {
@@ -30,6 +31,11 @@ form div {
 .requirements .ui.container {
   width: 30%;
 }
+
+.ui.container {
+  max-width: 90%!important;
+}
+
 .container-r {
   width: 30%;
 }
@@ -68,6 +74,14 @@ img.ui.image {
 
 i.icon.heart:after {
   background-color: black;
+}
+
+.ui.card, .ui.cards>.card {
+  min-height: 343px;
+}
+
+.ui.card>.content>.header:not(.ui), .ui.cards>.card>.content>.header:not(.ui) {
+  min-height: 50px;
 }
 
 h2.ui.header {
