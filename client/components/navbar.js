@@ -45,7 +45,7 @@ class Navbar extends Component {
               <a href="#" onClick={this.props.handleClick}>
                 Logout
               </a>
-              <Link to="/favorites">My favorite recipes</Link>
+              <Link to="/favorites">My Favorite Recipes</Link>
               <Link to="/preferences">Preferences</Link>
             </div>
           ) : (

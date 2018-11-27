@@ -121,7 +121,7 @@ div.ui.segment {
   display: flex;
   justify-content: space-between;
   max-height: 130px;
-  background-color: grey;
+  background-color:lightblue;
 }
 
 div.ui.segment a {
@@ -143,18 +143,18 @@ a.content {
 }
 
 body {
-  background-color: lightblue;
+  background-color: aliceblue;
 }
 
-div {
-  background-color:lightblue;
+/* div {
+  background-color:#7C8ABD;
   color:black;
-}
+} */
 
 div.extra.content {
-    background-color: lightblue;
+    background-color: aliceblue;
 }
 
 .ui.card>.content, .ui.cards>.card>.content {
-  color: lightblue;
+  background-color: lightblue;
 }
