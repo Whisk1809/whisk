@@ -131,6 +131,11 @@ h2.ui.header {
   font-size: 40px;
 }
 
+.ui.huge.button:hover {
+  background-color: green;
+  color: white
+}
+
 .ui.form input[type=search] {
   display: flex;
   min-width: 40vw;
