@@ -123,15 +123,7 @@ Recipe.search = async plaintext => {
     const q = `i._search @@(${str}) AND r._search @@(${str})`
     recipes = await db.query(
       `
-  SELECT r.* FROM recipes r
-  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
-  JOIN ingredients i on ri."ingredientId" = i.id
-  WHERE
-    ` +
-        q +
-        `
-  UNION ALL
-  SELECT *
+        SELECT *
   FROM recipes
   WHERE _search @@plainto_tsquery(:plaintext)
   UNION ALL
@@ -147,14 +139,6 @@ Recipe.search = async plaintext => {
     const q = `i._search @@(${str}) AND r._search @@(${str})`
     recipes = await db.query(
       `
-  SELECT r.* FROM recipes r
-  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
-  JOIN ingredients i on ri."ingredientId" = i.id
-  WHERE r."prepTimeSeconds" < :maxTime AND
-    ` +
-        q +
-        `
-  UNION ALL
   SELECT *
   FROM recipes
   WHERE _search @@plainto_tsquery(:plaintext) AND  "prepTimeSeconds" < :maxTime
@@ -163,6 +147,15 @@ Recipe.search = async plaintext => {
   JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
   JOIN ingredients i on ri."ingredientId" = i.id
   WHERE i._search @@plainto_tsquery(:plaintext) AND  r."prepTimeSeconds" < :maxTime
+  UNION ALL
+  SELECT r.* FROM recipes r
+  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
+  JOIN ingredients i on ri."ingredientId" = i.id
+  WHERE r."prepTimeSeconds" < :maxTime AND
+    ` +
+        q +
+        `
+
 `,
       {
         type: Sequelize.QueryTypes.SELECT,
