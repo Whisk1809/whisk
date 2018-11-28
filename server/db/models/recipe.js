@@ -79,6 +79,7 @@ Recipe.getPopular = async () => {
   return recipes
 }
 Recipe.search = async plaintext => {
+<<<<<<< HEAD
   let recipes, text, maxTime
   console.log(plaintext)
   const arr = plaintext.split(' ')
@@ -89,6 +90,12 @@ Recipe.search = async plaintext => {
   console.log('maxTime: ', maxTime)
   console.log('arr: ', arr)
   if (!maxTime && text.length === 1) {
+=======
+  console.log(plaintext)
+  let recipes
+  const arr = plaintext.split(' ')
+  if (arr.length === 1) {
+>>>>>>> master
     recipes = await db.query(
       `SELECT *
   FROM recipes
@@ -104,6 +111,7 @@ Recipe.search = async plaintext => {
         replacements: {plaintext}
       }
     )
+<<<<<<< HEAD
   } else if (maxTime && text.length === 0) {
     //query with just time
     recipes = await db.query(
@@ -119,6 +127,10 @@ Recipe.search = async plaintext => {
   } else if (!maxTime) {
     //query with multiple words
     const str = text.map(word => `plainto_tsquery('${word}')`).join(' || ')
+=======
+  } else {
+    const str = arr.map(word => `plainto_tsquery('${word}')`).join(' || ')
+>>>>>>> master
     const q = `i._search @@(${str}) AND r._search @@(${str})`
     recipes = await db.query(
       `
@@ -140,6 +152,7 @@ Recipe.search = async plaintext => {
   WHERE i._search @@plainto_tsquery(:plaintext)`,
       {type: Sequelize.QueryTypes.SELECT, replacements: {plaintext}}
     )
+<<<<<<< HEAD
   } else {
     //query with multiple words and time
     const str = text.map(word => `plainto_tsquery('${word}')`).join(' || ')
@@ -167,6 +180,8 @@ Recipe.search = async plaintext => {
         replacements: {plaintext, maxTime: maxTime * 60}
       }
     )
+=======
+>>>>>>> master
   }
 
   return recipes
