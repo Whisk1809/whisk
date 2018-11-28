@@ -105,6 +105,23 @@ Recipe.search = async plaintext => {
         replacements: {plaintext}
       }
     )
+  }
+  if (maxTime && text.length === 1) {
+    recipes = await db.query(
+      `SELECT *
+  FROM recipes
+  WHERE "prepTimeSeconds" < :maxTime AND _search @@plainto_tsquery(:plaintext)
+  UNION ALL
+  SELECT r.* FROM recipes r
+  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
+  JOIN ingredients i on ri."ingredientId" = i.id
+  WHERE r."prepTimeSeconds" < :maxTime AND i._search @@plainto_tsquery(:plaintext)
+  `,
+      {
+        type: Sequelize.QueryTypes.SELECT,
+        replacements: {plaintext: text, maxTime: maxTime * 60}
+      }
+    )
   } else if (maxTime && text.length === 0) {
     //query with just time
     recipes = await db.query(
@@ -120,52 +137,66 @@ Recipe.search = async plaintext => {
   } else if (!maxTime) {
     //query with multiple words
     const str = text.map(word => `plainto_tsquery('${word}')`).join(' || ')
-    const q = `i._search @@(${str}) AND r._search @@(${str})`
+    const i = `i._search @@(${str})`
     recipes = await db.query(
       `
-        SELECT *
+  SELECT *
   FROM recipes
   WHERE _search @@plainto_tsquery(:plaintext)
   UNION ALL
-  SELECT r.* FROM recipes r
-  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
-  JOIN ingredients i on ri."ingredientId" = i.id
-  WHERE i._search @@plainto_tsquery(:plaintext)
-  UNION ALL
-  SELECT r.* FROM recipes r
-  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
-  JOIN ingredients i on ri."ingredientId" = i.id
-  WHERE
-  ` + q,
-      {type: Sequelize.QueryTypes.SELECT, replacements: {plaintext}}
+  SELECT r.*
+  FROM recipes r
+  JOIN (
+    SELECT rec.id,COUNT(*)
+    FROM recipes rec
+    JOIN "RecipeIngredients" ri ON rec.id = ri."recipeId"
+    JOIN ingredients i on ri."ingredientId" = i.id
+    WHERE ` +
+        i +
+        `
+    GROUP BY rec.id
+    HAVING COUNT(*)=:len
+  )x ON r.id = x.id
+
+ `,
+      {
+        type: Sequelize.QueryTypes.SELECT,
+        replacements: {plaintext, len: text.length}
+      }
     )
   } else {
     //query with multiple words and time
     const str = text.map(word => `plainto_tsquery('${word}')`).join(' || ')
-    const q = `i._search @@(${str}) AND r._search @@(${str})`
+    const i = `i._search @@(${str})`
     recipes = await db.query(
       `
   SELECT *
   FROM recipes
   WHERE _search @@plainto_tsquery(:plaintext) AND  "prepTimeSeconds" < :maxTime
   UNION ALL
-  SELECT r.* FROM recipes r
-  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
-  JOIN ingredients i on ri."ingredientId" = i.id
-  WHERE i._search @@plainto_tsquery(:plaintext) AND  r."prepTimeSeconds" < :maxTime
-  UNION ALL
-  SELECT r.* FROM recipes r
-  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
-  JOIN ingredients i on ri."ingredientId" = i.id
-  WHERE r."prepTimeSeconds" < :maxTime AND
-    ` +
-        q +
+  SELECT r.*
+  FROM recipes r
+  JOIN (
+    SELECT rec.id,COUNT(*)
+    FROM recipes rec
+    JOIN "RecipeIngredients" ri ON rec.id = ri."recipeId"
+    JOIN ingredients i on ri."ingredientId" = i.id
+    WHERE ` +
+        i +
         `
+    GROUP BY rec.id
+    HAVING COUNT(*)=:len
+  )x ON r.id = x.id
+  WHERE r."prepTimeSeconds" < :maxTime
 
-`,
+  `,
       {
         type: Sequelize.QueryTypes.SELECT,
-        replacements: {plaintext: text.join(' '), maxTime: maxTime * 60}
+        replacements: {
+          plaintext: text.join(' '),
+          maxTime: maxTime * 60,
+          len: text.length
+        }
       }
     )
   }
