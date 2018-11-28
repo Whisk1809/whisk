@@ -38,15 +38,19 @@ class RecipeSearch extends Component {
   render() {
     const {isLoading, value} = this.state
     const {searchResults} = this.props
-    const results = searchResults.slice(0, 5).map(recipe => ({
+    const r = searchResults.map(recipe => ({
+      key: recipe.id,
       id: recipe.id,
       title: recipe.title,
       image: recipe.imageUrl,
       description: convertPrepTime(recipe)
     }))
 
+    const results = _.uniqBy(r, 'id').slice(0, 5)
+
     return (
       <Search
+        id="long-searchbar"
         loading={isLoading}
         onResultSelect={this.handleResultSelect}
         onSearchChange={_.debounce(this.handleSearchChange, 500, {
