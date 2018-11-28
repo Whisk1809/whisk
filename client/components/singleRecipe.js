@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getSingleRecipe} from '../store'
-import {updatePreferences, convertPrepTime} from '../store'
+import {getSingleRecipe, updatePreferences, convertPrepTime} from '../store'
 import {addToFavorites} from '../store/favorites'
 import {Button, Container, Icon, Item, List, Header, Popup} from 'semantic-ui-react'
 import Loading from './loading'
