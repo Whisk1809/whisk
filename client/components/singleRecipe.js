@@ -122,20 +122,21 @@ class SingleRecipe extends Component {
                     onClick={this.handleClickLike}
                     disabled={isDislikeActive}
                   >
-                    <Icon name="heart" />
+                    <Icon name="thumbs up" />
                   </Button>} content="Show me more recipes like this" inverted />
                   <Popup trigger={
                   <Button
                     color={isDislikeActive ? 'red' : 'gray'}
                     onClick={this.handleClickDislike}
-                    disabled={isLikeActive}
+                    disabled={isLikeActive || isBookmarkActive}
                   >
-                    <Icon name="ban" />
+                    <Icon name="thumbs down" />
                   </Button>} content="Show me fewer recipes like this" inverted />
                   <Popup trigger={
                   <Button
                     color={isBookmarkActive ? 'teal' : 'gray'}
                     onClick={this.handleClickFavorite}
+                    disabled={isDislikeActive}
                   >
                     <Icon name="bookmark" />
                   </Button>} content="Add to my recipe book" inverted />

@@ -88,10 +88,6 @@ img.ui.image {
   margin-right: 10px;
 }
 
-i.icon.heart:after {
-  background-color: black;
-}
-
 .ui.card,
 .ui.cards > .card {
   min-height: 343px;
