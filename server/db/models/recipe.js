@@ -83,7 +83,13 @@ Recipe.search = async plaintext => {
   const recipes = await db.query(
     `SELECT *
   FROM recipes
-  WHERE "RecipeTitle" @@plainto_tsquery(:plaintext)`,
+  WHERE _search @@plainto_tsquery(:plaintext)
+  UNION ALL
+  SELECT r.* FROM recipes r
+  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
+  JOIN ingredients i on ri."ingredientId" = i.id
+  WHERE i._search @@plainto_tsquery(:plaintext)
+  `,
     {type: Sequelize.QueryTypes.SELECT, replacements: {plaintext}}
   )
   return recipes
@@ -159,52 +165,76 @@ Recipe.addFullTextIndex = function() {
     return
   }
 
-  var searchFields = ['title']
-  var Recipe = this
-
-  var vectorName = 'RecipeTitle'
+  const vectorName = '_search'
   db
     .query(
-      'ALTER TABLE "' + 'recipes' + '" ADD COLUMN "' + vectorName + '" TSVECTOR'
+      `
+      ALTER TABLE recipes
+      ADD COLUMN ${vectorName} TSVECTOR;
+      `
     )
     .then(function() {
       return db
         .query(
-          'UPDATE "' +
-            'recipes' +
-            '" SET "' +
-            vectorName +
-            "\" = to_tsvector('english', " +
-            searchFields.join(" || ' ' || ") +
-            ')'
+          ` ALTER TABLE ingredients
+      ADD COLUMN ${vectorName} TSVECTOR;
+          `
         )
-        .error(console.log)
+        .catch(err => console.error(err))
     })
     .then(function() {
       return db
         .query(
-          'CREATE INDEX recipe_search_idx ON "' +
-            'recipes' +
-            '" USING gin("' +
-            vectorName +
-            '");'
+          `
+        UPDATE recipes SET ${vectorName} = to_tsvector('english',title);
+          `
         )
-        .error(console.log)
+        .catch(err => console.error(err))
     })
     .then(function() {
       return db
         .query(
-          'CREATE TRIGGER recipe_vector_update BEFORE INSERT OR UPDATE ON "' +
-            'recipes' +
-            '" FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger("' +
-            vectorName +
-            "\", 'pg_catalog.english', " +
-            searchFields.join(', ') +
-            ')'
+          `
+        UPDATE ingredients SET ${vectorName} = to_tsvector('english',name);
+          `
         )
-        .error(console.log)
+        .catch(err => console.error(err))
     })
-    .error(console.log)
+    .then(function() {
+      return db
+        .query(
+          `
+        CREATE INDEX recipe_search_idx ON recipes USING gin(${vectorName})
+          `
+        )
+        .catch(err => console.error(err))
+    })
+    .then(function() {
+      return db
+        .query(
+          `
+        CREATE INDEX ingredient_search_idx ON ingredients USING gin(${vectorName})
+          `
+        )
+        .catch(err => console.error(err))
+    })
+    .then(function() {
+      return db
+        .query(
+          `CREATE TRIGGER recipe_vector_update BEFORE INSERT OR UPDATE ON recipes
+          FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(${vectorName}, 'pg_catalog.english',title)`
+        )
+        .catch(err => console.error(err))
+    })
+    .then(function() {
+      return db
+        .query(
+          ` CREATE TRIGGER ingredient_vector_update BEFORE INSERT OR UPDATE ON ingredients
+          FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger(${vectorName}, 'pg_catalog.english',name)`
+        )
+        .catch(err => console.error(err))
+    })
+    .catch(err => console.error(err))
 }
 
 module.exports = Recipe
