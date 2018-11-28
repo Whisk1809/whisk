@@ -16,6 +16,20 @@ export const setLikes = likes => {
   }
 }
 
+export const removeFromCategory = categoryId => {
+  return {
+    type: SET_USER_LIKES,
+    categoryId
+  }
+}
+
+export const removeFromIngredient = ingredientId => {
+  return {
+    type: SET_USER_LIKES,
+    ingredientId
+  }
+}
+
 export const setDislikes = dislikes => {
   return {
     type: SET_USER_DISLIKES,
