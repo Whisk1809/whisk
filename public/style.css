@@ -15,6 +15,9 @@ nav a {
   display: inline-block;
   margin-right: 16px;
 }
+.ui.search>.results{
+  min-width: 40vw;
+}
 
 form div {
   margin: 1em;
