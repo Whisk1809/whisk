@@ -130,7 +130,13 @@ Recipe.search = async plaintext => {
   SELECT r.* FROM recipes r
   JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
   JOIN ingredients i on ri."ingredientId" = i.id
-  WHERE i._search @@plainto_tsquery(:plaintext)`,
+  WHERE i._search @@plainto_tsquery(:plaintext)
+  UNION ALL
+  SELECT r.* FROM recipes r
+  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
+  JOIN ingredients i on ri."ingredientId" = i.id
+  WHERE
+  ` + q,
       {type: Sequelize.QueryTypes.SELECT, replacements: {plaintext}}
     )
   } else {
