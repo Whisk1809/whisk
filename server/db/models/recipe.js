@@ -78,6 +78,15 @@ Recipe.getPopular = async () => {
   )
   return recipes
 }
+Recipe.search = plaintext => {
+  db.query(
+    `SELECT *
+  FROM recipes
+  WHERE "RecipeTitle" @@plainto_tsquery(:plaintext)`,
+    {type: Sequelize.QueryTypes.SELECT, replacements: {plaintext}}
+  )
+}
+
 //returns the 15 recipes sorted based on create date - specific to the user Id to ensure this is something they have not previously interacted with
 Recipe.getNew = async uId => {
   const recipes = await db.query(
@@ -140,6 +149,60 @@ SELECT * FROM padding
     {type: Sequelize.QueryTypes.SELECT, replacements: {ids, uId, padding}}
   )
   return recipes
+}
+
+Recipe.addFullTextIndex = function() {
+  if (db.options.dialect !== 'postgres') {
+    console.log('Not creating search index, must be using POSTGRES to do this')
+    return
+  }
+
+  var searchFields = ['title']
+  var Recipe = this
+
+  var vectorName = 'RecipeTitle'
+  db
+    .query(
+      'ALTER TABLE "' + 'recipes' + '" ADD COLUMN "' + vectorName + '" TSVECTOR'
+    )
+    .then(function() {
+      return db
+        .query(
+          'UPDATE "' +
+            'recipes' +
+            '" SET "' +
+            vectorName +
+            "\" = to_tsvector('english', " +
+            searchFields.join(" || ' ' || ") +
+            ')'
+        )
+        .error(console.log)
+    })
+    .then(function() {
+      return db
+        .query(
+          'CREATE INDEX recipe_search_idx ON "' +
+            'recipes' +
+            '" USING gin("' +
+            vectorName +
+            '");'
+        )
+        .error(console.log)
+    })
+    .then(function() {
+      return db
+        .query(
+          'CREATE TRIGGER recipe_vector_update BEFORE INSERT OR UPDATE ON "' +
+            'recipes' +
+            '" FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger("' +
+            vectorName +
+            "\", 'pg_catalog.english', " +
+            searchFields.join(', ') +
+            ')'
+        )
+        .error(console.log)
+    })
+    .error(console.log)
 }
 
 module.exports = Recipe

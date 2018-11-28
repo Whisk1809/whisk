@@ -20,7 +20,7 @@ const yummlyData = require('../server/adapter/yummly-data.json')
 const users = require('./seed-helper/user-generator.js')
 
 async function seed(done) {
-  await db.sync({force: true})
+  await db.sync({force: true}).then(Recipe.addFullTextIndex)
   console.log('db synced!')
   await deleteGraph()
   console.log('graph db cleared!')
