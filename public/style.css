@@ -13,7 +13,8 @@ label {
 
 nav a {
   display: inline-block;
-  margin: 1em;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 form div {
@@ -104,6 +105,34 @@ i.icon.heart:after {
 
 h2.ui.header {
   text-align: center;
+  font-size: 30px;
+}
+
+.ui.huge.header{
+  font-size: 40px;
+}
+
+.ui.form input[type=search] {
+  display: flex;
+  min-width: 40vw;
+}
+
+div a{
+  color: black;
+  font-weight: bold;
+}
+
+.ui.menu .active.item{
+  color: green!important;
+}
+
+a:hover {
+  color: green;
+}
+
+.ui.menu .item {
+  padding: 0 0;
+  position: static;
 }
 
 nav {
@@ -113,6 +142,7 @@ nav {
 
 div a {
   text-align: center;
+  font-size: 17px;
 }
 
 div form {
