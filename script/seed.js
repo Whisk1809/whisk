@@ -73,7 +73,12 @@ async function seed(done) {
     const [newRecipe, created] = await Recipe.findOrCreate({
       where: {title: recipe.title}
     })
-    if (!created) continue //skip if this is a name duplicate
+    if (
+      !created ||
+      recipe.title === 'Turkey Bacon Crescents' ||
+      recipe.title === 'Miracle Lasagna'
+    )
+      continue //skip if this is a name duplicate
     await newRecipe.update(recipe)
     const newCategories = await Promise.all(
       categories.map(category =>
@@ -107,7 +112,7 @@ async function seed(done) {
           })
           j++
 
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -126,7 +131,7 @@ async function seed(done) {
           })
 
           j++
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -141,7 +146,7 @@ async function seed(done) {
           })
 
           j++
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -160,7 +165,7 @@ async function seed(done) {
           })
 
           j++
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -175,7 +180,7 @@ async function seed(done) {
           })
 
           j++
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -194,7 +199,7 @@ async function seed(done) {
           })
 
           j++
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -221,6 +226,37 @@ async function seed(done) {
       requires: false
     })
   ])
+  //add some preferences for cody
+  await Preference.create({
+    userId: 1,
+    recipeId: 105,
+    prefers: true
+  })
+  await Preference.create({
+    userId: 1,
+    ingredientId: 1,
+    prefers: true
+  })
+  await Preference.create({
+    userId: 1,
+    ingredientId: 2,
+    prefers: false
+  })
+  await Preference.create({
+    userId: 1,
+    categoryId: 1,
+    prefers: true
+  })
+  await Preference.create({
+    userId: 1,
+    recipeId: 108,
+    prefers: false
+  })
+  await Preference.create({
+    userId: 1,
+    recipeId: 110,
+    prefers: true
+  })
 
   console.log(
     `seeded ${
