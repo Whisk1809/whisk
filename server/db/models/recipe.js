@@ -78,13 +78,15 @@ Recipe.getPopular = async () => {
   )
   return recipes
 }
-Recipe.search = plaintext => {
-  db.query(
+Recipe.search = async plaintext => {
+  console.log(plaintext)
+  const recipes = await db.query(
     `SELECT *
   FROM recipes
   WHERE "RecipeTitle" @@plainto_tsquery(:plaintext)`,
     {type: Sequelize.QueryTypes.SELECT, replacements: {plaintext}}
   )
+  return recipes
 }
 
 //returns the 15 recipes sorted based on create date - specific to the user Id to ensure this is something they have not previously interacted with
