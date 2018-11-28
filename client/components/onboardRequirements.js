@@ -85,14 +85,14 @@ class OnboardRequirements extends Component {
                             await this.props.addFalseRequirement(ingredient.id)
                           }}
                         >
-                          <Icon name="ban" />
+                          <Icon name="thumbs down" />
                         </Button>
                         <Button
                           onClick={async () => {
                             await this.props.addTrueRequirement(ingredient.id)
                           }}
                         >
-                          <Icon name="heart" />
+                          <Icon name="thumbs up" />
                         </Button>
                       </Button>
                     </div>

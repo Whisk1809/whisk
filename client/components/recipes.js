@@ -35,7 +35,7 @@ class Recipes extends Component {
     ) {
       return (
         <div>
-          <Header as="h2">Recommended for {user.name || user.email}</Header>
+          <Header as="h2">Recommended for {user.name || 'You'}</Header>
           <RecipeSlider recipes={recommendedRecipes} title="trending" />
           <Header as="h2">Popular on Whisk</Header>
           <RecipeSlider recipes={popularRecipes} />

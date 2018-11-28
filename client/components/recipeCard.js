@@ -54,7 +54,7 @@ class RecipeCard extends Component {
           <Image src={imageUrl} as={Link} to={`/recipes/${id}`} />
           <Card.Content as={Link} to={`/recipes/${id}`}>
             <Card.Header> {title}</Card.Header>
-            <Card.Meta>{convertPrepTime(recipe)}</Card.Meta>
+            <Card.Meta><Icon name="clock outline"/> {convertPrepTime(recipe)}</Card.Meta>
             <Card.Description />
           </Card.Content>
           <Card.Content extra>
@@ -64,7 +64,7 @@ class RecipeCard extends Component {
               onClick={this.handleClickLike}
               disabled={isDislikeActive}
             >
-              <Icon name="heart" />
+              <Icon name="thumbs up" />
             </Button>} content="Show me more recipes like this" inverted />
             <Popup trigger={
             <Button
@@ -72,7 +72,7 @@ class RecipeCard extends Component {
               onClick={this.handleClickDislike}
               disabled={isLikeActive || isBookmarkActive}
             >
-              <Icon name="ban" />
+              <Icon name="thumbs down" />
             </Button>} content="Show me fewer recipes like this" inverted />
               <Popup trigger={
             <Button
@@ -81,7 +81,7 @@ class RecipeCard extends Component {
               disabled={isDislikeActive}
             >
               <Icon name="bookmark" />
-            </Button>} content="Add to my recipe book" inverted />
+            </Button>} content="Add to My Recipe Book" inverted />
           </Card.Content>
         </Card>
       </Container>

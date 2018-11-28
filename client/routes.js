@@ -35,7 +35,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
 
         {this.props.searchStatus ? (
-          <Route path="/home" component={Search} />
+          <Route path="/" component={Search} />
         ) : (
           <Route path="/home" component={Recipes} />
         )}

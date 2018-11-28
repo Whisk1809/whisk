@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import {Redirect} from 'react-router'
 import {logout} from '../store'
 import {Image, Input, Button, Form, Icon, Menu, Header} from 'semantic-ui-react'
 import {searchRecipes} from '../store/recipeSearch'
 import {setSearchStatus} from '../store/searchStatus'
+import {RecipeSearch} from '../components'
 import Search from './search'
 import {withRouter, Route, Switch} from 'react-router-dom'
 
@@ -14,7 +14,7 @@ class Navbar extends Component {
   constructor() {
     super()
     this.state = {
-      searchParams: '',
+      searchParams: ''
     }
   }
   handleChange = async evt => {
@@ -30,12 +30,13 @@ class Navbar extends Component {
     }
   }
 
-  handleItemClick = (evt, { name }) => {
-    this.setState({ activeItem: name })
+  handleItemClick = (evt, {name}) => {
+    this.setState({activeItem: name})
   }
 
   render() {
     const { activeItem } = this.state
+    const {user} = this.props
 
     return (
       <div>
@@ -45,46 +46,48 @@ class Navbar extends Component {
               {/* The navbar will show these links after you log in */}
 
               <Menu>
-                <Menu.Item href='/home'>
-                    <Header as="h3" size="huge" className='nav-icon'>
-                      <img src="/whisk.png" style={{width: 50}} /> Whisk
-                    </Header>
+                <Menu.Item href="/home">
+                  <Header as="h3" size="huge" className="nav-icon">
+                    <img src="/whisk.png" style={{width: 50}} /> Whisk
+                  </Header>
                 </Menu.Item>
-                <Menu.Item href='/recipeBook' name='recipeBook' active={activeItem==='recipeBook'} onClick={this.handleItemClick}
-                className='hoverable'>
-
+                <Menu.Item
+                  href="/recipeBook"
+                  name="recipeBook"
+                  active={activeItem === 'recipeBook'}
+                  onClick={this.handleItemClick}
+                  className="hoverable"
+                >
                   My Recipe Book
+                  <Icon name="bookmark" />
                 </Menu.Item>
-                <Menu.Item href='preferences' name='preferences' active={activeItem==='preferences'} onClick={this.handleItemClick}
-                className='hoverable'>
+                <Menu.Item
+                  href="preferences"
+                  name="preferences"
+                  active={activeItem === 'preferences'}
+                  onClick={this.handleItemClick}
+                  className="hoverable"
+                >
                   Preferences
                 </Menu.Item>
                 <Menu.Item>
-                  <Form
-                    onSubmit={evt => {
-                      this.handleSubmit(evt)
-                    }}
-                  >
-                    <Input
-                      fluid
-                      icon="search"
-                      type="search"
-                      placeholder="search"
-                      value={this.state.searchParams}
-                      onChange={evt => {
-                        this.showSearch(evt)
-                        this.handleChange(evt)
-                      }}
-                    />
-                  </Form>
+                  <RecipeSearch />
                 </Menu.Item>
-                <Menu.Item href='/profile' name='profile' active={activeItem==='profile'} onClick={this.handleItemClick}
-                className='hoverable'>
-                  Profile
+                <Menu.Item
+                  href="/profile"
+                  name="profile"
+                  active={activeItem === 'profile'}
+                  onClick={this.handleItemClick}
+                  className="hoverable"
+                >
+                  {user.name ? `${user.name}'s Profile`: 'Profile'}
                 </Menu.Item>
-                <Menu.Item href='#' onClick={this.props.handleClick}
-                className='hoverable'>
-                    Logout
+                <Menu.Item
+                  href="#"
+                  onClick={this.props.handleClick}
+                  className="hoverable"
+                >
+                  Logout
                 </Menu.Item>
               </Menu>
             </div>
@@ -98,7 +101,6 @@ class Navbar extends Component {
               <Link to="/signup">Sign Up</Link>
             </div>
           )}
-
         </nav>
         <hr />
       </div>
@@ -111,7 +113,8 @@ class Navbar extends Component {
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    user: state.user
   }
 }
 
@@ -121,7 +124,7 @@ const mapDispatch = dispatch => {
       dispatch(logout())
     },
     searchRecipes: params => dispatch(searchRecipes(params)),
-    setSearchStatus: status => dispatch(setSearchStatus(status))
+    setSearchStatus: status => dispatch(setSearchStatus(status)),
   }
 }
 

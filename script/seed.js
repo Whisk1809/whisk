@@ -20,7 +20,7 @@ const yummlyData = require('../server/adapter/yummly-data.json')
 const users = require('./seed-helper/user-generator.js')
 
 async function seed(done) {
-  await db.sync({force: true})
+  await db.sync({force: true}).then(Recipe.addFullTextIndex)
   console.log('db synced!')
   await deleteGraph()
   console.log('graph db cleared!')
@@ -31,13 +31,13 @@ async function seed(done) {
     User.create({
       email: 'cody@email.com',
       password: '123',
-      name: 'cody',
+      name: 'Cody',
       phone: '+13364136015'
     }),
     User.create({
       email: 'murphy@email.com',
       password: '123',
-      name: 'murphy',
+      name: 'Murphy',
       phone: '+1111-111-1111'
     })
   ])
@@ -73,7 +73,12 @@ async function seed(done) {
     const [newRecipe, created] = await Recipe.findOrCreate({
       where: {title: recipe.title}
     })
-    if (!created) continue //skip if this is a name duplicate
+    if (
+      !created ||
+      recipe.title === 'Turkey Bacon Crescents' ||
+      recipe.title === 'Miracle Lasagna'
+    )
+      continue //skip if this is a name duplicate
     await newRecipe.update(recipe)
     const newCategories = await Promise.all(
       categories.map(category =>
@@ -93,90 +98,89 @@ async function seed(done) {
     await Promise.all(
       newCategories.map(category => newRecipe.setCategories(category[0]))
     )
-
     // obviously need to refactor this if time allows
     // find the users who meet that criteria and create a preference for that user based on a distribution
     if (categories.map(e => e.name).includes('Italian')) {
-      const likers = group1.filter(() => j % 3 === 0)
-      for (let i = 0; i < likers.length; i++) {
+      const likers = group1.filter((e, m) => (m + i) % 2 === 0)
+      for (let k = 0; k < likers.length; k++) {
         try {
           await Preference.create({
-            userId: likers[i].id,
+            userId: likers[k].id,
             recipeId: newRecipe.id,
             prefers: true,
             createdAt
           })
           j++
 
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
       }
     }
     if (categories.map(e => e.name).includes('American')) {
-      const likers = group3.filter(() => j % 3 === 0)
-      const dislikers = group4.filter(() => j % 3 === 0)
-      for (let i = 0; i < likers.length; i++) {
+      const likers = group3.filter((e, m) => (m + i) % 2 === 0)
+      const dislikers = group4.filter((e, m) => (m + i) % 2 === 0)
+      for (let k = 0; k < likers.length; k++) {
         try {
           await Preference.create({
-            userId: likers[i].id,
+            userId: likers[k].id,
             recipeId: newRecipe.id,
             prefers: true,
             createdAt
           })
 
           j++
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
       }
-      for (let i = 0; i < dislikers.length; i++) {
+      for (let k = 0; k < dislikers.length; k++) {
         try {
           await Preference.create({
-            userId: dislikers[i].id,
+            userId: dislikers[k].id,
             recipeId: newRecipe.id,
             prefers: false,
             createdAt
           })
 
           j++
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
       }
     }
     if (categories.map(e => e.name).includes('Asian')) {
-      const likers = group4.filter(() => j % 3 === 0)
-      const dislikers = group2.filter(() => j % 3 === 0)
-      for (let i = 0; i < likers.length; i++) {
+      const likers = group4.filter((e, m) => (m + i) % 2 === 0)
+      const dislikers = group2.filter((e, m) => (m + i) % 2 === 0)
+      for (let k = 0; k < likers.length; k++) {
         try {
           await Preference.create({
-            userId: likers[i].id,
+            userId: likers[k].id,
             recipeId: newRecipe.id,
             prefers: true,
             createdAt
           })
 
           j++
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
       }
-      for (let i = 0; i < dislikers.length; i++) {
+      for (let k = 0; k < dislikers.length; k++) {
         try {
           await Preference.create({
-            userId: dislikers[i].id,
+            userId: dislikers[k].id,
             recipeId: newRecipe.id,
             prefers: false,
             createdAt
           })
 
           j++
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -184,18 +188,18 @@ async function seed(done) {
     }
 
     if (categories.map(e => e.name).includes('Kid-Friendly')) {
-      const likers = group2.filter(() => j % 3 === 0)
-      for (let i = 0; i < likers.length; i++) {
+      const likers = group2.filter((e, m) => (m + i) % 2 === 0)
+      for (let k = 0; k < likers.length; k++) {
         try {
           await Preference.create({
-            userId: likers[i].id,
+            userId: likers[k].id,
             recipeId: newRecipe.id,
             prefers: true,
             createdAt
           })
 
           j++
-          if (j === 200) createdAt = '11-26-2018'
+          if (j === 750) createdAt = '11-26-2018'
         } catch (err) {
           console.error(err)
         }
@@ -222,6 +226,37 @@ async function seed(done) {
       requires: false
     })
   ])
+  //add some preferences for cody
+  await Preference.create({
+    userId: 1,
+    recipeId: 105,
+    prefers: true
+  })
+  await Preference.create({
+    userId: 1,
+    ingredientId: 1,
+    prefers: true
+  })
+  await Preference.create({
+    userId: 1,
+    ingredientId: 2,
+    prefers: false
+  })
+  await Preference.create({
+    userId: 1,
+    categoryId: 1,
+    prefers: true
+  })
+  await Preference.create({
+    userId: 1,
+    recipeId: 108,
+    prefers: false
+  })
+  await Preference.create({
+    userId: 1,
+    recipeId: 110,
+    prefers: true
+  })
 
   console.log(
     `seeded ${
