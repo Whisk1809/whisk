@@ -1,14 +1,17 @@
 import React, {Component} from 'react'
-import {Card, Icon, Image, Container, Button} from 'semantic-ui-react'
+import {Card, Icon, Image, Container, Button, Popup} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {updatePreferences, convertPrepTime, addToFavorites} from '../store'
 
 class RecipeCard extends Component {
-  state = {
-    isLikeActive: false,
-    isDislikeActive: false,
-    isBookmarkActive: false,
+  constructor() {
+    super()
+    this.state = {
+      isLikeActive: false,
+      isDislikeActive: false,
+      isBookmarkActive: false
+    }
   }
 
   handleClickLike = event => {
@@ -55,27 +58,30 @@ class RecipeCard extends Component {
             <Card.Description />
           </Card.Content>
           <Card.Content extra>
+          <Popup trigger={
             <Button
               color={isLikeActive ? 'green' : undefined}
               onClick={this.handleClickLike}
               disabled={isDislikeActive}
             >
               <Icon name="heart" />
-            </Button>
+            </Button>} content="Show me more recipes like this" inverted />
+            <Popup trigger={
             <Button
               color={isDislikeActive ? 'red' : undefined}
               onClick={this.handleClickDislike}
               disabled={isLikeActive || isBookmarkActive}
             >
               <Icon name="ban" />
-            </Button>
+            </Button>} content="Show me fewer recipes like this" inverted />
+              <Popup trigger={
             <Button
               color={isBookmarkActive ? 'teal' : undefined}
               onClick={this.handleClickBookmark}
               disabled={isDislikeActive}
             >
               <Icon name="bookmark" />
-            </Button>
+            </Button>} content="Add to my recipe book" inverted />
           </Card.Content>
         </Card>
       </Container>
@@ -86,7 +92,7 @@ class RecipeCard extends Component {
 const mapDispatchToProps = dispatch => ({
   updatePreferences: (recipeId, prefers) =>
     dispatch(updatePreferences(recipeId, prefers)),
-  addToFavorites: (recipeId) => dispatch(addToFavorites(recipeId))
+  addToFavorites: recipeId => dispatch(addToFavorites(recipeId))
 })
 
 export default connect(null, mapDispatchToProps)(RecipeCard)

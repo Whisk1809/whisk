@@ -33,7 +33,7 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/requirements" component={OnboardRequirements} />
+
         {this.props.searchStatus ? (
           <Route path="/home" component={Search} />
         ) : (
@@ -51,6 +51,7 @@ class Routes extends Component {
             <Route path="/profile" component={Profile} />
 
             <Route path="/recipeBook" component={Favorites} />
+            <Route path="/requirements" component={OnboardRequirements} />
 
             <Route path="/preferences" component={ProfilePreferences} />
             <Route path="/home" component={Recipes} />

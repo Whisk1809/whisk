@@ -23,7 +23,8 @@ class Recipes extends Component {
       trendingRecipes,
       recommendedRecipes,
       popularRecipes,
-      newRecipes
+      newRecipes,
+      user
     } = this.props
 
     if (
@@ -34,7 +35,7 @@ class Recipes extends Component {
     ) {
       return (
         <div>
-          <Header as="h2">Recommended for You</Header>
+          <Header as="h2">Recommended for {user.name || user.email}</Header>
           <RecipeSlider recipes={recommendedRecipes} title="trending" />
           <Header as="h2">Popular on Whisk</Header>
           <RecipeSlider recipes={popularRecipes} />
@@ -49,7 +50,7 @@ class Recipes extends Component {
     }
   }
 }
-const mapStateToProps = ({recipes}) => {
+const mapStateToProps = ({recipes, user}) => {
   const {
     trendingRecipes,
     recommendedRecipes,
@@ -60,7 +61,8 @@ const mapStateToProps = ({recipes}) => {
     trendingRecipes,
     recommendedRecipes,
     popularRecipes,
-    newRecipes
+    newRecipes,
+    user
   }
 }
 const mapDispatchToProps = {

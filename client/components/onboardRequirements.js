@@ -19,6 +19,7 @@ import {
   fetchRequirements
 } from '../store/requirements'
 import {searchIngredients} from '../store/ingredientSearch'
+import history from '../history'
 
 class OnboardRequirements extends Component {
   constructor() {
@@ -41,11 +42,18 @@ class OnboardRequirements extends Component {
     this.setState({search: evt.target.value})
     this.props.searchIngredients(evt.target.value)
   }
-
+  handleNext = () => {
+    history.push('/home')
+  }
   render() {
     return (
       <div>
-        <Progress value="1" total="5" progress="ratio" />
+        <Container textAlign="center" className="onboard-nav">
+          <Progress value="1" total="5" progress="ratio" />
+          <Button large onClick={this.handleNext}>
+            Next
+          </Button>
+        </Container>
         <div className="requirements">
           <Container className="container-r" textAlign="center">
             {/* <Header as="h1" textAlign="center">
