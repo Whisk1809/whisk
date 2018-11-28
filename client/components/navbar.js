@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import {Redirect} from 'react-router'
 import {logout} from '../store'
 import {Image, Input, Button, Form, Icon, Menu, Header} from 'semantic-ui-react'
 import {searchRecipes} from '../store/recipeSearch'
@@ -36,6 +35,7 @@ class Navbar extends Component {
 
   render() {
     const { activeItem } = this.state
+    const {user} = this.props
 
     return (
       <div>
@@ -45,15 +45,15 @@ class Navbar extends Component {
               {/* The navbar will show these links after you log in */}
 
               <Menu>
-                <Menu.Item href='/home' secondary>
+                <Menu.Item href='/home'>
                     <Header as="h3" size="huge" className='nav-icon'>
                       <img src="/whisk.png" style={{width: 50}} /> Whisk
                     </Header>
                 </Menu.Item>
                 <Menu.Item href='/recipeBook' name='recipeBook' active={activeItem==='recipeBook'} onClick={this.handleItemClick}
                 className='hoverable'>
-
                   My Recipe Book
+                  <Icon name="bookmark" />
                 </Menu.Item>
                 <Menu.Item href='preferences' name='preferences' active={activeItem==='preferences'} onClick={this.handleItemClick}
                 className='hoverable'>
@@ -80,7 +80,7 @@ class Navbar extends Component {
                 </Menu.Item>
                 <Menu.Item href='/profile' name='profile' active={activeItem==='profile'} onClick={this.handleItemClick}
                 className='hoverable'>
-                  Profile
+                  {user.name ? `${user.name}'s Profile`: 'Profile'}
                 </Menu.Item>
                 <Menu.Item href='#' onClick={this.props.handleClick}
                 className='hoverable'>
@@ -111,7 +111,8 @@ class Navbar extends Component {
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    user: state.user
   }
 }
 
@@ -121,7 +122,7 @@ const mapDispatch = dispatch => {
       dispatch(logout())
     },
     searchRecipes: params => dispatch(searchRecipes(params)),
-    setSearchStatus: status => dispatch(setSearchStatus(status))
+    setSearchStatus: status => dispatch(setSearchStatus(status)),
   }
 }
 
