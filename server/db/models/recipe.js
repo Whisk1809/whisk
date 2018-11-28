@@ -93,18 +93,21 @@ Recipe.search = async plaintext => {
   JOIN ingredients i on ri."ingredientId" = i.id
   WHERE i._search @@plainto_tsquery(:plaintext)
   `,
-      {type: Sequelize.QueryTypes.SELECT, replacements: {plaintext}}
+      {
+        type: Sequelize.QueryTypes.SELECT,
+        replacements: {plaintext}
+      }
     )
   } else {
-    const q = arr.map(word => `plainto_tsquery(${word})`).join(' || ')
+    const str = arr.map(word => `plainto_tsquery('${word}')`).join(' || ')
+    const q = `i._search @@(${str}) AND r._search @@(${str})`
     recipes = await db.query(
       ` SELECT r.* FROM recipes r
     JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
     JOIN ingredients i on ri."ingredientId" = i.id
-    WHERE i._search @@:q
-    AND r._search @@:q
-    `,
-      {type: Sequelize.QueryTypes.SELECT, replacements: {q}}
+    WHERE
+    ` + q,
+      {type: Sequelize.QueryTypes.SELECT}
     )
   }
 
