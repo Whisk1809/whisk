@@ -45,7 +45,7 @@ class Navbar extends Component {
               {/* The navbar will show these links after you log in */}
 
               <Menu>
-                <Menu.Item href='/home' secondary>
+                <Menu.Item href='/home'>
                     <Header as="h3" size="huge" className='nav-icon'>
                       <img src="/whisk.png" style={{width: 50}} /> Whisk
                     </Header>
