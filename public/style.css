@@ -131,6 +131,10 @@ h2.ui.header {
   font-size: 40px;
 }
 
+.ui.icon.input>input {
+  min-width: 40vw;
+}
+
 .ui.form input[type=search] {
   display: flex;
   min-width: 40vw;
