@@ -37,6 +37,7 @@ class Navbar extends Component {
   render() {
     console.log(this.props)
     const { activeItem } = this.state
+
     return (
       <div>
         <nav>
@@ -52,19 +53,38 @@ class Navbar extends Component {
                     </Header>
                   </Link>
                 </Menu.Item>
-                <Menu.Item>
-                <a href="#" onClick={this.props.handleClick}>
-                  Logout
-                </a>
-                </Menu.Item>
-                <Menu.Item>
+                <Menu.Item name='recipeBook' active={activeItem==='recipeBook'} onClick={this.handleItemClick}>
                   <Link to="/recipeBook">My Recipe Book</Link>
                 </Menu.Item>
-                <Menu.Item>
+                <Menu.Item name='preferences' active={activeItem==='preferences'} onClick={this.handleItemClick}>
                   <Link to="/preferences">Preferences</Link>
                 </Menu.Item>
-                <Menu.Item position='right'>
+                <Menu.Item>
+                  <Form
+                    onSubmit={evt => {
+                      this.handleSubmit(evt)
+                    }}
+                  >
+                    <Input
+                      fluid
+                      icon="search"
+                      type="search"
+                      placeholder="search"
+                      value={this.state.searchParams}
+                      onChange={evt => {
+                        this.showSearch(evt)
+                        this.handleChange(evt)
+                      }}
+                    />
+                  </Form>
+                </Menu.Item>
+                <Menu.Item name='profile' active={activeItem==='profile'} onClick={this.handleItemClick}>
                   <Link to="/profile">Profile</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="#" onClick={this.props.handleClick}>
+                    Logout
+                  </Link>
                 </Menu.Item>
               </Menu>
             </div>
@@ -78,23 +98,7 @@ class Navbar extends Component {
               <Link to="/signup">Sign Up</Link>
             </div>
           )}
-          <Form
-            onSubmit={evt => {
-              this.handleSubmit(evt)
-            }}
-          >
-            <Input
-              placeholder="search"
-              value={this.state.searchParams}
-              onChange={evt => {
-                this.showSearch(evt)
-                this.handleChange(evt)
-              }}
-            />
-            <Button type="submit">
-              <Icon name="search" />
-            </Button>
-          </Form>
+
         </nav>
         <hr />
       </div>
