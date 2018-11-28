@@ -132,6 +132,7 @@ h2.ui.header {
 
 .ui.icon.input>input {
   min-width: 40vw;
+}
 
 .ui.huge.button:hover {
   background-color: #21ba45;
