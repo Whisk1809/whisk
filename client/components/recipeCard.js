@@ -54,7 +54,7 @@ class RecipeCard extends Component {
           <Image src={imageUrl} as={Link} to={`/recipes/${id}`} />
           <Card.Content as={Link} to={`/recipes/${id}`}>
             <Card.Header> {title}</Card.Header>
-            <Card.Meta>{convertPrepTime(recipe)}</Card.Meta>
+            <Card.Meta><Icon name="clock outline"/>{convertPrepTime(recipe)}</Card.Meta>
             <Card.Description />
           </Card.Content>
           <Card.Content extra>
