@@ -32,6 +32,7 @@ router.delete('/:favoriteId', async (req, res, next) => {
     const userId = req.user.id
     const recipeId = req.body.recipeId
     const favroiteId = req.params.favroiteId
+    console.log("--------- req.body", req.body);
 
     const recipeToRemove = await Recipe.findById(recipeId)
     const user = await User.findById(userId)
