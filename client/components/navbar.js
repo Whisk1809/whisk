@@ -45,15 +45,15 @@ class Navbar extends Component {
               {/* The navbar will show these links after you log in */}
 
               <Menu>
-                <Menu.Item href='/home' secondary>
+                <Menu.Item href='/home'>
                     <Header as="h3" size="huge" className='nav-icon'>
                       <img src="/whisk.png" style={{width: 50}} /> Whisk
                     </Header>
                 </Menu.Item>
                 <Menu.Item href='/recipeBook' name='recipeBook' active={activeItem==='recipeBook'} onClick={this.handleItemClick}
                 className='hoverable'>
-
                   My Recipe Book
+                  <Icon name="bookmark" />
                 </Menu.Item>
                 <Menu.Item href='preferences' name='preferences' active={activeItem==='preferences'} onClick={this.handleItemClick}
                 className='hoverable'>
