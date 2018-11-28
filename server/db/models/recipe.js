@@ -80,8 +80,11 @@ Recipe.getPopular = async () => {
 }
 Recipe.search = async plaintext => {
   console.log(plaintext)
-  const recipes = await db.query(
-    `SELECT *
+  let recipes
+  const arr = plaintext.split(' ')
+  if (arr.length === 1) {
+    recipes = await db.query(
+      `SELECT *
   FROM recipes
   WHERE _search @@plainto_tsquery(:plaintext)
   UNION ALL
@@ -90,8 +93,21 @@ Recipe.search = async plaintext => {
   JOIN ingredients i on ri."ingredientId" = i.id
   WHERE i._search @@plainto_tsquery(:plaintext)
   `,
-    {type: Sequelize.QueryTypes.SELECT, replacements: {plaintext}}
-  )
+      {type: Sequelize.QueryTypes.SELECT, replacements: {plaintext}}
+    )
+  } else {
+    const q = arr.map(word => `plainto_tsquery(${word})`).join(' || ')
+    recipes = await db.query(
+      ` SELECT r.* FROM recipes r
+    JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
+    JOIN ingredients i on ri."ingredientId" = i.id
+    WHERE i._search @@:q
+    AND r._search @@:q
+    `,
+      {type: Sequelize.QueryTypes.SELECT, replacements: {q}}
+    )
+  }
+
   return recipes
 }
 
