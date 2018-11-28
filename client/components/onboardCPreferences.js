@@ -50,7 +50,7 @@ class OnboardCPreferences extends Component {
       <div>
         <Container textAlign="center" className="onboard-nav">
           <Header>Select categories you prefer and do not prefer</Header>
-          <Progress value="4" total="4" progress="ratio" />
+          <Progress value="3" total="3" progress="ratio" />
           <Button large onClick={this.handleNext}>
             Next
           </Button>
@@ -84,14 +84,14 @@ class OnboardCPreferences extends Component {
                             await this.props.addFalsePreference(category.id)
                           }}
                         >
-                          <Icon name="ban" />
+                          <Icon name="thumbs down" />
                         </Button>
                         <Button
                           onClick={async () => {
                             await this.props.addTruePreference(category.id)
                           }}
                         >
-                          <Icon name="heart" />
+                          <Icon name="thumbs up" />
                         </Button>
                       </Button>
                     </div>

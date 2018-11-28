@@ -49,7 +49,7 @@ class OnboardRequirements extends Component {
     return (
       <div>
         <Container textAlign="center" className="onboard-nav">
-          <Progress value="1" total="5" progress="ratio" />
+          <Progress value="1" total="3" progress="ratio" />
           <Button large onClick={this.handleNext}>
             Next
           </Button>

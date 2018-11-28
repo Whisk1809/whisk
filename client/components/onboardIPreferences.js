@@ -43,14 +43,14 @@ class OnboardIPreferences extends Component {
     this.props.searchIngredients(evt.target.value)
   }
   handleNext = () => {
-    history.push('/preferencesROnboard')
+    history.push('/preferencesCOnboard')
   }
   render() {
     return (
       <div>
         <Container textAlign="center" className="onboard-nav">
           <Header>Select ingredients you prefer and do not prefer</Header>
-          <Progress value="2" total="4" progress="ratio" />
+          <Progress value="2" total="3" progress="ratio" />
           <Button large onClick={this.handleNext}>
             Next
           </Button>
@@ -86,14 +86,14 @@ class OnboardIPreferences extends Component {
                             await this.props.addFalsePreference(ingredient.id)
                           }}
                         >
-                          <Icon name="ban" />
+                          <Icon name="thumbs down" />
                         </Button>
                         <Button
                           onClick={async () => {
                             await this.props.addTruePreference(ingredient.id)
                           }}
                         >
-                          <Icon name="heart" />
+                          <Icon name="thumbs up" />
                         </Button>
                       </Button>
                     </div>

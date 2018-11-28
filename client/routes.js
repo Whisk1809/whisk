@@ -18,7 +18,6 @@ import Profile from './components/profile'
 import Search from './components/search'
 import OnboardIPreferences from './components/onboardIPreferences'
 import OnboardCPreferences from './components/onboardCPreferences'
-import OnboardRPreferences from './components/onboardRPreferences'
 
 /**
  * COMPONENT
@@ -62,10 +61,6 @@ class Routes extends Component {
             <Route
               path="/preferencesCOnboard"
               component={OnboardCPreferences}
-            />
-            <Route
-              path="/preferencesROnboard"
-              component={OnboardRPreferences}
             />
 
             <Route path="/preferences" component={ProfilePreferences} />
