@@ -79,10 +79,17 @@ Recipe.getPopular = async () => {
   return recipes
 }
 Recipe.search = async plaintext => {
-  console.log(plaintext)
-  let recipes
+  let recipes, maxTime
+  const text = []
+
   const arr = plaintext.split(' ')
-  if (arr.length === 1) {
+  console.log('arr: ', arr)
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i][0] === '<') maxTime = Number(arr[i].slice(1))
+    else text.push(arr[i])
+  }
+  console.log('maxTime: ', maxTime)
+  if (!maxTime && text.length === 1) {
     recipes = await db.query(
       `SELECT *
   FROM recipes
@@ -98,8 +105,21 @@ Recipe.search = async plaintext => {
         replacements: {plaintext}
       }
     )
-  } else {
-    const str = arr.map(word => `plainto_tsquery('${word}')`).join(' || ')
+  } else if (maxTime && text.length === 0) {
+    //query with just time
+    recipes = await db.query(
+      `SELECT *
+  FROM recipes
+  WHERE "prepTimeSeconds" < :maxTime
+  `,
+      {
+        type: Sequelize.QueryTypes.SELECT,
+        replacements: {maxTime: maxTime * 60}
+      }
+    )
+  } else if (!maxTime) {
+    //query with multiple words
+    const str = text.map(word => `plainto_tsquery('${word}')`).join(' || ')
     const q = `i._search @@(${str}) AND r._search @@(${str})`
     recipes = await db.query(
       `
@@ -120,6 +140,34 @@ Recipe.search = async plaintext => {
   JOIN ingredients i on ri."ingredientId" = i.id
   WHERE i._search @@plainto_tsquery(:plaintext)`,
       {type: Sequelize.QueryTypes.SELECT, replacements: {plaintext}}
+    )
+  } else {
+    //query with multiple words and time
+    const str = text.map(word => `plainto_tsquery('${word}')`).join(' || ')
+    const q = `i._search @@(${str}) AND r._search @@(${str})`
+    recipes = await db.query(
+      `
+  SELECT r.* FROM recipes r
+  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
+  JOIN ingredients i on ri."ingredientId" = i.id
+  WHERE r."prepTimeSeconds" < :maxTime AND
+    ` +
+        q +
+        `
+  UNION ALL
+  SELECT *
+  FROM recipes
+  WHERE _search @@plainto_tsquery(:plaintext) AND  "prepTimeSeconds" < :maxTime
+  UNION ALL
+  SELECT r.* FROM recipes r
+  JOIN "RecipeIngredients" ri ON r.id = ri."recipeId"
+  JOIN ingredients i on ri."ingredientId" = i.id
+  WHERE i._search @@plainto_tsquery(:plaintext) AND  r."prepTimeSeconds" < :maxTime
+`,
+      {
+        type: Sequelize.QueryTypes.SELECT,
+        replacements: {plaintext: text.join(' '), maxTime: maxTime * 60}
+      }
     )
   }
 
