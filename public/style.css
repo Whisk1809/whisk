@@ -15,6 +15,9 @@ nav a {
   display: inline-block;
   margin-right: 16px;
 }
+.ui.search>.results{
+  min-width: 40vw;
+}
 
 form div {
   margin: 1em;
@@ -125,6 +128,15 @@ h2.ui.header {
 
 .ui.huge.header:hover{
   font-size: 40px;
+}
+
+.ui.icon.input>input {
+  min-width: 40vw;
+}
+
+.ui.huge.button:hover {
+  background-color: #21ba45;
+  color: white
 }
 
 .ui.form input[type=search] {
