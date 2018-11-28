@@ -50,6 +50,7 @@ class RecipeSearch extends Component {
 
     return (
       <Search
+        id="long-searchbar"
         loading={isLoading}
         onResultSelect={this.handleResultSelect}
         onSearchChange={_.debounce(this.handleSearchChange, 500, {

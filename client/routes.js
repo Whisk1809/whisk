@@ -16,6 +16,8 @@ import OnboardRequirements from './components/onboardRequirements'
 import singleRecipe from './components/singleRecipe'
 import Profile from './components/profile'
 import Search from './components/search'
+import OnboardIPreferences from './components/onboardIPreferences'
+import OnboardCPreferences from './components/onboardCPreferences'
 
 /**
  * COMPONENT
@@ -52,6 +54,14 @@ class Routes extends Component {
 
             <Route path="/recipeBook" component={Favorites} />
             <Route path="/requirements" component={OnboardRequirements} />
+            <Route
+              path="/preferencesIOnboard"
+              component={OnboardIPreferences}
+            />
+            <Route
+              path="/preferencesCOnboard"
+              component={OnboardCPreferences}
+            />
 
             <Route path="/preferences" component={ProfilePreferences} />
             <Route path="/home" component={Recipes} />
