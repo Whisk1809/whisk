@@ -15,7 +15,7 @@ nav a {
   display: inline-block;
   margin-right: 16px;
 }
-.ui.search>.results{
+.ui.search > .results {
   min-width: 40vw;
 }
 
@@ -56,7 +56,7 @@ form div {
   padding: 15px;
 }
 .user-info {
-  background-color:white;
+  background-color: white;
   margin: 30px;
   border-style: solid;
   border-width: 5px;
@@ -101,11 +101,11 @@ img.ui.image {
   min-height: 50px;
 }
 
-.ui.card>.content {
+.ui.card > .content {
   text-align: center;
 }
 
-.ui.button:not(.icon)>.icon:not(.button):not(.dropdown){
+.ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {
   margin: 0;
 }
 
@@ -117,38 +117,38 @@ h2.ui.header {
   padding-bottom: 12px;
 }
 
-.ui.huge.header{
+.ui.huge.header {
   font-size: 40px;
 }
 
-.nav-icon{
+.nav-icon {
   padding: 0;
-  margin: 0!important;
+  margin: 0 !important;
 }
 
-.ui.huge.header:hover{
+.ui.huge.header:hover {
   font-size: 40px;
 }
 
-.ui.icon.input>#long-searchbar {
+.ui.icon.input > #long-searchbar {
   min-width: 40vw;
 }
 
 .ui.huge.button:hover {
   background-color: #21ba45;
-  color: white
+  color: white;
 }
 
-.ui.form input[type=search] {
+.ui.form input[type='search'] {
   display: flex;
   min-width: 40vw;
 }
 
-div a{
+div a {
   color: black;
 }
 
-.ui.menu .active.item{
+.ui.menu .active.item {
   color: rgb(16, 66, 31);
 }
 
@@ -160,7 +160,7 @@ div a{
 .ui.menu .item.hoverable:hover {
   background-color: rgb(48, 180, 87);
   font-weight: bolder;
-  color: white
+  color: white;
 }
 
 .navbar-search:hover {
@@ -200,7 +200,7 @@ div.ui.segment {
   justify-content: space-between;
   max-height: 130px;
 
-  background-color:eeee;
+  background-color: eeee;
 }
 
 div.ui.segment a {
@@ -226,7 +226,7 @@ a.content {
 }
 
 body {
-  background-color: #f1f1f1
+  background-color: #f1f1f1;
 }
 
 /* div {
