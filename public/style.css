@@ -13,8 +13,7 @@ label {
 
 nav a {
   display: inline-block;
-  margin-left: 8px;
-  margin-right: 8px;
+  margin-right: 16px;
 }
 
 form div {
@@ -97,12 +96,32 @@ i.icon.heart:after {
   min-height: 50px;
 }
 
+.ui.card>.content {
+  text-align: center;
+}
+
+.ui.button:not(.icon)>.icon:not(.button):not(.dropdown){
+  margin: 0;
+}
+
 h2.ui.header {
   text-align: center;
   font-size: 30px;
+  margin: 0;
+  padding-top: 30px;
+  padding-bottom: 12px;
 }
 
 .ui.huge.header{
+  font-size: 40px;
+}
+
+.nav-icon{
+  padding: 0;
+  margin: 0!important;
+}
+
+.ui.huge.header:hover{
   font-size: 40px;
 }
 
@@ -113,20 +132,25 @@ h2.ui.header {
 
 div a{
   color: black;
-  font-weight: bold;
 }
 
 .ui.menu .active.item{
-  color: green!important;
-}
-
-a:hover {
-  color: green;
+  color: rgb(16, 66, 31);
 }
 
 .ui.menu .item {
-  padding: 0 0;
+  padding: 0px 5px 0px 5px;
   position: static;
+}
+
+.ui.menu .item.hoverable:hover {
+  background-color: rgb(48, 180, 87);
+  font-weight: bolder;
+  color: white
+}
+
+.navbar-search:hover {
+  background-color: none;
 }
 
 nav {
@@ -153,27 +177,30 @@ div form {
   background-color: blue
 } */
 
-button.ui.blue.button {
+/* button.ui.blue.button {
   justify-content: flex-end;
-  /* margin-left: 600px; */
-}
+} */
 
 div.ui.segment {
 
   display: flex;
   justify-content: space-between;
   max-height: 130px;
-  background-color:lightblue;
+  background-color:eeee;
 }
 
 div.ui.segment a {
   text-align: center;
   margin-top: 40px;
-  font-family: "Lucida Console", Monaco, monospace;
+  /* font-family: "Lucida Console", Monaco, monospace; */
   font-size: 20px;
   color: black;
-
 }
+
+div.ui.segment a:hover {
+  color: #2185d0;
+}
+
 /* .flex-container {
   display: flex;
   justify-content: space-between;
@@ -185,7 +212,7 @@ a.content {
 }
 
 body {
-  background-color: aliceblue;
+  background-color: #f1f1f1
 }
 
 /* div {

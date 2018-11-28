@@ -56,22 +56,23 @@ class RecipeCard extends Component {
           </Card.Content>
           <Card.Content extra>
             <Button
-              color={isLikeActive ? 'green' : 'gray'}
+              color={isLikeActive ? 'green' : undefined}
               onClick={this.handleClickLike}
               disabled={isDislikeActive}
             >
               <Icon name="heart" />
             </Button>
             <Button
-              color={isDislikeActive ? 'red' : 'gray'}
+              color={isDislikeActive ? 'red' : undefined}
               onClick={this.handleClickDislike}
-              disabled={isLikeActive}
+              disabled={isLikeActive || isBookmarkActive}
             >
               <Icon name="ban" />
             </Button>
             <Button
-              color={isBookmarkActive ? 'teal' : 'gray'}
+              color={isBookmarkActive ? 'teal' : undefined}
               onClick={this.handleClickBookmark}
+              disabled={isDislikeActive}
             >
               <Icon name="bookmark" />
             </Button>
