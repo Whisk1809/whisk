@@ -16,6 +16,15 @@ const Preference = db.define('preference', {
   prefers: {
     type: Sequelize.BOOLEAN,
     allowNull: false
+  },
+  ingredientName: {
+    type: Sequelize.STRING
+  },
+  categoryName: {
+    type: Sequelize.STRING
+  },
+  recipeName: {
+    type: Sequelize.STRING
   }
 })
 

@@ -14,14 +14,14 @@ import {
 } from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {
-  postRequirement,
-  destroyRequirement,
-  fetchRequirements
-} from '../store/requirements'
-import {searchIngredients} from '../store/ingredientSearch'
+  postPreference,
+  destroyPreference,
+  fetchPreferences
+} from '../store/preferencesOnboard'
+import {searchRecipes} from '../store/recipeSearch'
 import history from '../history'
 
-class OnboardRequirements extends Component {
+class OnboardRPreferences extends Component {
   constructor() {
     super()
     this.state = {
@@ -29,27 +29,28 @@ class OnboardRequirements extends Component {
     }
   }
   componentDidMount() {
-    this.props.fetchRequirements()
+    this.props.fetchPreferences()
   }
   addRequire = ingredientId => {
     console.log('event', ingredientId)
-    this.props.addRequirement(ingredientId)
+    this.props.addPreference(ingredientId)
   }
   deleteRequire = ingredientId => {
-    this.props.deleteRequirement(ingredientId)
+    this.props.deletePreference(ingredientId)
   }
   handleChange = evt => {
     this.setState({search: evt.target.value})
-    this.props.searchIngredients(evt.target.value)
+    this.props.searchRecipes(evt.target.value)
   }
   handleNext = () => {
-    history.push('/preferencesIOnboard')
+    history.push('/preferencesCOnboard')
   }
   render() {
     return (
       <div>
         <Container textAlign="center" className="onboard-nav">
-          <Progress value="1" total="5" progress="ratio" />
+          <Header>Select recipes you prefer and do not prefer</Header>
+          <Progress value="3" total="4" progress="ratio" />
           <Button large onClick={this.handleNext}>
             Next
           </Button>
@@ -69,27 +70,25 @@ class OnboardRequirements extends Component {
             />
 
             {this.state.search
-              ? this.props.ingredients.map(ingredient => {
+              ? this.props.recipes.map(recipe => {
                   return (
-                    <div className="result" key={ingredient.id}>
+                    <div className="result" key={recipe.id}>
                       <Button
                         className="button-result"
                         as="div"
                         labelPosition="left"
                       >
-                        <Label className="require-label">
-                          {ingredient.name}
-                        </Label>
+                        <Label className="require-label">{recipe.title}</Label>
                         <Button
                           onClick={async () => {
-                            await this.props.addFalseRequirement(ingredient.id)
+                            await this.props.addFalsePreference(recipe.id)
                           }}
                         >
                           <Icon name="ban" />
                         </Button>
                         <Button
                           onClick={async () => {
-                            await this.props.addTrueRequirement(ingredient.id)
+                            await this.props.addTruePreference(recipe.id)
                           }}
                         >
                           <Icon name="heart" />
@@ -102,26 +101,24 @@ class OnboardRequirements extends Component {
           </Container>
 
           <Container className="container-r">
-            <Header textAlign="center">Ingredients you will NEVER See</Header>
+            <Header textAlign="center">Recipes you DO NOT prefer</Header>
 
-            {this.props.requirements
-              ? this.props.requirements.map(requirement => {
-                  if (!requirement.requires) {
+            {this.props.preferences
+              ? this.props.preferences.map(preference => {
+                  if (!preference.prefers && preference.recipeName) {
                     return (
                       <Button
                         className="button-result"
                         as="div"
                         labelPosition="left"
-                        key={requirement.id}
+                        key={preference.id}
                       >
                         <Label className="require-label">
-                          {requirement.ingredientName}
+                          {preference.recipeName}
                         </Label>
                         <Button
                           onClick={() =>
-                            this.props.deleteRequirement(
-                              requirement.ingredientId
-                            )
+                            this.props.deletePreference(preference.recipeId)
                           }
                         >
                           <Icon name="cancel" />
@@ -133,26 +130,24 @@ class OnboardRequirements extends Component {
               : null}
           </Container>
           <Container className="container-r">
-            <Header textAlign="center">Ingredients you MUST have</Header>
+            <Header textAlign="center">Recipes you DO prefer</Header>
 
-            {this.props.requirements
-              ? this.props.requirements.map(requirement => {
-                  if (requirement.requires) {
+            {this.props.preferences
+              ? this.props.preferences.map(preference => {
+                  if (preference.prefers && preference.recipeName) {
                     return (
                       <Button
                         className="button-result"
                         as="div"
                         labelPosition="left"
-                        key={requirement.id}
+                        key={preference.id}
                       >
                         <Label className="require-label">
-                          {requirement.ingredientName}
+                          {preference.recipeName}
                         </Label>
                         <Button
                           onClick={() =>
-                            this.props.deleteRequirement(
-                              requirement.ingredientId
-                            )
+                            this.props.deletePreference(preference.recipeId)
                           }
                         >
                           <Icon name="cancel" />
@@ -170,20 +165,21 @@ class OnboardRequirements extends Component {
 }
 const mapStateToProps = state => {
   return {
-    ingredients: state.ingredientSearch,
-    requirements: state.requirements
+    recipes: state.recipeSearch,
+
+    preferences: state.preferencesOnboard
   }
 }
 const mapDispatchToProps = dispatch => {
   return {
-    addTrueRequirement: ingredientId =>
-      dispatch(postRequirement(ingredientId, true)),
-    addFalseRequirement: ingredientId =>
-      dispatch(postRequirement(ingredientId, false)),
-    deleteRequirement: ingredientId =>
-      dispatch(destroyRequirement(ingredientId)),
-    fetchRequirements: () => dispatch(fetchRequirements()),
-    searchIngredients: text => dispatch(searchIngredients(text))
+    addTruePreference: categoryId =>
+      dispatch(postPreference(categoryId, true, 'recipeId')),
+    addFalsePreference: categoryId =>
+      dispatch(postPreference(categoryId, false, 'recipeId')),
+    deletePreference: categoryId =>
+      dispatch(destroyPreference(categoryId, 'categoryId')),
+    fetchPreferences: () => dispatch(fetchPreferences()),
+    searchRecipes: text => dispatch(searchRecipes(text))
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(OnboardRequirements)
+export default connect(mapStateToProps, mapDispatchToProps)(OnboardRPreferences)

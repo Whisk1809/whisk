@@ -4,7 +4,11 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const requirements = await Requirement.findAll()
+    const requirements = await Requirement.findAll({
+      where: {
+        userId: req.user.dataValues.id
+      }
+    })
     res.json(requirements)
   } catch (err) {
     console.error(err)

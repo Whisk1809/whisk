@@ -11,6 +11,8 @@ router.use('/preferences', require('./preferences'))
 router.use('/favorites', require('./favorites'))
 router.use('/recipeSearch', require('./recipeSearch'))
 router.use('/ingredientSearch', require('./ingredientSearch'))
+router.use('/categorySearch', require('./categorySearch'))
+router.use('/preferencesOnboard', require('./preferencesOnboard'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')
