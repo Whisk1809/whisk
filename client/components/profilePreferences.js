@@ -6,6 +6,12 @@ import Loading from './loading'
 
 class ProfilePreferences extends Component {
 
+  handleRemoveClick = (event) => {
+    event.preventDefault()
+    const recipeId = Number(event.target.name)
+    this.props.removeFromFavorites(recipeId)
+  }
+
   render() {
     const {likedCategories, dislikedCategories, likedIngredients, dislikedIngredients} = this.props
     return (
@@ -20,7 +26,7 @@ class ProfilePreferences extends Component {
                     return (
                       <Segment key={el.id}>
                         {el.name}
-                        <Button color="blue">remove</Button>
+                        <Button color="blue" onClick={this.handleRemoveClick} name={el.id}>remove</Button>
                       </Segment>
                     )
                   })}
