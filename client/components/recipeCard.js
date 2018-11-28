@@ -60,7 +60,7 @@ class RecipeCard extends Component {
           <Card.Content extra>
           <Popup trigger={
             <Button
-              color={isLikeActive ? 'green' : 'gray'}
+              color={isLikeActive ? 'green' : undefined}
               onClick={this.handleClickLike}
               disabled={isDislikeActive}
             >
@@ -68,15 +68,15 @@ class RecipeCard extends Component {
             </Button>} content="Show me more recipes like this" inverted />
             <Popup trigger={
             <Button
-              color={isDislikeActive ? 'red' : 'gray'}
+              color={isDislikeActive ? 'red' : undefined}
               onClick={this.handleClickDislike}
-              disabled={isLikeActive}
+              disabled={isLikeActive || isBookmarkActive}
             >
               <Icon name="ban" />
             </Button>} content="Show me fewer recipes like this" inverted />
               <Popup trigger={
             <Button
-              color={isBookmarkActive ? 'teal' : 'gray'}
+              color={isBookmarkActive ? 'teal' : undefined}
               onClick={this.handleClickBookmark}
               disabled={isDislikeActive}
             >

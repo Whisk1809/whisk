@@ -14,7 +14,7 @@ class Navbar extends Component {
   constructor() {
     super()
     this.state = {
-      searchParams: ''
+      searchParams: '',
     }
   }
   handleChange = async evt => {
@@ -35,7 +35,6 @@ class Navbar extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { activeItem } = this.state
 
     return (
@@ -46,18 +45,19 @@ class Navbar extends Component {
               {/* The navbar will show these links after you log in */}
 
               <Menu>
-                <Menu.Item>
-                  <Link to="/home">
-                    <Header as="h2" size="huge">
+                <Menu.Item href='/home' secondary>
+                    <Header as="h3" size="huge" className='nav-icon'>
                       <img src="/whisk.png" style={{width: 50}} /> Whisk
                     </Header>
-                  </Link>
                 </Menu.Item>
-                <Menu.Item name='recipeBook' active={activeItem==='recipeBook'} onClick={this.handleItemClick}>
-                  <Link to="/recipeBook">My Recipe Book</Link>
+                <Menu.Item href='/recipeBook' name='recipeBook' active={activeItem==='recipeBook'} onClick={this.handleItemClick}
+                className='hoverable'>
+
+                  My Recipe Book
                 </Menu.Item>
-                <Menu.Item name='preferences' active={activeItem==='preferences'} onClick={this.handleItemClick}>
-                  <Link to="/preferences">Preferences</Link>
+                <Menu.Item href='preferences' name='preferences' active={activeItem==='preferences'} onClick={this.handleItemClick}
+                className='hoverable'>
+                  Preferences
                 </Menu.Item>
                 <Menu.Item>
                   <Form
@@ -78,13 +78,13 @@ class Navbar extends Component {
                     />
                   </Form>
                 </Menu.Item>
-                <Menu.Item name='profile' active={activeItem==='profile'} onClick={this.handleItemClick}>
-                  <Link to="/profile">Profile</Link>
+                <Menu.Item href='/profile' name='profile' active={activeItem==='profile'} onClick={this.handleItemClick}
+                className='hoverable'>
+                  Profile
                 </Menu.Item>
-                <Menu.Item>
-                  <Link to="#" onClick={this.props.handleClick}>
+                <Menu.Item href='#' onClick={this.props.handleClick}
+                className='hoverable'>
                     Logout
-                  </Link>
                 </Menu.Item>
               </Menu>
             </div>

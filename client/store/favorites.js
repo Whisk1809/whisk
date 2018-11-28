@@ -38,7 +38,7 @@ export const addToFavorites = (recipeId) => async dispatch => {
 
 export const removeFromFavorites = (recipeId) => async dispatch => {
   try {
-    await axios.delete('/api/favorites', {recipeId})
+    await axios.delete(`/api/favorites/${recipeId}`)
     dispatch(deleteFavorite(recipeId))
   } catch (err) {
     console.error(err)
