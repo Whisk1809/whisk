@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {Redirect} from 'react-router'
 import {logout} from '../store'
-import {Image, Input, Button, Form, Icon} from 'semantic-ui-react'
+import {Image, Input, Button, Form, Icon, Menu, Header} from 'semantic-ui-react'
 import {searchRecipes} from '../store/recipeSearch'
 import {setSearchStatus} from '../store/searchStatus'
 import Search from './search'
@@ -14,7 +14,7 @@ class Navbar extends Component {
   constructor() {
     super()
     this.state = {
-      searchParams: ''
+      searchParams: '',
     }
   }
   handleChange = async evt => {
@@ -30,24 +30,63 @@ class Navbar extends Component {
     }
   }
 
+  handleItemClick = (evt, { name }) => {
+    this.setState({ activeItem: name })
+  }
+
   render() {
-    console.log(this.props)
+    const { activeItem } = this.state
+
     return (
       <div>
         <nav>
           {this.props.isLoggedIn ? (
             <div>
               {/* The navbar will show these links after you log in */}
-              <Link to="/home">
-                <img src="/whisk.png" style={{width: 50}} />
-              </Link>
-              <Link to="/home">Home</Link>
-              <a href="#" onClick={this.props.handleClick}>
-                Logout
-              </a>
-              <Link to="/recipeBook">My Recipe Book</Link>
-              <Link to="/preferences">Preferences</Link>
-              <Link to="/profile">Profile</Link>
+
+              <Menu>
+                <Menu.Item href='/home' secondary>
+                    <Header as="h3" size="huge" className='nav-icon'>
+                      <img src="/whisk.png" style={{width: 50}} /> Whisk
+                    </Header>
+                </Menu.Item>
+                <Menu.Item href='/recipeBook' name='recipeBook' active={activeItem==='recipeBook'} onClick={this.handleItemClick}
+                className='hoverable'>
+
+                  My Recipe Book
+                </Menu.Item>
+                <Menu.Item href='preferences' name='preferences' active={activeItem==='preferences'} onClick={this.handleItemClick}
+                className='hoverable'>
+                  Preferences
+                </Menu.Item>
+                <Menu.Item>
+                  <Form
+                    onSubmit={evt => {
+                      this.handleSubmit(evt)
+                    }}
+                  >
+                    <Input
+                      fluid
+                      icon="search"
+                      type="search"
+                      placeholder="search"
+                      value={this.state.searchParams}
+                      onChange={evt => {
+                        this.showSearch(evt)
+                        this.handleChange(evt)
+                      }}
+                    />
+                  </Form>
+                </Menu.Item>
+                <Menu.Item href='/profile' name='profile' active={activeItem==='profile'} onClick={this.handleItemClick}
+                className='hoverable'>
+                  Profile
+                </Menu.Item>
+                <Menu.Item href='#' onClick={this.props.handleClick}
+                className='hoverable'>
+                    Logout
+                </Menu.Item>
+              </Menu>
             </div>
           ) : (
             <div>
@@ -59,23 +98,7 @@ class Navbar extends Component {
               <Link to="/signup">Sign Up</Link>
             </div>
           )}
-          <Form
-            onSubmit={evt => {
-              this.handleSubmit(evt)
-            }}
-          >
-            <Input
-              placeholder="search"
-              value={this.state.searchParams}
-              onChange={evt => {
-                this.showSearch(evt)
-                this.handleChange(evt)
-              }}
-            />
-            <Button type="submit">
-              <Icon name="search" />
-            </Button>
-          </Form>
+
         </nav>
         <hr />
       </div>

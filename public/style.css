@@ -13,7 +13,7 @@ label {
 
 nav a {
   display: inline-block;
-  margin: 1em;
+  margin-right: 16px;
 }
 
 form div {
@@ -33,7 +33,7 @@ form div {
 }
 
 .ui.container {
-  max-width: 90%!important;
+  max-width: 90% !important;
 }
 
 .container-r {
@@ -53,14 +53,18 @@ form div {
   padding: 15px;
 }
 .user-info {
-  background-color: aqua;
+  background-color:white;
   margin: 30px;
+  border-style: solid;
+  border-width: 5px;
   border-radius: 25px;
 }
 #user-info-li {
   padding: 10px;
 }
-
+.onboard-nav {
+  padding: 15px;
+}
 /* Semantic UI overrides */
 .ui.form .field {
   margin-left: 10px;
@@ -88,16 +92,71 @@ i.icon.heart:after {
   background-color: black;
 }
 
-.ui.card, .ui.cards>.card {
+.ui.card,
+.ui.cards > .card {
   min-height: 343px;
 }
 
-.ui.card>.content>.header:not(.ui), .ui.cards>.card>.content>.header:not(.ui) {
+.ui.card > .content > .header:not(.ui),
+.ui.cards > .card > .content > .header:not(.ui) {
   min-height: 50px;
+}
+
+.ui.card>.content {
+  text-align: center;
+}
+
+.ui.button:not(.icon)>.icon:not(.button):not(.dropdown){
+  margin: 0;
 }
 
 h2.ui.header {
   text-align: center;
+  font-size: 30px;
+  margin: 0;
+  padding-top: 30px;
+  padding-bottom: 12px;
+}
+
+.ui.huge.header{
+  font-size: 40px;
+}
+
+.nav-icon{
+  padding: 0;
+  margin: 0!important;
+}
+
+.ui.huge.header:hover{
+  font-size: 40px;
+}
+
+.ui.form input[type=search] {
+  display: flex;
+  min-width: 40vw;
+}
+
+div a{
+  color: black;
+}
+
+.ui.menu .active.item{
+  color: rgb(16, 66, 31);
+}
+
+.ui.menu .item {
+  padding: 0px 5px 0px 5px;
+  position: static;
+}
+
+.ui.menu .item.hoverable:hover {
+  background-color: rgb(48, 180, 87);
+  font-weight: bolder;
+  color: white
+}
+
+.navbar-search:hover {
+  background-color: none;
 }
 
 nav {
@@ -107,6 +166,7 @@ nav {
 
 div a {
   text-align: center;
+  font-size: 17px;
 }
 
 div form {
@@ -123,27 +183,30 @@ div form {
   background-color: blue
 } */
 
-button.ui.blue.button {
+/* button.ui.blue.button {
   justify-content: flex-end;
-  /* margin-left: 600px; */
-}
+} */
 
 div.ui.segment {
-
   display: flex;
   justify-content: space-between;
   max-height: 130px;
-  background-color:lightblue;
+
+  background-color:eeee;
 }
 
 div.ui.segment a {
   text-align: center;
   margin-top: 40px;
-  font-family: "Lucida Console", Monaco, monospace;
+  /* font-family: "Lucida Console", Monaco, monospace; */
   font-size: 20px;
   color: black;
-
 }
+
+div.ui.segment a:hover {
+  color: #2185d0;
+}
+
 /* .flex-container {
   display: flex;
   justify-content: space-between;
@@ -155,7 +218,7 @@ a.content {
 }
 
 body {
-  background-color: aliceblue;
+  background-color: #f1f1f1
 }
 
 /* div {
@@ -164,9 +227,10 @@ body {
 } */
 
 div.extra.content {
-    background-color: aliceblue;
+  background-color: aliceblue;
 }
 
-.ui.card>.content, .ui.cards>.card>.content {
+.ui.card > .content,
+.ui.cards > .card > .content {
   background-color: white;
 }
