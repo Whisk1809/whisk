@@ -56,7 +56,7 @@ function testText() {
 }
 //modify the function below so that instead of console logging, it runs morningText function at a specific time in the morning
 
-const cronJob = cron({on: '30 15 * * *'}, function() {
+const cronJob = cron({on: '45 16 * * *'}, function() {
   morningText()
   console.log('inside morning text')
 })
