@@ -45,16 +45,17 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/', async (req, res, next) => {
-  const userId = req.user.id
-  if (!userId) {
+  if (!req.user) {
     const err = new Error('no user')
     next(err)
-  }
-  try {
-    const preferences = await Preference.findAll({where: {userId}})
-    res.json(preferences)
-  } catch (err) {
-    next(err)
+  } else {
+    const userId = req.user.id
+    try {
+      const preferences = await Preference.findAll({where: {userId}})
+      res.json(preferences)
+    } catch (err) {
+      next(err)
+    }
   }
 })
 

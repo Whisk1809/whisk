@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   Login,
@@ -36,11 +36,11 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
 
-        {this.props.searchStatus ? (
+        {/* {this.props.searchStatus ? (
           <Route path="/" component={Search} />
         ) : (
           <Route path="/home" component={Recipes} />
-        )}
+        )} */}
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -65,11 +65,11 @@ class Routes extends Component {
 
             <Route path="/preferences" component={ProfilePreferences} />
             <Route path="/home" component={Recipes} />
-            <Route exact path="/" component={Recipes} />
+            <Route path="/" component={Recipes} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        <Redirect to="/login" />
       </Switch>
     )
   }
@@ -91,7 +91,7 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-      dispatch(getPreferences())
+      //dispatch(getPreferences())
     }
   }
 }

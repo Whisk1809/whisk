@@ -3,77 +3,103 @@ import {connect} from 'react-redux'
 import {Grid, Segment, Container, Header, Button} from 'semantic-ui-react'
 import Loading from './loading'
 
-
 class ProfilePreferences extends Component {
+  //add componentdid mount to get user preferences (as opposed to in the original data fetch)
 
-  handleRemoveClick = (event) => {
+  handleRemoveClick = event => {
     event.preventDefault()
     const recipeId = Number(event.target.name)
     this.props.removeFromFavorites(recipeId)
   }
 
   render() {
-    const {likedCategories, dislikedCategories, likedIngredients, dislikedIngredients} = this.props
+    const {
+      likedCategories,
+      dislikedCategories,
+      likedIngredients,
+      dislikedIngredients
+    } = this.props
     return (
       <div>
         <Container>
           <Segment.Group>
-              <Segment><Header as='h1' textAlign="center">Your likes</Header></Segment>
+            <Segment>
+              <Header as="h1" textAlign="center">
+                Your likes
+              </Header>
+            </Segment>
+            <Segment.Group>
+              <Segment>
+                <Header as="h3">Ingredients</Header>
+              </Segment>
               <Segment.Group>
-                <Segment><Header as="h3">Ingredients</Header></Segment>
-                <Segment.Group>
-                  {likedIngredients.map((el) => {
-                    return (
-                      <Segment key={el.id}>
-                        {el.name}
-                        <Button color="blue" onClick={this.handleRemoveClick} name={el.id}>remove</Button>
-                      </Segment>
-                    )
-                  })}
-                </Segment.Group>
-                <Segment><Header as="h3">Categories</Header></Segment>
-                <Segment.Group>
-                  {likedCategories.map((el) => {
-                    return (
-                      <Segment key={el.id}>
-                        {el.name}
-                        <Button color="blue">remove</Button>
-                      </Segment>
-
-                    )
-                  })}
-                </Segment.Group>
+                {likedIngredients.map(el => {
+                  return (
+                    <Segment key={el.id}>
+                      {el.name}
+                      <Button
+                        color="blue"
+                        onClick={this.handleRemoveClick}
+                        name={el.id}
+                      >
+                        remove
+                      </Button>
+                    </Segment>
+                  )
+                })}
+              </Segment.Group>
+              <Segment>
+                <Header as="h3">Categories</Header>
+              </Segment>
+              <Segment.Group>
+                {likedCategories.map(el => {
+                  return (
+                    <Segment key={el.id}>
+                      {el.name}
+                      <Button color="blue">remove</Button>
+                    </Segment>
+                  )
+                })}
               </Segment.Group>
             </Segment.Group>
-          </Container>
-          <br/>
-          <Container>
+          </Segment.Group>
+        </Container>
+        <br />
+        <Container>
+          <Segment.Group>
+            <Segment>
+              <Header as="h1" textAlign="center">
+                Your dislikes
+              </Header>
+            </Segment>
             <Segment.Group>
-              <Segment><Header as="h1" textAlign="center">Your dislikes</Header></Segment>
+              <Segment>
+                <Header as="h3">Ingredients</Header>
+              </Segment>
               <Segment.Group>
-                <Segment><Header as="h3">Ingredients</Header></Segment>
-                <Segment.Group>
-                  {dislikedIngredients.map((el) => {
-                    return (
-                      <Segment key={el.id}>
-                        {el.name}
-                        <Button color="blue">remove</Button>
-                      </Segment>
-                    )
-                  })}
-                </Segment.Group>
-                <Segment><Header as="h3">Categories</Header></Segment>
-                <Segment.Group>
-                  {dislikedCategories.map((el) => {
-                    return (
-                      <Segment key={el.id}>
-                        {el.name}
-                        <Button color="blue">remove</Button>
-                      </Segment>
-                    )
-                  })}
-                </Segment.Group>
+                {dislikedIngredients.map(el => {
+                  return (
+                    <Segment key={el.id}>
+                      {el.name}
+                      <Button color="blue">remove</Button>
+                    </Segment>
+                  )
+                })}
               </Segment.Group>
+              <Segment>
+                <Header as="h3">Categories</Header>
+              </Segment>
+              <Segment.Group>
+                {dislikedCategories.map(el => {
+                  return (
+                    <Segment key={el.id}>
+                      {el.name}
+                      <Button color="blue">remove</Button>
+                    </Segment>
+                  )
+                })}
+              </Segment.Group>
+            </Segment.Group>
           </Segment.Group>
         </Container>
       </div>
@@ -81,7 +107,7 @@ class ProfilePreferences extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   let likes = state.preferences.likes
   let dislikes = state.preferences.dislikes
 
@@ -90,35 +116,40 @@ const mapStateToProps = (state) => {
   const likedIngredients = []
   const dislikedIngredients = []
 
-  likes.forEach(like =>{
-    if(like.categoryId){
+  likes.forEach(like => {
+    if (like.categoryId) {
       const category = state.categories[like.categoryId]
-      if(category){
+      if (category) {
         likedCategories.push(category)
       }
-    } else if(like.ingredientId){
+    } else if (like.ingredientId) {
       const ingredient = state.ingredients[like.ingredientId]
-      if(ingredient){
+      if (ingredient) {
         likedIngredients.push(ingredient)
       }
     }
   })
 
   dislikes.forEach(dislike => {
-    if(dislike.categoryId){
+    if (dislike.categoryId) {
       const category = state.categories[dislike.categoryId]
-      if(category){
+      if (category) {
         dislikedCategories.push(category)
       }
-    } else if(dislike.ingredientId){
+    } else if (dislike.ingredientId) {
       const ingredient = state.ingredients[dislike.ingredientId]
-      if(ingredient){
+      if (ingredient) {
         dislikedIngredients.push(ingredient)
       }
     }
   })
 
-  return {likedCategories, dislikedCategories, likedIngredients, dislikedIngredients}
+  return {
+    likedCategories,
+    dislikedCategories,
+    likedIngredients,
+    dislikedIngredients
+  }
 }
 
 export default connect(mapStateToProps)(ProfilePreferences)
