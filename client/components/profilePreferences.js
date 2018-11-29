@@ -31,7 +31,7 @@ class ProfilePreferences extends Component {
     const {active, contextRef} = this.state
     const panes = [
       {
-        menuItem: 'Tab 1',
+        menuItem: 'Preferences: Ingredients',
         render: () => (
           <Tab.Pane attached={false}>
             <OnboardIPreferences />
@@ -39,7 +39,7 @@ class ProfilePreferences extends Component {
         )
       },
       {
-        menuItem: 'Tab 2',
+        menuItem: 'Preferences: Categories',
         render: () => (
           <Tab.Pane attached={false}>
             <OnboardCPreferences />
@@ -47,7 +47,7 @@ class ProfilePreferences extends Component {
         )
       },
       {
-        menuItem: 'Tab 3',
+        menuItem: 'Requirements: Ingredients',
         render: () => (
           <Tab.Pane attached={false}>
             <OnboardRequirements />
