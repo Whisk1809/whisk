@@ -56,6 +56,9 @@ class RecipeSearch extends Component {
         onSearchChange={_.debounce(this.handleSearchChange, 500, {
           leading: true
         })}
+        minCharacters={3}
+        showNoResults={false}
+        placeholder="Search Recipes by Title, Ingredient, Category"
         results={results}
         value={value}
         {...this.props}
