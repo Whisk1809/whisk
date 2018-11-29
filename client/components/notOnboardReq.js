@@ -109,7 +109,7 @@ class NotOnboardRequirements extends Component {
 
             {this.props.requirements
               ? this.props.requirements.map(requirement => {
-                  if (!requirement.requires) {
+                  if (!requirement.requires && requirement.ingredientName) {
                     return (
                       <Button
                         className="button-result"
@@ -140,7 +140,7 @@ class NotOnboardRequirements extends Component {
 
             {this.props.requirements
               ? this.props.requirements.map(requirement => {
-                  if (requirement.requires) {
+                  if (requirement.requires && requirement.ingredientName) {
                     return (
                       <Button
                         className="button-result"
