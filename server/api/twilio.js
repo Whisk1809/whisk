@@ -18,11 +18,11 @@ router.use(bodyParser.urlencoded({extended: false}))
 
 router.post('/sms', twilio.webhook({validate: false}), async (req, res) => {
   const twiml = new MessagingResponse()
-  const recommendations = await recommend(1)
+  const recommendations = await Recipe.recommend(1)
   //console.log(recommendations, 'recommendation twilio')
-  const uId = recommendations[0].recipeId
+  const uId = recommendations[0].id
   const first = await Recipe.findById(uId)
-  const uId2 = recommendations[1].recipeId
+  const uId2 = recommendations[1].id
   const next = await Recipe.findById(uId2)
   const nextAnswer = next.sourceRecipeUrl
   const answer = first.sourceRecipeUrl
@@ -73,7 +73,7 @@ router.post('/sms', twilio.webhook({validate: false}), async (req, res) => {
       }
       const newPreference2 = await Preference.create(data)
 
-  
+
   }
 
   res.writeHead(200, {'Content-Type': 'text/xml'})

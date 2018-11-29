@@ -64,7 +64,7 @@ function testText() {
 
 
 
-  const cronJob = cron({on: '30 09 * * *'}, function() {
+  const cronJob = cron({on: '37 15 * * *'}, function() {
     morningText()
     console.log('inside morning text')
   })
