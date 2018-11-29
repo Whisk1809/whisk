@@ -29,7 +29,7 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn} = this.props
-
+    console.log('isloggedin: ', isLoggedIn)
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
@@ -69,7 +69,7 @@ class Routes extends Component {
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
-        <Redirect to="/login" />
+        <Route component={<Redirect to="/login" />} />
       </Switch>
     )
   }
