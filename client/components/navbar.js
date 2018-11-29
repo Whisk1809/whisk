@@ -34,7 +34,7 @@ class Navbar extends Component {
   }
 
   render() {
-    const { activeItem } = this.state
+    const {activeItem} = this.state
     const {user} = this.props
 
     return (
@@ -61,13 +61,13 @@ class Navbar extends Component {
                   <Icon name="bookmark" />
                 </Menu.Item>
                 <Menu.Item
-                  href="preferences"
+                  href="/myDiet"
                   name="preferences"
                   active={activeItem === 'preferences'}
                   onClick={this.handleItemClick}
                   className="hoverable"
                 >
-                  Preferences
+                  My Diet
                 </Menu.Item>
                 <Menu.Item>
                   <RecipeSearch />
@@ -79,7 +79,7 @@ class Navbar extends Component {
                   onClick={this.handleItemClick}
                   className="hoverable"
                 >
-                  {user.name ? `${user.name}'s Profile`: 'Profile'}
+                  {user.name ? `${user.name}'s Profile` : 'Profile'}
                 </Menu.Item>
                 <Menu.Item
                   href="#"
@@ -93,31 +93,31 @@ class Navbar extends Component {
           ) : (
             <div>
               <Menu>
-                  <Menu.Item href="/home">
-                    <Header as="h3" size="huge" className="nav-icon">
-                      <img src="/whisk.png" style={{width: 50}} /> Whisk
-                    </Header>
-                  </Menu.Item>
-                  {/* The navbar will show these links before you log in */}
-                  <Menu.Item
-                    position='right'
-                    href="login"
-                    name="login"
-                    active={activeItem === 'login'}
-                    onClick={this.handleItemClick}
-                    className="hoverable"
-                  >
-                    Login
-                  </Menu.Item>
-                  <Menu.Item
-                    href="signup"
-                    name="signup"
-                    active={activeItem === 'signup'}
-                    onClick={this.handleItemClick}
-                    className="hoverable"
-                  >
-                    Sign Up
-                  </Menu.Item>
+                <Menu.Item href="/home">
+                  <Header as="h3" size="huge" className="nav-icon">
+                    <img src="/whisk.png" style={{width: 50}} /> Whisk
+                  </Header>
+                </Menu.Item>
+                {/* The navbar will show these links before you log in */}
+                <Menu.Item
+                  position="right"
+                  href="login"
+                  name="login"
+                  active={activeItem === 'login'}
+                  onClick={this.handleItemClick}
+                  className="hoverable"
+                >
+                  Login
+                </Menu.Item>
+                <Menu.Item
+                  href="signup"
+                  name="signup"
+                  active={activeItem === 'signup'}
+                  onClick={this.handleItemClick}
+                  className="hoverable"
+                >
+                  Sign Up
+                </Menu.Item>
               </Menu>
             </div>
           )}
@@ -144,7 +144,7 @@ const mapDispatch = dispatch => {
       dispatch(logout())
     },
     searchRecipes: params => dispatch(searchRecipes(params)),
-    setSearchStatus: status => dispatch(setSearchStatus(status)),
+    setSearchStatus: status => dispatch(setSearchStatus(status))
   }
 }
 

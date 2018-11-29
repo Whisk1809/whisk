@@ -66,7 +66,10 @@ form div {
   padding: 10px;
 }
 .onboard-nav {
-  padding: 15px;
+  padding: 20px;
+  border-width: 5px;
+  border-style: solid;
+  margin: 20px;
 }
 /* Semantic UI overrides */
 .ui.form .field {
@@ -241,4 +244,14 @@ div.extra.content {
 .ui.card > .content,
 .ui.cards > .card > .content {
   background-color: white;
+}
+.ui.segment {
+  position: relative;
+  background: 0;
+  -webkit-box-shadow: 0;
+  box-shadow: 0 0px 0px;
+  margin: 0;
+  padding: 0;
+
+  border: 0;
 }

@@ -1,108 +1,65 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Grid, Segment, Container, Header, Button} from 'semantic-ui-react'
+import {
+  Grid,
+  Segment,
+  Container,
+  Header,
+  Button,
+  Rail,
+  Sticky,
+  Placeholder,
+  Checkbox,
+  Tab
+} from 'semantic-ui-react'
 import Loading from './loading'
+import NotOnboardIPreferences from './notOnboardIPref'
+import NotOnboardCPreferences from './notOnboardCPref'
+import NotOnboardRequirements from './notOnboardReq'
 
 class ProfilePreferences extends Component {
-  //add componentdid mount to get user preferences (as opposed to in the original data fetch)
-
-  handleRemoveClick = event => {
-    event.preventDefault()
-    const recipeId = Number(event.target.name)
-    this.props.removeFromFavorites(recipeId)
+  constructor() {
+    super()
+    this.state = {
+      active: true
+    }
   }
+  handleContextRef = contextRef => this.setState({contextRef})
 
+  handleToggle = () => this.setState({active: !this.state.active})
   render() {
-    const {
-      likedCategories,
-      dislikedCategories,
-      likedIngredients,
-      dislikedIngredients
-    } = this.props
+    const {active, contextRef} = this.state
+    const panes = [
+      {
+        menuItem: 'Preferences: Ingredients',
+        render: () => (
+          <Tab.Pane attached={false}>
+            <NotOnboardIPreferences />
+          </Tab.Pane>
+        )
+      },
+      {
+        menuItem: 'Preferences: Categories',
+        render: () => (
+          <Tab.Pane attached={false}>
+            <NotOnboardCPreferences />
+          </Tab.Pane>
+        )
+      },
+      {
+        menuItem: 'Requirements: Ingredients',
+        render: () => (
+          <Tab.Pane attached={false}>
+            <NotOnboardRequirements />
+          </Tab.Pane>
+        )
+      }
+    ]
+
     return (
-      <div>
-        <Container>
-          <Segment.Group>
-            <Segment>
-              <Header as="h1" textAlign="center">
-                Your likes
-              </Header>
-            </Segment>
-            <Segment.Group>
-              <Segment>
-                <Header as="h3">Ingredients</Header>
-              </Segment>
-              <Segment.Group>
-                {likedIngredients.map(el => {
-                  return (
-                    <Segment key={el.id}>
-                      {el.name}
-                      <Button
-                        color="blue"
-                        onClick={this.handleRemoveClick}
-                        name={el.id}
-                      >
-                        remove
-                      </Button>
-                    </Segment>
-                  )
-                })}
-              </Segment.Group>
-              <Segment>
-                <Header as="h3">Categories</Header>
-              </Segment>
-              <Segment.Group>
-                {likedCategories.map(el => {
-                  return (
-                    <Segment key={el.id}>
-                      {el.name}
-                      <Button color="blue">remove</Button>
-                    </Segment>
-                  )
-                })}
-              </Segment.Group>
-            </Segment.Group>
-          </Segment.Group>
-        </Container>
-        <br />
-        <Container>
-          <Segment.Group>
-            <Segment>
-              <Header as="h1" textAlign="center">
-                Your dislikes
-              </Header>
-            </Segment>
-            <Segment.Group>
-              <Segment>
-                <Header as="h3">Ingredients</Header>
-              </Segment>
-              <Segment.Group>
-                {dislikedIngredients.map(el => {
-                  return (
-                    <Segment key={el.id}>
-                      {el.name}
-                      <Button color="blue">remove</Button>
-                    </Segment>
-                  )
-                })}
-              </Segment.Group>
-              <Segment>
-                <Header as="h3">Categories</Header>
-              </Segment>
-              <Segment.Group>
-                {dislikedCategories.map(el => {
-                  return (
-                    <Segment key={el.id}>
-                      {el.name}
-                      <Button color="blue">remove</Button>
-                    </Segment>
-                  )
-                })}
-              </Segment.Group>
-            </Segment.Group>
-          </Segment.Group>
-        </Container>
-      </div>
+      <Container textAlign="center">
+        <Tab panes={panes} menu={{fluid: true, secondary: true}} />
+      </Container>
     )
   }
 }
