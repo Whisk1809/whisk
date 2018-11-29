@@ -13,9 +13,9 @@ import {
   Tab
 } from 'semantic-ui-react'
 import Loading from './loading'
-import OnboardIPreferences from './onboardIPreferences'
-import OnboardCPreferences from './onboardCPreferences'
-import OnboardRequirements from './onboardRequirements'
+import NotOnboardIPreferences from './notOnboardIPref'
+import NotOnboardCPreferences from './notOnboardCPref'
+import NotOnboardRequirements from './notOnboardReq'
 
 class ProfilePreferences extends Component {
   constructor() {
@@ -34,7 +34,7 @@ class ProfilePreferences extends Component {
         menuItem: 'Preferences: Ingredients',
         render: () => (
           <Tab.Pane attached={false}>
-            <OnboardIPreferences />
+            <NotOnboardIPreferences />
           </Tab.Pane>
         )
       },
@@ -42,7 +42,7 @@ class ProfilePreferences extends Component {
         menuItem: 'Preferences: Categories',
         render: () => (
           <Tab.Pane attached={false}>
-            <OnboardCPreferences />
+            <NotOnboardCPreferences />
           </Tab.Pane>
         )
       },
@@ -50,7 +50,7 @@ class ProfilePreferences extends Component {
         menuItem: 'Requirements: Ingredients',
         render: () => (
           <Tab.Pane attached={false}>
-            <OnboardRequirements />
+            <NotOnboardRequirements />
           </Tab.Pane>
         )
       }

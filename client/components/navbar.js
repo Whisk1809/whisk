@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import {Image, Input, Button, Form, Icon, Menu, Header} from 'semantic-ui-react'
+import {Icon, Menu, Header} from 'semantic-ui-react'
 import {searchRecipes} from '../store/recipeSearch'
 import {setSearchStatus} from '../store/searchStatus'
 import {RecipeSearch} from '../components'
@@ -93,12 +92,33 @@ class Navbar extends Component {
             </div>
           ) : (
             <div>
-              <Link to="/home">
-                <img src="/whisk.png" style={{width: 50}} />
-              </Link>
-              {/* The navbar will show these links before you log in */}
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
+              <Menu>
+                  <Menu.Item href="/home">
+                    <Header as="h3" size="huge" className="nav-icon">
+                      <img src="/whisk.png" style={{width: 50}} /> Whisk
+                    </Header>
+                  </Menu.Item>
+                  {/* The navbar will show these links before you log in */}
+                  <Menu.Item
+                    position='right'
+                    href="login"
+                    name="login"
+                    active={activeItem === 'login'}
+                    onClick={this.handleItemClick}
+                    className="hoverable"
+                  >
+                    Login
+                  </Menu.Item>
+                  <Menu.Item
+                    href="signup"
+                    name="signup"
+                    active={activeItem === 'signup'}
+                    onClick={this.handleItemClick}
+                    className="hoverable"
+                  >
+                    Sign Up
+                  </Menu.Item>
+              </Menu>
             </div>
           )}
         </nav>

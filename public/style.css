@@ -66,7 +66,10 @@ form div {
   padding: 10px;
 }
 .onboard-nav {
-  padding: 15px;
+  padding: 20px;
+  border-width: 5px;
+  border-style: solid;
+  margin: 20px;
 }
 /* Semantic UI overrides */
 .ui.form .field {

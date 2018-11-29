@@ -13,19 +13,21 @@ router.post('/', async (req, res, next) => {
     let prefers
     if (req.body.prefers !== undefined) {
       prefers = req.body.prefers
-    }  else {
+    } else {
       prefers = null
     }
 
     let data = {
       userId,
       recipeId,
-      prefers,
+      prefers
       // categoryId,
       // ingredientId
     }
 
-    const existingPreference = await Preference.findOne({where:{userId, recipeId}})
+    const existingPreference = await Preference.findOne({
+      where: {userId, recipeId}
+    })
     if (existingPreference) {
       if (existingPreference.prefers !== prefers) {
         await existingPreference.update({prefers})
@@ -42,13 +44,18 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.get('/', async (req,res,next) => {
-  const userId = req.user.id
-  try {
-    const preferences = await Preference.findAll({where: {userId}})
-    res.json(preferences)
-  } catch (err) {
+router.get('/', async (req, res, next) => {
+  if (!req.user) {
+    const err = new Error('no user')
     next(err)
+  } else {
+    const userId = req.user.id
+    try {
+      const preferences = await Preference.findAll({where: {userId}})
+      res.json(preferences)
+    } catch (err) {
+      next(err)
+    }
   }
 })
 

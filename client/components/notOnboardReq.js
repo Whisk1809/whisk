@@ -21,7 +21,7 @@ import {
 import {searchIngredients} from '../store/ingredientSearch'
 import history from '../history'
 
-class OnboardRequirements extends Component {
+class NotOnboardRequirements extends Component {
   constructor() {
     super()
     this.state = {
@@ -49,11 +49,13 @@ class OnboardRequirements extends Component {
     return (
       <div>
         <Container textAlign="center" className="onboard-nav">
-          <Header>Select your ingredient requirements</Header>
-          <Progress value="1" total="3" progress="ratio" />
-          <Button large onClick={this.handleNext}>
-            Next
-          </Button>
+          <Header>
+            Requirements: Ingredients
+            <Header.Subheader>
+              This is a great place to let us know your strong desires and
+              allergies
+            </Header.Subheader>
+          </Header>
         </Container>
         <div className="requirements">
           <Container className="container-r" textAlign="center">
@@ -187,4 +189,6 @@ const mapDispatchToProps = dispatch => {
     searchIngredients: text => dispatch(searchIngredients(text))
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(OnboardRequirements)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  NotOnboardRequirements
+)
