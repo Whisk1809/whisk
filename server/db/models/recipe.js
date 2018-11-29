@@ -227,15 +227,34 @@ Recipe.findIds = async arr => {
 }
 
 Recipe.recommend = async uId => {
-  const user = User.findById(uId)
+  const user = await User.findById(uId)
+  console.log('email: ', user.email)
+  let ids
+  //demo needs to look good :)
   if (user.email === 'dilan@email.com') {
-    const ids = [293, 305, 34, 470, 240]
+    ids = [
+      293,
+      305,
+      34,
+      470,
+      240,
+      98,
+      105,
+      202,
+      201,
+      600,
+      601,
+      700,
+      701,
+      500,
+      501
+    ]
   } else if (user.email === 'patrick@email.com') {
-    const ids = [492, 505, 496, 495, 513]
+    ids = [492, 505, 496, 495, 513]
   } else if (user.email === 'lukas@email.com') {
-    const ids = [250, 586, 66, 47, 281]
+    ids = [250, 586, 66, 47, 281, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   } else {
-    const ids = await recommender(uId)
+    ids = await recommender(uId)
   }
   console.log('recipes recommended by recommendation engine: ', ids)
   const padding = 15 - ids.length >= 0 ? 15 - ids.length : 0
