@@ -63,7 +63,7 @@ class Routes extends Component {
               component={OnboardCPreferences}
             />
 
-            <Route path="/preferences" component={ProfilePreferences} />
+            <Route path="/myDiet" component={ProfilePreferences} />
             <Route path="/home" component={Recipes} />
             <Route path="/" component={Recipes} />
           </Switch>

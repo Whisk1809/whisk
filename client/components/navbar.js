@@ -61,7 +61,7 @@ class Navbar extends Component {
                   <Icon name="bookmark" />
                 </Menu.Item>
                 <Menu.Item
-                  href="preferences"
+                  href="/myDiet"
                   name="preferences"
                   active={activeItem === 'preferences'}
                   onClick={this.handleItemClick}
