@@ -71,7 +71,7 @@
     "semantic-ui-react": "^0.83.0",
     "sequelize": "^4.41.2",
     "slick-carousel": "^1.8.1",
-    "socket.io": "^2.1.1",
+    "socket.io": "^2.4.0",
     "twilio": "^3.24.0",
     "ws-yummly": "^1.0.24"
   },
